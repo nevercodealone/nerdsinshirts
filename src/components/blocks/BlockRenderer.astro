@@ -1,0 +1,53 @@
+---
+import Hero from './Hero.astro';
+import StatusBar from './StatusBar.astro';
+import SocialLinks from './SocialLinks.astro';
+
+type Block =
+  | {
+      type: 'statusBar';
+      text: string;
+      separator?: string;
+      highlight: string;
+    }
+  | {
+      type: 'hero';
+      eyebrow: string;
+      badge: string;
+      logo?: string;
+      avatar?: string;
+      headline: string;
+      headlineAccent: string;
+      description: string;
+      cta: {
+        label: string;
+        href: string;
+        icon?: string;
+        variant: 'primary' | 'secondary';
+      }[];
+    }
+  | {
+      type: 'socialLinks';
+      title: string;
+      links: { icon: string; label: string; handle: string; href: string }[];
+    };
+
+interface Props {
+  blocks: Block[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{blocks.map((block) => {
+  switch (block.type) {
+    case 'statusBar':
+      return <StatusBar {...block} />;
+    case 'hero':
+      return <Hero {...block} />;
+    case 'socialLinks':
+      return <SocialLinks {...block} />;
+    default:
+      return null;
+  }
+})}
