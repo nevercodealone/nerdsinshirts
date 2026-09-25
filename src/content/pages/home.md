@@ -2,6 +2,7 @@
 title: NCA AI Duo
 seo:
   description: Pragmatische KI für Macher & Entwickler.
+  image: /og-image.jpg
 blocks:
   - type: statusBar
     text: Q3 / Q4 BUCHUNGEN GEÖFFNET
