@@ -1,11 +1,17 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getEntry } from 'astro:content';
+import BlockRenderer from '../components/blocks/BlockRenderer.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const page = await getEntry('pages', 'home');
+
+if (!page) {
+  throw new Error('home page entry not found in pages collection');
+}
+
+const { title, seo, blocks } = page.data;
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={title} description={seo?.description} image={seo?.image}>
+  <BlockRenderer blocks={blocks} />
 </Layout>
