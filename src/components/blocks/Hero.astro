@@ -1,0 +1,130 @@
+---
+interface Props {
+  eyebrow: string;
+  badge: string;
+  logo?: string;
+  avatar?: string;
+  headline: string;
+  headlineAccent: string;
+  description: string;
+  cta: {
+    label: string;
+    href: string;
+    icon?: string;
+    variant: 'primary' | 'secondary';
+  }[];
+}
+
+const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta } =
+  Astro.props;
+---
+
+<section
+  class="relative w-full max-w-5xl mx-auto px-6 lg:px-12 pt-12 pb-12 flex flex-col items-center text-center z-10 my-auto"
+>
+  <!-- Duo Avatar with Orbit Glow & Micro-Interactions -->
+  <div class="relative mb-space-lg flex items-center justify-center group cursor-pointer">
+    <!-- Ambient Pulsing Emerald Glow -->
+    <div
+      class="absolute w-56 h-56 md:w-64 md:h-64 rounded-full bg-primary/25 blur-2xl -z-10 group-hover:bg-primary/40 group-hover:scale-110 group-hover:blur-3xl transition-all duration-700 animate-pulse-glow"
+    >
+    </div>
+    <!-- Rotating Conic Halo Ring -->
+    <div
+      class="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-secondary to-tertiary opacity-70 blur-[3px] animate-spin-slow group-hover:opacity-100 group-hover:blur-[6px] transition-all duration-500"
+    >
+    </div>
+    <!-- Outer Gradient Frame with Hover Scale & Tilt -->
+    <div
+      class="relative w-48 h-48 md:w-56 md:h-56 p-1.5 rounded-full bg-gradient-to-tr from-primary via-surface-container-high to-secondary shadow-2xl flex items-center justify-center transition-all duration-500 ease-out group-hover:scale-105 group-hover:rotate-1 group-hover:shadow-[0_0_35px_rgba(75,226,119,0.35)]"
+    >
+      <div
+        class="w-full h-full rounded-full bg-surface-container-lowest p-1 flex items-center justify-center overflow-hidden relative"
+      >
+        {
+          avatar ? (
+            <img
+              alt={badge}
+              class="w-full h-full rounded-full object-cover select-none transition-transform duration-700 ease-out group-hover:scale-110"
+              src={avatar}
+            />
+          ) : logo ? (
+            <img
+              alt={badge}
+              class="w-full h-full rounded-full object-cover select-none transition-transform duration-700 ease-out group-hover:scale-110"
+              src={logo}
+            />
+          ) : (
+            <span class="font-label text-label-lg text-primary font-bold uppercase tracking-wider">
+              {badge}
+            </span>
+          )
+        }
+        <div
+          class="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300 pointer-events-none"
+        >
+        </div>
+      </div>
+      <!-- Duo Badge Pill -->
+      <span
+        class="absolute -bottom-2 px-3 py-1 rounded-full bg-surface-container-highest text-primary font-label text-label-sm font-bold shadow-md uppercase tracking-wider border border-primary/20 group-hover:border-primary group-hover:shadow-[0_0_12px_rgba(75,226,119,0.4)] transition-all duration-300"
+        >{badge}</span
+      >
+    </div>
+  </div>
+
+  <!-- Section Subheading (Clean & Static) -->
+  <div class="flex items-center gap-space-sm mb-space-sm group">
+    <span
+      class="text-primary font-label text-label-md tracking-widest uppercase transition-transform group-hover:-translate-x-1"
+      >//</span
+    >
+    <h2
+      class="font-headline text-headline-sm uppercase tracking-widest text-primary font-bold"
+    >
+      {eyebrow}
+    </h2>
+    <span
+      class="text-primary font-label text-label-md tracking-widest uppercase transition-transform group-hover:translate-x-1"
+      >//</span
+    >
+  </div>
+
+  <!-- Main Display Headline (Clean, razor-sharp & static) -->
+  <h1
+    class="font-display text-display max-w-4xl text-on-surface tracking-tight leading-none mb-space-md"
+  >
+    {headline}<br class="hidden sm:block" />
+    <span class="text-primary">{headlineAccent}</span>
+  </h1>
+
+  <!-- Description Paragraph (Clean & Static) -->
+  <p
+    class="font-body text-body-lg text-on-surface-variant max-w-3xl mb-space-lg leading-relaxed"
+    set:html={description}
+  >
+  </p>
+
+  <!-- CTA Buttons with Micro-interactions -->
+  <div class="flex flex-wrap items-center justify-center gap-space-md mb-space-xl w-full">
+    {
+      cta.map((item) => (
+        <a
+          href={item.href}
+          class={
+            item.variant === 'primary'
+              ? 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-primary text-on-primary font-label text-label-lg font-bold uppercase tracking-wider hover:bg-primary-fixed shadow-lg shadow-primary/25 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 group'
+              : 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label text-label-lg font-semibold hover:bg-surface-container-highest border border-surface-variant/50 hover:border-primary/50 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] group'
+          }
+        >
+          {item.icon && (
+            <span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+              {item.icon}
+            </span>
+          )}
+          <span>{item.label}</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
