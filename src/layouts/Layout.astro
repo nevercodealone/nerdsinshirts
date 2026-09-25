@@ -1,23 +1,304 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '../styles/global.css';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const siteName = 'NCA AI Duo';
+const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {
+      image && (
+        <meta
+          property="og:image"
+          content={new URL(image, Astro.site).toString()}
+        />
+      )
+    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <main
+      class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-hidden"
+    >
+      <!-- Matrix Rain Background Canvas -->
+      <canvas
+        class="absolute inset-0 pointer-events-none opacity-85 z-0"
+        id="matrix-rain"></canvas>
+
+      <!-- Gentle Center Readability Shade -->
+      <div
+        class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.55)_0%,rgba(11,19,38,0.15)_70%,transparent_100%)] z-0"
+      >
+      </div>
+
+      <!-- Subtle Ambient Nebula Lights -->
+      <div
+        class="absolute inset-0 pointer-events-none overflow-hidden transition-transform duration-700 ease-out z-0"
+        id="ambient-nebula"
+      >
+        <div
+          class="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[90px] animate-pulse-glow"
+        >
+        </div>
+        <div
+          class="absolute top-[35%] left-[30%] w-[380px] h-[380px] bg-secondary/10 rounded-full blur-[80px]"
+        >
+        </div>
+        <div
+          class="absolute top-[28%] right-[28%] w-[340px] h-[340px] bg-tertiary-container/10 rounded-full blur-[80px]"
+        >
+        </div>
+      </div>
+
+      <!-- Pause/Play Button for Matrix Rain -->
+      <button
+        id="rain-toggle"
+        type="button"
+        aria-label="Matrix rain animation pausieren"
+        class="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high/80 backdrop-blur-sm border border-surface-variant/40 text-on-surface-variant hover:text-primary hover:border-primary/40 transition-all duration-300 group"
+      >
+        <span
+          class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform"
+          id="rain-toggle-icon">pause</span
+        >
+      </button>
+
+      <!-- Page Content (blocks render here) -->
+      <div class="relative z-10 flex flex-col items-center w-full">
+        <slot />
+      </div>
+
+      <!-- Footer (shared chrome) -->
+      <footer class="w-full py-4 text-center z-10 bg-transparent relative mt-auto">
+        <div
+          class="font-label text-label-sm text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
+        >
+          © 2025 NCA.AI Duo — Markus &amp; Alex • Senior AI Engineering &amp;
+          Workshops
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        const prefersReducedMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches;
+
+        // --- Matrix Rain ---
+        const canvas = document.getElementById('matrix-rain') as HTMLCanvasElement | null;
+        let isPlaying = !prefersReducedMotion;
+
+        if (canvas && !prefersReducedMotion) {
+          const cvs = canvas;
+          const ctx = cvs.getContext('2d')!;
+
+          const glyphs =
+            '日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789<>{}/$#*+=~_0101'.split(
+              ''
+            );
+
+          const fontSize = 24;
+          const colWidth = 28;
+          let columns = 0;
+          let columnState: {
+            y: number;
+            speed: number;
+            headChar: string;
+            length: number;
+            history: string[];
+          }[] = [];
+
+          function resizeCanvas() {
+            cvs.width = window.innerWidth;
+            cvs.height = window.innerHeight;
+            columns = Math.floor(cvs.width / colWidth);
+            columnState = [];
+            for (let i = 0; i < columns; i++) {
+              columnState[i] = {
+                y: Math.floor(Math.random() * -30),
+                speed: 1,
+                headChar: glyphs[Math.floor(Math.random() * glyphs.length)],
+                length: Math.floor(Math.random() * 14) + 12,
+                history: [],
+              };
+            }
+          }
+
+          window.addEventListener('resize', resizeCanvas);
+          resizeCanvas();
+
+          let lastTime = 0;
+          const frameInterval = 90;
+
+          function drawMatrix(currentTime: number) {
+            if (!isPlaying) {
+              requestAnimationFrame(drawMatrix);
+              return;
+            }
+
+            requestAnimationFrame(drawMatrix);
+
+            const delta = currentTime - lastTime;
+            if (delta < frameInterval) return;
+            lastTime = currentTime - (delta % frameInterval);
+
+            ctx.fillStyle = 'rgba(11, 19, 38, 0.16)';
+            ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+            ctx.font = '700 ' + fontSize + 'px "JetBrains Mono", monospace';
+            ctx.textBaseline = 'top';
+            ctx.shadowBlur = 0;
+
+            for (let i = 0; i < columnState.length; i++) {
+              const col = columnState[i];
+              const x = i * colWidth + (colWidth - fontSize) / 2;
+              const y = col.y * fontSize;
+
+              const char =
+                glyphs[Math.floor(Math.random() * glyphs.length)];
+
+              if (col.y >= 0 && y <= cvs.height + fontSize) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(char, x, y);
+              }
+
+              const prev1Y = (col.y - 1) * fontSize;
+              if (prev1Y >= 0 && prev1Y <= cvs.height + fontSize) {
+                ctx.fillStyle = '#6bff8f';
+                ctx.fillText(col.headChar, x, prev1Y);
+              }
+
+              const prev2Y = (col.y - 2) * fontSize;
+              if (
+                prev2Y >= 0 &&
+                prev2Y <= cvs.height + fontSize &&
+                col.history[0]
+              ) {
+                ctx.fillStyle = '#4be277';
+                ctx.fillText(col.history[0], x, prev2Y);
+              }
+
+              const prev3Y = (col.y - 3) * fontSize;
+              if (
+                prev3Y >= 0 &&
+                prev3Y <= cvs.height + fontSize &&
+                col.history[1]
+              ) {
+                ctx.fillStyle = '#22c55e';
+                ctx.fillText(col.history[1], x, prev3Y);
+              }
+
+              const prev4Y = (col.y - 4) * fontSize;
+              if (
+                prev4Y >= 0 &&
+                prev4Y <= cvs.height + fontSize &&
+                col.history[2]
+              ) {
+                ctx.fillStyle = '#16a34a';
+                ctx.fillText(col.history[2], x, prev4Y);
+              }
+
+              col.history.unshift(col.headChar);
+              if (col.history.length > 6) col.history.pop();
+              col.headChar = char;
+
+              col.y += col.speed;
+
+              if (y > cvs.height + col.length * fontSize) {
+                if (Math.random() > 0.25) {
+                  col.y = -Math.floor(Math.random() * 20);
+                  col.length = Math.floor(Math.random() * 14) + 12;
+                  col.history = [];
+                }
+              }
+            }
+          }
+
+          requestAnimationFrame(drawMatrix);
+
+          // Pause/Play toggle
+          const toggle = document.getElementById('rain-toggle');
+          const toggleIcon = document.getElementById('rain-toggle-icon');
+          if (toggle && toggleIcon) {
+            toggle.addEventListener('click', () => {
+              isPlaying = !isPlaying;
+              toggleIcon.textContent = isPlaying ? 'pause' : 'play_arrow';
+              toggle.setAttribute(
+                'aria-label',
+                isPlaying
+                  ? 'Matrix rain animation pausieren'
+                  : 'Matrix rain animation fortsetzen'
+              );
+            });
+          }
+        }
+
+        // --- Tilt & Parallax Micro-interactions ---
+        if (prefersReducedMotion) return;
+
+        const nebula = document.getElementById('ambient-nebula');
+        const cards = document.querySelectorAll('.tilt-card');
+
+        window.addEventListener(
+          'mousemove',
+          (e) => {
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const moveX = (clientX - centerX) * 0.025;
+            const moveY = (clientY - centerY) * 0.025;
+
+            if (nebula) {
+              nebula.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            }
+          },
+          { passive: true }
+        );
+
+        cards.forEach((card) => {
+          const el = card as HTMLElement;
+          el.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = el.getBoundingClientRect();
+            const cardX = e.clientX - rect.left - rect.width / 2;
+            const cardY = e.clientY - rect.top - rect.height / 2;
+            const tiltX = (cardY / (rect.height / 2)) * -6;
+            const tiltY = (cardX / (rect.width / 2)) * 6;
+            el.style.transform = `perspective(600px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-6px)`;
+          });
+
+          el.addEventListener('mouseleave', () => {
+            el.style.transform = '';
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
