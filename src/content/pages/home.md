@@ -23,11 +23,11 @@ blocks:
       decoration-primary/40 decoration-2 underline-offset-4">Gebaut wird live,
       nicht auf Folien.</strong>
     cta:
-      - label: Workshop für Developer
+      - label: NCA AI Workshop für Developer
         href: 'https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer'
         icon: terminal
         variant: primary
-      - label: Workshop für alle Abteilungen
+      - label: NCA AI Workshop für alle Abteilungen
         href: 'https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-alle-abteilungen'
         icon: groups
         variant: secondary
@@ -42,16 +42,16 @@ blocks:
         label: LinkedIn
         handle: Roland Golla
         href: 'TODO_LINKEDIN_ROLAND'
-      - icon: code
-        label: GitHub
-        handle: Repos und Demos
-        href: 'TODO_GITHUB'
-      - icon: smart_display
-        label: YouTube
+      - icon: tag
+        label: X
+        handle: '@nerdsinshirts'
+        href: 'TODO_X_TWITTER'
+      - icon: thumb_up
+        label: Facebook
         handle: Never Code Alone
-        href: 'TODO_YOUTUBE'
-      - icon: mail
-        label: Mail
-        handle: Kostenloses Vorgespräch
-        href: 'mailto:roland@nevercodealone.de'
+        href: 'TODO_FACEBOOK'
+      - icon: photo_camera
+        label: Instagram
+        handle: '@nerdsinshirts'
+        href: 'TODO_INSTAGRAM'
 ---
