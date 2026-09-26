@@ -65,12 +65,12 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     >
       <!-- Matrix Rain Background Canvas -->
       <canvas
-        class="absolute inset-0 pointer-events-none opacity-85 z-0"
+        class="absolute inset-0 pointer-events-none opacity-50 z-0"
         id="matrix-rain"></canvas>
 
       <!-- Gentle Center Readability Shade -->
       <div
-        class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.55)_0%,rgba(11,19,38,0.15)_70%,transparent_100%)] z-0"
+        class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.75)_0%,rgba(11,19,38,0.25)_70%,transparent_100%)] z-0"
       >
       </div>
 
@@ -172,7 +172,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
           resizeCanvas();
 
           let lastTime = 0;
-          const frameInterval = 90;
+          const frameInterval = 300;
 
           function drawMatrix(currentTime: number) {
             if (!isPlaying) {
@@ -186,7 +186,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
             if (delta < frameInterval) return;
             lastTime = currentTime - (delta % frameInterval);
 
-            ctx.fillStyle = 'rgba(11, 19, 38, 0.16)';
+            ctx.fillStyle = 'rgba(11, 19, 38, 0.08)';
             ctx.fillRect(0, 0, cvs.width, cvs.height);
 
             ctx.font = '700 ' + fontSize + 'px "JetBrains Mono", monospace';
