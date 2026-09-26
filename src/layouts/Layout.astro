@@ -85,7 +85,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     >
       <!-- Matrix Rain Background Canvas -->
       <canvas
-        class="absolute inset-0 pointer-events-none opacity-50 z-0"
+        class="fixed inset-0 pointer-events-none opacity-50 z-0"
         id="matrix-rain"></canvas>
 
       <!-- Skyline background behind rain -->
@@ -174,7 +174,6 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
 
           const fontSize = 24;
           const colWidth = 28;
-          let columns = 0;
           let columnState: {
             y: number;
             speed: number;
@@ -183,24 +182,59 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
             history: string[];
           }[] = [];
 
-          function resizeCanvas() {
-            cvs.width = window.innerWidth;
-            cvs.height = window.innerHeight;
-            columns = Math.floor(cvs.width / colWidth);
-            columnState = [];
-            for (let i = 0; i < columns; i++) {
-              columnState[i] = {
-                y: Math.floor(Math.random() * -30),
-                speed: 1,
-                headChar: glyphs[Math.floor(Math.random() * glyphs.length)],
-                length: Math.floor(Math.random() * 14) + 12,
-                history: [],
-              };
-            }
+          function makeColumn() {
+            return {
+              y: Math.floor(Math.random() * -30),
+              speed: 1,
+              headChar: glyphs[Math.floor(Math.random() * glyphs.length)],
+              length: Math.floor(Math.random() * 14) + 12,
+              history: [] as string[],
+            };
           }
 
-          window.addEventListener('resize', resizeCanvas);
-          resizeCanvas();
+          let bmW = 0;
+          let bmH = 0;
+
+          function syncCanvas() {
+            // Drive the bitmap from the viewport, never from the element box:
+            // <canvas> is a replaced element, so `inset-0` does not stretch it
+            // — its box follows its intrinsic (bitmap) size. Reading the box
+            // here would be circular and would also risk an observer loop.
+            // documentElement.clientWidth/Height = layout viewport, excluding
+            // any scrollbar. window.innerWidth includes it, which would make
+            // this now-`fixed` canvas overflow horizontally in browsers that
+            // render a classic scrollbar (the ::-webkit-scrollbar rule in
+            // global.css only hides it in Chromium).
+            const doc = document.documentElement;
+            const w = doc.clientWidth || window.innerWidth;
+            const h = doc.clientHeight || window.innerHeight;
+
+            const widthChanged = w !== bmW;
+            // Grow-only: a shrinking viewport is the mobile URL bar coming
+            // back, not a real resize. Ignoring it leaves the bitmap — and the
+            // fade trails — completely untouched while scrolling.
+            const heightGrew = h > bmH;
+            if (!widthChanged && !heightGrew) return;
+
+            if (widthChanged) bmW = w;
+            if (heightGrew) bmH = h;
+
+            // Assigning width/height clears the bitmap and resets ctx state;
+            // the draw loop re-sets font and fillStyle every frame.
+            cvs.width = bmW;
+            cvs.height = bmH;
+
+            const next = Math.floor(bmW / colWidth);
+            for (let i = columnState.length; i < next; i++) {
+              columnState[i] = makeColumn();
+            }
+            // Truncate rather than rebuild, so surviving columns keep their
+            // y / history / headChar and the rain never restarts.
+            columnState.length = next;
+          }
+
+          window.addEventListener('resize', syncCanvas);
+          syncCanvas();
 
           let lastTime = 0;
           const frameInterval = 150;
