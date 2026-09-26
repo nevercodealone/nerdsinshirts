@@ -1,59 +1,57 @@
 ---
-title: NCA AI Duo
+title: 'Nerds in Shirts: Benjamin Klein und Roland Golla'
 seo:
-  description: Pragmatische KI für Macher & Entwickler.
-  image: /og-image.jpg
+  description: >-
+    Nerds in Shirts sind Benjamin Klein und Roland Golla von Never Code Alone.
+    Gemeinsam geben sie NCA KI Workshops für Developer und alle Abteilungen.
 blocks:
   - type: statusBar
-    text: Q3 / Q4 BUCHUNGEN GEÖFFNET
+    text: Termine für Q4 2026 und Q1 2027 frei
     separator: '|'
-    highlight: AVAILABLE FOR FREELANCE & WORKSHOPS
+    highlight: Kostenloses Vorgespräch
   - type: hero
-    eyebrow: SENIOR AI ENGINEERING & WORKSHOP DUO
-    badge: MARKUS & ALEX
-    avatar: /avatar.jpg
-    headline: Pragmatische KI für
-    headlineAccent: Macher & Entwickler.
+    eyebrow: Benjamin Klein und Roland Golla von Never Code Alone
+    badge: Nerds in Shirts
+    avatar: /nerds-in-shirts-gruen.png
+    headline: 'KI im ganzen Team verankern:'
+    headlineAccent: Developer und alle Abteilungen.
     description: >-
-      Wir bringen modernste generative KI, lokale LLMs und agentische
-      Automatisierung direkt in eure Entwicklerteams und Produktions-Codebases.
-      Keine Powerpoint-Folien – <strong class="text-on-surface font-semibold
-      underline decoration-primary/40 decoration-2 underline-offset-4">100%
-      Hands-on Code</strong>.
+      Benjamin zeigt Entwicklerteams Agentic Coding in echten Codebases.
+      Roland bringt KI in alle anderen Abteilungen, von Content Marketing bis
+      Sales. Wir arbeiten im Terminal, auf sicheren Daten und mit Qualität vor
+      Tempo. <strong class="text-on-surface font-semibold underline
+      decoration-primary/40 decoration-2 underline-offset-4">Gebaut wird live,
+      nicht auf Folien.</strong>
     cta:
-      - label: Workshop anfragen
-        href: mailto:hallo@nca-duo.de
-        icon: rocket_launch
+      - label: Workshop für Developer
+        href: 'https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer'
+        icon: terminal
         variant: primary
-      - label: 15 Min. Erstgespräch
-        href: https://cal.com
-        icon: calendar_today
+      - label: Workshop für alle Abteilungen
+        href: 'https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-alle-abteilungen'
+        icon: groups
         variant: secondary
   - type: socialLinks
-    title: Connect & Follow // Community & Code
+    title: Folgen und vernetzen
     links:
       - icon: share
         label: LinkedIn
-        handle: '@Duo Profile'
-        href: 'https://linkedin.com'
-      - icon: terminal
+        handle: Benjamin Klein
+        href: 'TODO_LINKEDIN_BENJAMIN'
+      - icon: share
+        label: LinkedIn
+        handle: Roland Golla
+        href: 'TODO_LINKEDIN_ROLAND'
+      - icon: code
         label: GitHub
-        handle: Repos & Demos
-        href: 'https://github.com'
+        handle: Repos und Demos
+        href: 'TODO_GITHUB'
       - icon: smart_display
         label: YouTube
-        handle: Deep Dives
-        href: 'https://youtube.com'
-      - icon: forum
-        label: Discord
-        handle: AI Builders
-        href: 'https://discord.com'
-      - icon: tag
-        label: X / Twitter
-        handle: '@NCA_AI'
-        href: 'https://x.com'
+        handle: Never Code Alone
+        href: 'TODO_YOUTUBE'
       - icon: mail
-        label: E-Mail
-        handle: Direct Ping
-        href: 'mailto:hallo@nca-duo.de'
+        label: Mail
+        handle: Kostenloses Vorgespräch
+        href: 'mailto:roland@nevercodealone.de'
 ---
