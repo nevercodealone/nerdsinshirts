@@ -56,16 +56,36 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Matomo -->
+    <script is:inline>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function () {
+        var u = '//stats.nevercodealone.de/';
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
   </head>
   <body
     class="bg-background font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
   >
     <main
-      class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-hidden"
+      class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-x-clip"
     >
       <!-- Matrix Rain Background Canvas -->
       <canvas
-        class="absolute inset-0 pointer-events-none opacity-50 z-0"
+        class="fixed inset-0 pointer-events-none opacity-50 z-0"
         id="matrix-rain"></canvas>
 
       <!-- Skyline background behind rain -->
@@ -74,7 +94,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
           src="/og-image.jpg"
           alt=""
           aria-hidden="true"
-          class="absolute bottom-0 left-0 w-screen max-w-none h-[35vh] object-cover object-bottom opacity-20"
+          class="absolute bottom-0 left-0 w-full max-w-none h-[35vh] object-cover object-bottom opacity-40"
           fetchpriority="high"
         />
       </div>
@@ -118,14 +138,14 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
       </button>
 
       <!-- Page Content (blocks render here) -->
-      <div class="relative z-10 flex flex-col items-center w-full">
+      <div class="relative z-10 flex flex-col items-center w-full px-4 xs:px-6 lg:px-8">
         <slot />
       </div>
 
       <!-- Footer (shared chrome) -->
-      <footer class="w-full py-4 text-center z-10 bg-transparent relative mt-auto">
+      <footer class="w-full px-4 py-4 text-center z-10 bg-transparent relative mt-auto">
         <div
-          class="font-label text-label-sm text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
+          class="font-label text-label-sm text-on-surface-variant/75 hover:text-on-surface-variant transition-colors"
         >
           © 2026 Nerds in Shirts — Benjamin Klein &amp; Roland Golla • Never Code
           Alone
@@ -154,7 +174,6 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
 
           const fontSize = 24;
           const colWidth = 28;
-          let columns = 0;
           let columnState: {
             y: number;
             speed: number;
@@ -163,24 +182,59 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
             history: string[];
           }[] = [];
 
-          function resizeCanvas() {
-            cvs.width = window.innerWidth;
-            cvs.height = window.innerHeight;
-            columns = Math.floor(cvs.width / colWidth);
-            columnState = [];
-            for (let i = 0; i < columns; i++) {
-              columnState[i] = {
-                y: Math.floor(Math.random() * -30),
-                speed: 1,
-                headChar: glyphs[Math.floor(Math.random() * glyphs.length)],
-                length: Math.floor(Math.random() * 14) + 12,
-                history: [],
-              };
-            }
+          function makeColumn() {
+            return {
+              y: Math.floor(Math.random() * -30),
+              speed: 1,
+              headChar: glyphs[Math.floor(Math.random() * glyphs.length)],
+              length: Math.floor(Math.random() * 14) + 12,
+              history: [] as string[],
+            };
           }
 
-          window.addEventListener('resize', resizeCanvas);
-          resizeCanvas();
+          let bmW = 0;
+          let bmH = 0;
+
+          function syncCanvas() {
+            // Drive the bitmap from the viewport, never from the element box:
+            // <canvas> is a replaced element, so `inset-0` does not stretch it
+            // — its box follows its intrinsic (bitmap) size. Reading the box
+            // here would be circular and would also risk an observer loop.
+            // documentElement.clientWidth/Height = layout viewport, excluding
+            // any scrollbar. window.innerWidth includes it, which would make
+            // this now-`fixed` canvas overflow horizontally in browsers that
+            // render a classic scrollbar (the ::-webkit-scrollbar rule in
+            // global.css only hides it in Chromium).
+            const doc = document.documentElement;
+            const w = doc.clientWidth || window.innerWidth;
+            const h = doc.clientHeight || window.innerHeight;
+
+            const widthChanged = w !== bmW;
+            // Grow-only: a shrinking viewport is the mobile URL bar coming
+            // back, not a real resize. Ignoring it leaves the bitmap — and the
+            // fade trails — completely untouched while scrolling.
+            const heightGrew = h > bmH;
+            if (!widthChanged && !heightGrew) return;
+
+            if (widthChanged) bmW = w;
+            if (heightGrew) bmH = h;
+
+            // Assigning width/height clears the bitmap and resets ctx state;
+            // the draw loop re-sets font and fillStyle every frame.
+            cvs.width = bmW;
+            cvs.height = bmH;
+
+            const next = Math.floor(bmW / colWidth);
+            for (let i = columnState.length; i < next; i++) {
+              columnState[i] = makeColumn();
+            }
+            // Truncate rather than rebuild, so surviving columns keep their
+            // y / history / headChar and the rain never restarts.
+            columnState.length = next;
+          }
+
+          window.addEventListener('resize', syncCanvas);
+          syncCanvas();
 
           let lastTime = 0;
           const frameInterval = 150;

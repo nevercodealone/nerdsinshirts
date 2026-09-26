@@ -6,9 +6,10 @@ seo:
     Gemeinsam geben sie NCA KI Workshops für Developer und alle Abteilungen.
 blocks:
   - type: statusBar
-    text: Termine für Q4 2026 und Q1 2027 frei
+    text: Jetzt neu 2 NCA KI Workshop Tage
     separator: '|'
     highlight: Kostenloses Vorgespräch
+    highlightHref: 'mailto:nerdsinshirts@nevercodealone.de'
   - type: hero
     eyebrow: Benjamin Klein und Roland Golla von Never Code Alone
     badge: Nerds in Shirts

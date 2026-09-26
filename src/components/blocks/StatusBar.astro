@@ -3,15 +3,21 @@ interface Props {
   text: string;
   separator?: string;
   highlight: string;
+  highlightHref?: string;
 }
 
-const { text, separator = '|', highlight } = Astro.props;
+const { text, separator = '|', highlight, highlightHref } = Astro.props;
+
+// The whole pill becomes the link when a target is given — it already carried
+// cursor-pointer and hover affordances, and it gives a full-size tap target.
+const Tag = highlightHref ? 'a' : 'div';
 ---
 
-<div
-  class="inline-flex items-center gap-space-sm px-space-md py-1.5 rounded-full bg-surface-container-high/95 backdrop-blur-sm shadow-lg shadow-surface-container-lowest/50 mb-space-lg group hover:bg-surface-container-highest hover:border-primary/40 border border-surface-variant/40 transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+<Tag
+  href={highlightHref}
+  class="inline-flex max-w-full items-center gap-space-sm px-space-md py-1.5 rounded-2xl xs:rounded-full bg-surface-container-high/95 backdrop-blur-sm shadow-lg shadow-surface-container-lowest/50 mb-space-lg group hover:bg-surface-container-highest hover:border-primary/40 border border-surface-variant/40 transition-all duration-300 hover:scale-[1.02] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
 >
-  <span class="relative flex h-2.5 w-2.5 items-center justify-center">
+  <span class="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
     <span
       class="animate-radar absolute inline-flex h-3.5 w-3.5 rounded-full bg-primary opacity-60"></span>
     <span
@@ -23,4 +29,4 @@ const { text, separator = '|', highlight } = Astro.props;
     {text} <span class="text-on-surface-variant px-1">{separator}</span>
     <span class="text-primary font-bold tracking-normal group-hover:text-primary-fixed transition-colors">{highlight}</span>
   </span>
-</div>
+</Tag>

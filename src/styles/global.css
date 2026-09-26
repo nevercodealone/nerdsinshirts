@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  /* Breakpoints */
+  --breakpoint-xs: 30rem; /* 480px */
+
   /* Material-style color tokens from Stitch design system */
   --color-background: #0b1326;
   --color-surface: #0b1326;
@@ -83,6 +86,10 @@
   --text-headline-sm--line-height: 30px;
   --text-headline-sm--font-weight: 600;
 
+  --text-headline-sm-mobile: 16px;
+  --text-headline-sm-mobile--line-height: 22px;
+  --text-headline-sm-mobile--font-weight: 600;
+
   --text-body-lg: 18px;
   --text-body-lg--line-height: 28px;
   --text-body-lg--font-weight: 400;
@@ -147,6 +154,17 @@
 
   main > :last-child {
     margin-bottom: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::-webkit-scrollbar {

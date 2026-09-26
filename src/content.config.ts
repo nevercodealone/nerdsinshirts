@@ -14,6 +14,7 @@ const statusBarSchema = z.object({
   text: z.string(),
   separator: z.string().default('|'),
   highlight: z.string(),
+  highlightHref: z.string().optional(),
 });
 
 const heroSchema = z.object({
