@@ -55,7 +55,7 @@ const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta
               src={logo}
             />
           ) : (
-            <span class="font-label text-label-lg text-primary font-bold uppercase tracking-wider">
+            <span class="font-label text-label-lg text-primary font-bold tracking-wider">
               {badge}
             </span>
           )
@@ -67,7 +67,7 @@ const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta
       </div>
       <!-- Duo Badge Pill -->
       <span
-        class="absolute -bottom-2 px-3 py-1 rounded-full bg-surface-container-highest text-primary font-label text-label-sm font-bold shadow-md uppercase tracking-wider border border-primary/20 group-hover:border-primary group-hover:shadow-[0_0_12px_rgba(75,226,119,0.4)] transition-all duration-300"
+        class="absolute -bottom-2 px-3 py-1 rounded-full bg-surface-container-highest text-primary font-label text-label-sm font-bold shadow-md tracking-wider border border-primary/20 group-hover:border-primary group-hover:shadow-[0_0_12px_rgba(75,226,119,0.4)] transition-all duration-300"
         >{badge}</span
       >
     </div>
@@ -76,16 +76,16 @@ const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta
   <!-- Section Subheading (Clean & Static) -->
   <div class="flex items-center gap-space-sm mb-space-sm group">
     <span
-      class="text-primary font-label text-label-md tracking-widest uppercase transition-transform group-hover:-translate-x-1"
+      class="text-primary font-label text-label-md tracking-widest transition-transform group-hover:-translate-x-1"
       >//</span
     >
     <h2
-      class="font-headline text-headline-sm uppercase tracking-widest text-primary font-bold"
+      class="font-headline text-headline-sm tracking-widest text-primary font-bold"
     >
       {eyebrow}
     </h2>
     <span
-      class="text-primary font-label text-label-md tracking-widest uppercase transition-transform group-hover:translate-x-1"
+      class="text-primary font-label text-label-md tracking-widest transition-transform group-hover:translate-x-1"
       >//</span
     >
   </div>
@@ -113,8 +113,8 @@ const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta
           href={item.href}
           class={
             item.variant === 'primary'
-              ? 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-primary text-on-primary font-label text-label-lg font-bold uppercase tracking-wider hover:bg-primary-fixed shadow-lg shadow-primary/25 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 group'
-              : 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-primary text-on-primary font-label text-label-lg font-bold uppercase tracking-wider hover:bg-primary-fixed shadow-lg shadow-primary/25 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 group'
+              ? 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-primary text-on-primary font-label text-label-lg font-bold tracking-wider hover:bg-primary-fixed shadow-lg shadow-primary/25 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 group'
+              : 'relative inline-flex items-center gap-space-xs px-space-lg py-3.5 rounded-lg bg-primary text-on-primary font-label text-label-lg font-bold tracking-wider hover:bg-primary-fixed shadow-lg shadow-primary/25 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 group'
           }
         >
           {item.icon && (
