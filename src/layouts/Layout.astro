@@ -34,8 +34,8 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1792" />
+    <meta property="og:image:height" content="592" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="de_DE" />
 
@@ -67,6 +67,17 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
       <canvas
         class="absolute inset-0 pointer-events-none opacity-50 z-0"
         id="matrix-rain"></canvas>
+
+      <!-- Skyline background behind rain -->
+      <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <img
+          src="/og-image.jpg"
+          alt=""
+          aria-hidden="true"
+          class="absolute bottom-0 left-0 w-screen max-w-none h-[35vh] object-cover object-bottom opacity-20"
+          fetchpriority="high"
+        />
+      </div>
 
       <!-- Gentle Center Readability Shade -->
       <div
