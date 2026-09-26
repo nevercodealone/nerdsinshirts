@@ -37,11 +37,11 @@ blocks:
       - icon: share
         label: LinkedIn
         handle: Benjamin Klein
-        href: 'TODO_LINKEDIN_BENJAMIN'
+        href: 'https://www.linkedin.com/in/benjaminklein1337/'
       - icon: share
         label: LinkedIn
         handle: Roland Golla
-        href: 'TODO_LINKEDIN_ROLAND'
+        href: 'https://www.linkedin.com/in/rolandgolla/'
       - icon: tag
         label: X
         handle: '@nerdsinshirts'
