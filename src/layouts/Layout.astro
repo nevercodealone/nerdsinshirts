@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
-const siteName = 'NCA AI Duo';
+const siteName = 'Nerds in Shirts';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 const ogImage = image ?? '/og-image.jpg';
 const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
@@ -116,8 +116,8 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
         <div
           class="font-label text-label-sm text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
         >
-          © 2025 NCA.AI Duo — Markus &amp; Alex • Senior AI Engineering &amp;
-          Workshops
+          © 2026 Nerds in Shirts — Benjamin Klein &amp; Roland Golla • Never Code
+          Alone
         </div>
       </footer>
     </main>
