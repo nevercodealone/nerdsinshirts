@@ -54,5 +54,5 @@ blocks:
       - icon: photo_camera
         label: Instagram
         handle: '@nerdsinshirts'
-        href: 'TODO_INSTAGRAM'
+        href: 'https://www.instagram.com/nerdsinshirts/'
 ---
