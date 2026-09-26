@@ -49,7 +49,7 @@ blocks:
       - icon: thumb_up
         label: Facebook
         handle: Never Code Alone
-        href: 'TODO_FACEBOOK'
+        href: 'https://www.facebook.com/people/Nerds-in-Shirts/61594606298199/'
       - icon: photo_camera
         label: Instagram
         handle: '@nerdsinshirts'
