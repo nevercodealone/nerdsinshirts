@@ -46,7 +46,7 @@ blocks:
       - icon: tag
         label: X
         handle: '@nerdsinshirts'
-        href: 'TODO_X_TWITTER'
+        href: 'https://x.com/nerdsinshirts'
       - icon: thumb_up
         label: Facebook
         handle: Never Code Alone
