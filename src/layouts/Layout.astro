@@ -9,7 +9,7 @@ interface Props {
 
 const { title, description, image } = Astro.props;
 const siteName = 'Nerds in Shirts';
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const fullTitle = title === siteName ? title : `${title}`;
 const ogImage = image ?? '/og-image.jpg';
 const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
