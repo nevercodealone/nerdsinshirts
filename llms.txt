@@ -1,0 +1,7 @@
+# Nerds in Shirts
+
+> Nerds in Shirts sind Benjamin Klein und Roland Golla von Never Code Alone. Gemeinsam geben sie NCA KI Workshops für Developer und alle Abteilungen.
+
+## Agentic Coding News
+
+- [So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt](https://nerdsinshirts.de/agentic-coding-news/claude-code-team-code-review/): Claude schreibt rund 90 Prozent des Codes von Claude Code, Menschen können das nicht mehr Zeile für Zeile lesen. Das Team prüft deshalb in Schichten: Der Agent testet sich selbst, KI Reviewer suchen Fehler, und wie viele Menschen freigeben, hängt vom Risiko der Änderung ab.

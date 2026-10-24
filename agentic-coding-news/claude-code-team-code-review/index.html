@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/png" href="/favicon.png"><link rel="icon" href="/favicon.ico"><meta name="generator" content="Astro v7.3.5"><title>So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt</title><link rel="canonical" href="https://nerdsinshirts.de/agentic-coding-news/claude-code-team-code-review/"><meta name="description" content="Claude schreibt rund 90 Prozent von Claude Code. Wie das Team Code Review mit KI Reviewern, Risikostufen und Rundenlimit umgebaut hat, mit allen Zahlen."><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:site_name" content="Nerds in Shirts"><meta property="og:title" content="So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt"><meta property="og:description" content="Claude schreibt rund 90 Prozent von Claude Code. Wie das Team Code Review mit KI Reviewern, Risikostufen und Rundenlimit umgebaut hat, mit allen Zahlen."><meta property="og:image" content="https://nerdsinshirts.de/og-image.jpg"><meta property="og:image:width" content="1792"><meta property="og:image:height" content="592"><meta property="og:url" content="https://nerdsinshirts.de/agentic-coding-news/claude-code-team-code-review/"><meta property="og:locale" content="de_DE"><!-- Twitter / X --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@nerdsinshirts"><meta name="twitter:creator" content="@nerdsinshirts"><meta name="twitter:title" content="So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt"><meta name="twitter:description" content="Claude schreibt rund 90 Prozent von Claude Code. Wie das Team Code Review mit KI Reviewern, Risikostufen und Rundenlimit umgebaut hat, mit allen Zahlen."><meta name="twitter:image" content="https://nerdsinshirts.de/og-image.jpg"><link rel="alternate" type="application/rss+xml" title="Agentic Coding News" href="https://nerdsinshirts.de/agentic-coding-news/rss.xml"><meta property="article:published_time" content="2026-10-24T00:00:00.000Z"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt","description":"Claude schreibt rund 90 Prozent von Claude Code. Wie das Team Code Review mit KI Reviewern, Risikostufen und Rundenlimit umgebaut hat, mit allen Zahlen.","datePublished":"2026-10-24T00:00:00.000Z","dateModified":"2026-10-24T00:00:00.000Z","author":{"@type":"Person","name":"Roland Golla","url":"https://www.linkedin.com/in/rolandgolla/"},"publisher":{"@type":"Organization","name":"Nerds in Shirts","url":"https://nerdsinshirts.de/"},"mainEntityOfPage":"https://nerdsinshirts.de/agentic-coding-news/claude-code-team-code-review/","inLanguage":"de-DE","keywords":"Claude Code, Code Review, Verifikation"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wie viel Code von Claude Code schreibt Claude 2026 selbst?","acceptedAnswer":{"@type":"Answer","text":"Laut dem Claude Code Team rund 90 Prozent. Von Juni bis September 2026 hat sich die Zahl der übernommenen Änderungen mehr als verdoppelt. Gleichzeitig sank der Anteil der Änderungen, die wieder zurückgenommen werden mussten, um über 40 Prozent."}},{"@type":"Question","name":"Was ist Code Review for Claude Code 2026?","acceptedAnswer":{"@type":"Answer","text":"Ein KI Reviewer von Anthropic, der jeden Pull Request prüft. Mehrere Agents suchen parallel nach Fehlern, andere stimmen darüber ab, und nur bestätigte Funde werden gepostet. Seit Oktober 2026 ist er für Team und Enterprise allgemein verfügbar, mit den Stufen Quick, Standard und Deep."}},{"@type":"Question","name":"Ersetzt KI Review 2026 die menschliche Freigabe?","acceptedAnswer":{"@type":"Answer","text":"Nein. Freigaben von Agents zählen beim Claude Code Team nicht als menschliche Freigabe. Nur Änderungen mit niedrigem Risiko, etwa an Dokumentation, dürfen ohne Menschen übernommen werden, wenn alle automatischen Prüfungen grün sind. Riskante Bereiche brauchen ein oder zwei Personen."}},{"@type":"Question","name":"Was steht in einer REVIEW.md?","acceptedAnswer":{"@type":"Answer","text":"Die Datei legt fest, worauf der KI Reviewer in einem Bereich achten soll. Laut Claude Code Team funktioniert sie gut, wenn sie beschreibt, wie ein Fehler dort aussieht, Kleinkram begrenzt, Pfade zum Überspringen nennt, Datei und Zeile als Beleg verlangt und eine Zusammenfassung mit Anzahl der Funde fordert."}},{"@type":"Question","name":"Warum begrenzt das Team die Review Runden?","acceptedAnswer":{"@type":"Answer","text":"Weil Agent als Autor und Agent als Reviewer sich endlos gegenseitig korrigieren können. Ein Pull Request lief über Nacht durch mehr als fünfzig Runden. Rund 59 Prozent der Funde betrafen Code, der schon beim ersten Durchgang da war. Seit dem Limit von drei Runden brauchen nur noch 1,5 Prozent fünf oder mehr Runden."}},{"@type":"Question","name":"Wie fängt ein Team mit diesem Vorgehen an?","acceptedAnswer":{"@type":"Answer","text":"Das Claude Code Team empfiehlt, mit einem einzigen Repository zu starten: dem Agent ausführbare Prüfungen geben, einen KI Reviewer einschalten, eine REVIEW.md ein paar Wochen nachschärfen und dann ausweiten. Freigaberegeln anfangs streng setzen und erst mit Belegen lockern."}}]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"><!-- Matomo --><script>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      _paq.push(['trackVisibleContentImpressions']);
+      (function () {
+        var u = '//stats.nevercodealone.de/';
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script><!-- End Matomo Code --><link rel="stylesheet" href="/_astro/Layout.hwQrO_Wh.css"></head><body class="bg-background font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><main class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-x-clip"><!-- Matrix Rain Background Canvas --><canvas class="fixed inset-0 pointer-events-none opacity-50 z-0" id="matrix-rain"></canvas><!-- Skyline background behind rain --><div class="absolute inset-0 pointer-events-none z-0 overflow-hidden"><img src="/og-image.jpg" alt="" aria-hidden="true" class="absolute bottom-0 left-0 w-full max-w-none h-[35vh] object-cover object-bottom opacity-40" fetchpriority="high"></div><!-- Gentle Center Readability Shade --><div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.75)_0%,rgba(11,19,38,0.25)_70%,transparent_100%)] z-0"></div><!-- Subtle Ambient Nebula Lights --><div class="absolute inset-0 pointer-events-none overflow-hidden transition-transform duration-700 ease-out z-0" id="ambient-nebula"><div class="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[90px] animate-pulse-glow"></div><div class="absolute top-[35%] left-[30%] w-[380px] h-[380px] bg-secondary/10 rounded-full blur-[80px]"></div><div class="absolute top-[28%] right-[28%] w-[340px] h-[340px] bg-tertiary-container/10 rounded-full blur-[80px]"></div></div><!-- Pause/Play Button for Matrix Rain --><button id="rain-toggle" type="button" aria-label="Matrix rain animation pausieren" class="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high/80 backdrop-blur-sm border border-surface-variant/40 text-on-surface-variant hover:text-primary hover:border-primary/40 transition-all duration-300 group"><span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" id="rain-toggle-icon">pause</span></button><!-- Page Content (blocks render here) --><div class="relative z-10 flex flex-col items-center w-full px-4 xs:px-6 lg:px-8"><article class="news-sheet"><header class="news-header"><a class="news-header__home" href="/" aria-label="Zur Startseite"><span class="news-logo"><img src="/nerds-in-shirts-gruen.png" alt="" width="48" height="48"></span><span class="news-header__name">Nerds in Shirts</span></a><nav class="news-breadcrumb" aria-label="Brotkrumen"><a href="/">Startseite</a><span aria-hidden="true">/</span><a href="/agentic-coding-news/">Agentic Coding News</a></nav></header><p class="news-meta"><time datetime="2026-10-24T00:00:00.000Z">24. Oktober 2026</time><span aria-hidden="true">·</span><span>6 Min. Lesezeit</span></p><h1 class="news-title">So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt</h1><p class="news-byline">von Roland Golla</p><section class="news-tldr" aria-label="Kurz gesagt"><p class="news-tldr__label">&gt; kurz gesagt</p><p>Claude schreibt rund 90 Prozent des Codes von Claude Code, Menschen können das nicht mehr Zeile für Zeile lesen. Das Team prüft deshalb in Schichten: Der Agent testet sich selbst, KI Reviewer suchen Fehler, und wie viele Menschen freigeben, hängt vom Risiko der Änderung ab.</p></section><aside class="news-mini-ad" data-track-content data-content-name="workshop-mini" data-content-piece="tldr" aria-label="NCA KI Workshops"><p class="news-mini-ad__label">&gt; NCA KI Workshops</p><ul><li><a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=tldr-developer" data-content-target><span class="news-mini-ad__title">NCA KI Workshop für Developer</span><span class="news-mini-ad__trainer">mit Benjamin Klein</span><span class="news-mini-ad__arrow" aria-hidden="true">→</span></a></li><li><a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-alle-abteilungen?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=tldr-alle-abteilungen" data-content-target><span class="news-mini-ad__title">NCA KI Workshop für alle Abteilungen</span><span class="news-mini-ad__trainer">mit Roland Golla</span><span class="news-mini-ad__arrow" aria-hidden="true">→</span></a></li></ul></aside><div class="news-prose"><p>Claude schreibt inzwischen rund 90 Prozent des Codes von Claude Code selbst. Im großen Code Repository von Anthropic stieg die Zahl der Änderungen pro Tag von etwa 2.500 im Mai 2026 auf über 30.000 im September. Kein Team der Welt kann das noch Zeile für Zeile lesen.</p>
+<p>Wie das Claude Code Team trotzdem die Qualität hält, haben Addy Osmani, Morgan Westlee Lunt und Qing Wang am 15. Oktober im Claude Developer Blog beschrieben. Der Kern ist eine neue Frage. Nicht mehr: Hat ein Mensch den Code gelesen? Sondern: Was kann bei dieser Änderung schiefgehen, und welche Prüfung fängt das ab?</p>
+<h2 id="die-ergebnisse">Die Ergebnisse</h2>
+<p>Zuerst die Zahlen, denn sie zeigen, dass mehr Tempo nicht weniger Qualität heißen muss. Von Juni bis September 2026 hat sich die Zahl der übernommenen Änderungen an Claude Code mehr als verdoppelt. Der Anteil der Änderungen, die wieder zurückgenommen werden mussten, sank im selben Zeitraum um über 40 Prozent.</p>
+<p>Dazu kommen Werte zum Review selbst, jeweils vor und nach den Umstellungen:</p>
+<table>
+<thead>
+<tr>
+<th>Messwert</th>
+<th>Vorher</th>
+<th>Nachher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pull Requests mit inhaltlichen Review Kommentaren</td>
+<td>16 Prozent</td>
+<td>54 Prozent</td>
+</tr>
+<tr>
+<td>Pull Requests, die nach einer Korrekturrunde bestehen</td>
+<td>65 Prozent</td>
+<td>78 Prozent</td>
+</tr>
+<tr>
+<td>Pull Requests mit fünf oder mehr Runden</td>
+<td>8,9 Prozent</td>
+<td>1,5 Prozent</td>
+</tr>
+<tr>
+<td>Durchschnittliche Review Runden</td>
+<td>2,08</td>
+<td>1,32</td>
+</tr>
+</tbody>
+</table>
+<p>Ein Pull Request ist ein Änderungsvorschlag am Code, der geprüft wird, bevor er in den Hauptstand übernommen wird.</p>
+<aside class="workshop-block" data-track-content data-content-name="workshop-developer" data-content-piece="artikel" aria-label="NCA KI Workshop"><p class="workshop-block__label">&gt; NCA KI Workshop</p><p class="workshop-block__title">NCA KI Workshop für Developer mit Benjamin Klein</p><p class="workshop-block__intro">Ein Tag für Developer, Tester und Admins, die mit KI Agenten produktiv arbeiten wollen, statt Code aus dem Chat zu kopieren.</p><ul class="workshop-block__list"><li><span aria-hidden="true">✓</span> Einen Harness bauen</li><li><span aria-hidden="true">✓</span> Context Engineering beherrschen</li><li><span aria-hidden="true">✓</span> Entscheidungen festhalten mit ADR und PDR</li><li><span aria-hidden="true">✓</span> Prüfen statt glauben</li></ul><p class="workshop-block__format">Inhouse bei euch vor Ort, ein Tag von 9.00 bis 16.30 Uhr.</p><a class="workshop-block__cta" href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=artikel" data-content-target>Zum Workshop <span aria-hidden="true">→</span></a></aside><h2 id="schicht-1-der-agent-prüft-sich-selbst">Schicht 1: Der Agent prüft sich selbst</h2>
+<p>Bevor überhaupt jemand reviewt, muss der Agent zeigen, dass seine Arbeit läuft. Er bekommt etwas, das er ausführen kann: Tests, den Build, einen Screenshot zum Vergleich mit dem Design. Und er muss das Ergebnis vorzeigen, statt nur zu behaupten, er sei fertig.</p>
+<p>Boris Cherny, der Claude Code entwickelt hat, schätzt laut dem Artikel, dass das die Ergebnisse zwei bis dreimal besser macht. Addy Osmani schreibt auf X dasselbe: Wer dem Agent einen Weg gibt, seine Arbeit selbst zu prüfen, bekommt deutlich bessere Ergebnisse.</p>
+<p>Danach liest ein zweiter Agent die Änderung mit frischem Blick, ohne den Verlauf des ersten zu kennen.</p>
+<p>Zwei Dateien steuern das:</p>
+<ul>
+<li><strong>CLAUDE.md</strong> beschreibt das Projekt: Technik, Konventionen, Ziele. In großen Projekten bewusst kurz, mit Links zu weiteren Dokumenten.</li>
+<li><strong>REVIEW.md</strong> schreiben die Verantwortlichen für einen Bereich. Darin steht, worauf der Reviewer dort achten soll.</li>
+</ul>
+<p>Eine REVIEW.md funktioniert laut Team am besten, wenn sie:</p>
+<ul>
+<li>beschreibt, wie ein Fehler in diesem Bereich aussieht</li>
+<li>Kleinkram wie Stilfragen begrenzt</li>
+<li>Pfade nennt, die übersprungen werden</li>
+<li>für jeden Fund Datei und Zeile als Beleg verlangt</li>
+<li>eine Zusammenfassung fordert, die mit der Anzahl der Funde beginnt und klar sagt, wenn nichts zu tun ist</li>
+</ul>
+<p>Wiederholt sich ein Fund, wird er an der Quelle behoben: in der Datei, mit einer Lint Regel oder in einem Skill.</p>
+<h2 id="schicht-2-ki-review-bei-jedem-pull-request">Schicht 2: KI Review bei jedem Pull Request</h2>
+<p>Jeder Pull Request geht durch Code Review for Claude Code. Der Reviewer liest die Änderung im Kontext des ganzen Projekts und fragt: Löst sie das Problem, passt sie ins System, macht sie etwas anderes kaputt?</p>
+<p>So entsteht ein Fund:</p>
+<ol>
+<li>Mehrere Agents suchen parallel nach Fehlern.</li>
+<li>Eine zweite Gruppe stimmt über jeden Fund ab.</li>
+<li>Nur was genug Zustimmung bekommt, wird gepostet, sortiert nach Schwere.</li>
+</ol>
+<p>Jeder Kommentar trägt ein Label: <strong>Important</strong>, <strong>Nit</strong> für Kleinkram oder <strong>Pre-existing</strong> für Fehler, die schon vorher im Code waren. So wird niemandem ein alter Fehler angelastet. Jeder Fund muss beantwortet werden, entweder mit einer Korrektur oder einer Begründung.</p>
+<p>Seit Oktober 2026 ist Code Review für die Pläne Team und Enterprise allgemein verfügbar. Pro Repository lässt sich zwischen Quick, Standard und Deep wählen. Lokal gibt es mit <code>/code-review</code> eine leichtere Version, dazu <code>/security-review</code> für eine eigene Sicherheitsprüfung. Solange ein Fund aus Fehler oder Sicherheitsprüfung offen ist, kann nicht übernommen werden.</p>
+<h2 id="schicht-3-wie-viele-menschen-freigeben-entscheidet-das-risiko">Schicht 3: Wie viele Menschen freigeben, entscheidet das Risiko</h2>
+<table>
+<thead>
+<tr>
+<th>Risiko</th>
+<th>Beispiele</th>
+<th>Menschliche Freigaben</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Niedrig</td>
+<td>Dokumentation, Texte, interne Funktionen hinter einem Schalter</td>
+<td>Keine, wenn alle automatischen Prüfungen grün sind</td>
+</tr>
+<tr>
+<td>Mittel</td>
+<td>Normale Produktänderungen, heikle Bereiche wie Caching oder System Prompts</td>
+<td>Eine Person</td>
+</tr>
+<tr>
+<td>Hoch</td>
+<td>Kritischster Code</td>
+<td>Zwei Personen</td>
+</tr>
+</tbody>
+</table>
+<p>Dazu gelten feste Regeln:</p>
+<ul>
+<li><strong>Die Änderung bestimmt die Stufe, nicht der Autor.</strong> Ein Klassifikator ordnet sie ein, ein zweiter prüft, ob trotzdem ein Mensch drauf schauen muss.</li>
+<li><strong>Freigaben von Agents zählen nicht</strong> als menschliche Freigabe.</li>
+<li><strong>Wer den Agent steuert, haftet,</strong> als hätte er den Code selbst getippt.</li>
+<li><strong>Eine Freigabe gilt für genau einen Stand.</strong> Kommt danach ein neuer Commit, etwa von einem Agent, muss neu freigegeben werden.</li>
+<li>Leichtere Wege gelten nur für vertrauenswürdige Autoren, meist das eigene Team. Bereiche wie die CI Konfiguration brauchen immer einen Menschen.</li>
+</ul>
+<h2 id="das-problem-mit-der-endlosschleife">Das Problem mit der Endlosschleife</h2>
+<p>Agent schreibt, Agent reviewt, Agent korrigiert, Agent reviewt. Das kann ewig laufen. Ein Pull Request ging über Nacht durch mehr als fünfzig Runden, bis der Autor ihn stoppte.</p>
+<p>Die Analyse ergab: Rund 59 Prozent dessen, was der Reviewer immer wieder fand, war Code, der schon beim ersten Durchgang existierte. Spätere Runden fanden also vor allem alte Fehler, keine neuen.</p>
+<p>Die Gegenmaßnahmen:</p>
+<ul>
+<li>Nach <strong>drei Runden</strong> fordert der Reviewer den Autor auf, den Ansatz zu überdenken.</li>
+<li>Nach den ersten Durchgängen wird nur noch die neue Änderung geprüft.</li>
+<li>Der Reviewer benennt die Fehlerklasse, damit alle Stellen auf einmal behoben werden.</li>
+<li>Bereits gemeldete Funde werden nicht wiederholt.</li>
+</ul>
+<h2 id="nach-dem-übernehmen">Nach dem Übernehmen</h2>
+<ul>
+<li>Eine <strong>Merge Queue</strong> prüft jede Änderung noch einmal gegen den aktuellen Hauptstand, damit zwei einzeln korrekte Änderungen zusammen nichts kaputt machen.</li>
+<li>Neues landet hinter <strong>Feature Flags</strong>, also Schaltern, die eine Funktion ohne neues Deployment an und aus machen. Zuerst nutzen es nur Leute bei Anthropic.</li>
+<li>Releases gehen erst an den Kanal <code>latest</code>, später an <code>stable</code>.</li>
+<li>Aus jedem Vorfall wird ein Testfall. Der Reviewer läuft täglich gegen diese Sammlung und wird nur geändert, wenn sein Ergebnis besser wird.</li>
+</ul>
+<p>Eine Lücke nennt das Team offen: Es gibt noch keinen Mechanismus, der die Freigaben automatisch verschärft, wenn mehr Änderungen zurückgenommen werden müssen.</p>
+<h2 id="wo-menschen-bleiben">Wo Menschen bleiben</h2>
+<ul>
+<li>Bei der Frage, ob etwas überhaupt gebaut werden soll</li>
+<li>Bei riskantem Code wie Abrechnung, Updater und CI</li>
+<li>Bei Architektur, die andere übernehmen werden</li>
+<li>Beim Lesen der Belege: Testausgaben, Screenshots, Funde</li>
+<li>Bei der Verantwortung: Für jede Änderung ist ein Mensch zuständig, egal wer sie getippt hat</li>
+</ul>
+<h2 id="so-steigt-man-laut-claude-code-team-ein">So steigt man laut Claude Code Team ein</h2>
+<ol>
+<li>Dem Agent ausführbare Prüfungen geben und in einer kurzen CLAUDE.md auflisten.</li>
+<li>Vor jedem Pull Request lokal <code>/code-review</code> und <code>/security-review</code> laufen lassen.</li>
+<li>Einen KI Reviewer erst in einem Repository einschalten, die REVIEW.md ein paar Wochen nachschärfen, dann ausweiten.</li>
+<li>In die Vorlage für Pull Requests die Abschnitte Testing, Risiko und Zurücknehmen aufnehmen.</li>
+<li>Risikostufen nach Art der Änderung festlegen, streng beginnen, erst mit Belegen lockern.</li>
+<li>Review Runden begrenzen.</li>
+<li>Messen, wie viel menschliche Zeit pro Änderung nötig ist, und die Quote der zurückgenommenen Änderungen als Warnsignal beobachten.</li>
+</ol>
+<h2 id="fazit">Fazit</h2>
+<p>Das Claude Code Team zeigt, dass Code Review mit Agents nicht weniger Kontrolle bedeutet, sondern eine andere. Statt jede Zeile zu lesen, prüfen mehrere Schichten automatisch, und Menschen kümmern sich um die Fragen, die nur sie beantworten können. Die Zahlen sprechen dafür: mehr übernommene Änderungen, weniger Rücknahmen, weniger Runden.</p>
+<p>Für uns sind solche Einblicke der Grund, warum wir die Neuigkeiten rund um Agentic Coding laufend verfolgen. Was wir dabei lernen, testen wir zuerst praktisch in eigenen Side Projects. Was sich dort bewährt, bringen wir in Kundenprojekte und in unsere Workshops. Wenn ihr Agentic Coding in eurem Team einführen wollt, schaut euch gern den <a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer">NCA KI Workshop für Developer</a> an.</p>
+</div><figure class="news-quote"><blockquote>„I could not imagine being productive without Claude Code Review.“</blockquote><figcaption><span class="news-avatar" aria-hidden="true">BC</span><span><span class="news-quote__name">Boris Cherny</span><span class="news-quote__role">Hat Claude Code entwickelt und leitet das Team</span><a class="news-quote__link" href="https://x.com/bcherny/status/2111158313463525518" target="_blank" rel="noopener">Zum Original auf x.com</a></span></figcaption></figure><section class="news-faq" aria-labelledby="faq-heading"><h2 id="faq-heading">Häufige Fragen</h2><details><summary>Wie viel Code von Claude Code schreibt Claude 2026 selbst?</summary><p>Laut dem Claude Code Team rund 90 Prozent. Von Juni bis September 2026 hat sich die Zahl der übernommenen Änderungen mehr als verdoppelt. Gleichzeitig sank der Anteil der Änderungen, die wieder zurückgenommen werden mussten, um über 40 Prozent.</p></details><details><summary>Was ist Code Review for Claude Code 2026?</summary><p>Ein KI Reviewer von Anthropic, der jeden Pull Request prüft. Mehrere Agents suchen parallel nach Fehlern, andere stimmen darüber ab, und nur bestätigte Funde werden gepostet. Seit Oktober 2026 ist er für Team und Enterprise allgemein verfügbar, mit den Stufen Quick, Standard und Deep.</p></details><details><summary>Ersetzt KI Review 2026 die menschliche Freigabe?</summary><p>Nein. Freigaben von Agents zählen beim Claude Code Team nicht als menschliche Freigabe. Nur Änderungen mit niedrigem Risiko, etwa an Dokumentation, dürfen ohne Menschen übernommen werden, wenn alle automatischen Prüfungen grün sind. Riskante Bereiche brauchen ein oder zwei Personen.</p></details><details><summary>Was steht in einer REVIEW.md?</summary><p>Die Datei legt fest, worauf der KI Reviewer in einem Bereich achten soll. Laut Claude Code Team funktioniert sie gut, wenn sie beschreibt, wie ein Fehler dort aussieht, Kleinkram begrenzt, Pfade zum Überspringen nennt, Datei und Zeile als Beleg verlangt und eine Zusammenfassung mit Anzahl der Funde fordert.</p></details><details><summary>Warum begrenzt das Team die Review Runden?</summary><p>Weil Agent als Autor und Agent als Reviewer sich endlos gegenseitig korrigieren können. Ein Pull Request lief über Nacht durch mehr als fünfzig Runden. Rund 59 Prozent der Funde betrafen Code, der schon beim ersten Durchgang da war. Seit dem Limit von drei Runden brauchen nur noch 1,5 Prozent fünf oder mehr Runden.</p></details><details><summary>Wie fängt ein Team mit diesem Vorgehen an?</summary><p>Das Claude Code Team empfiehlt, mit einem einzigen Repository zu starten: dem Agent ausführbare Prüfungen geben, einen KI Reviewer einschalten, eine REVIEW.md ein paar Wochen nachschärfen und dann ausweiten. Freigaberegeln anfangs streng setzen und erst mit Belegen lockern.</p></details></section><section class="news-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Quellen</h2><ol><li><a href="https://claude.dev/blog/solving-code-review-at-anthropic/" target="_blank" rel="noopener">How the Claude Code Team Does Code Review</a><span class="news-sources__meta">Claude Developer Blog, Addy Osmani, Morgan Westlee Lunt, Qing Wang · claude.dev</span></li><li><a href="https://x.com/bcherny/status/2111158313463525518" target="_blank" rel="noopener">Boris Cherny zu Claude Code Review</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/addyosmani/status/2111604705340326393" target="_blank" rel="noopener">Addy Osmani zu Verifikation</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/bcherny/status/2107565388250874193" target="_blank" rel="noopener">Boris Cherny zum Arbeiten mit Claude</a><span class="news-sources__meta">X · x.com</span></li></ol></section><aside class="news-author" aria-label="Autor"><span class="news-avatar" aria-hidden="true">RG</span><div><p class="news-author__label">Geschrieben von</p><p class="news-author__name">Roland Golla</p><p class="news-author__meta">Nerds in Shirts · <a href="https://www.linkedin.com/in/rolandgolla/" target="_blank" rel="noopener">LinkedIn</a></p></div></aside></article></div><!-- Footer (shared chrome) --><footer class="w-full px-4 py-4 text-center z-10 bg-transparent relative mt-auto"><div class="font-label text-label-sm text-on-surface-variant/75 hover:text-on-surface-variant transition-colors">© 2026 Nerds in Shirts — Benjamin Klein &amp; Roland Golla • Never Code Alone</div></footer></main><script type="module">(function(){let e=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=document.getElementById(`matrix-rain`),n=!e;if(t&&!e){let e=t,r=e.getContext(`2d`),i=`日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789<>{}/$#*+=~_0101`.split(``),a=[];function o(){return{y:Math.floor(Math.random()*-30),speed:1,headChar:i[Math.floor(Math.random()*i.length)],length:Math.floor(Math.random()*14)+12,history:[]}}let s=0,c=0;function l(){let t=document.documentElement,n=t.clientWidth||window.innerWidth,r=t.clientHeight||window.innerHeight,i=n!==s,l=r>c;if(!i&&!l)return;i&&(s=n),l&&(c=r),e.width=s,e.height=c;let u=Math.floor(s/28);for(let e=a.length;e<u;e++)a[e]=o();a.length=u}window.addEventListener(`resize`,l),l();let u=0;function d(t){if(!n){requestAnimationFrame(d);return}requestAnimationFrame(d);let o=t-u;if(!(o<150)){u=t-o%150,r.fillStyle=`rgba(11, 19, 38, 0.08)`,r.fillRect(0,0,e.width,e.height),r.font=`700 24px "JetBrains Mono", monospace`,r.textBaseline=`top`,r.shadowBlur=0;for(let t=0;t<a.length;t++){let n=a[t],o=t*28+2,s=n.y*24,c=i[Math.floor(Math.random()*i.length)];n.y>=0&&s<=e.height+24&&(r.fillStyle=`#ffffff`,r.fillText(c,o,s));let l=(n.y-1)*24;l>=0&&l<=e.height+24&&(r.fillStyle=`#6bff8f`,r.fillText(n.headChar,o,l));let u=(n.y-2)*24;u>=0&&u<=e.height+24&&n.history[0]&&(r.fillStyle=`#4be277`,r.fillText(n.history[0],o,u));let d=(n.y-3)*24;d>=0&&d<=e.height+24&&n.history[1]&&(r.fillStyle=`#22c55e`,r.fillText(n.history[1],o,d));let f=(n.y-4)*24;f>=0&&f<=e.height+24&&n.history[2]&&(r.fillStyle=`#16a34a`,r.fillText(n.history[2],o,f)),n.history.unshift(n.headChar),n.history.length>6&&n.history.pop(),n.headChar=c,n.y+=n.speed,s>e.height+n.length*24&&Math.random()>.25&&(n.y=-Math.floor(Math.random()*20),n.length=Math.floor(Math.random()*14)+12,n.history=[])}}}requestAnimationFrame(d);let f=document.getElementById(`rain-toggle`),p=document.getElementById(`rain-toggle-icon`);f&&p&&f.addEventListener(`click`,()=>{n=!n,p.textContent=n?`pause`:`play_arrow`,f.setAttribute(`aria-label`,n?`Matrix rain animation pausieren`:`Matrix rain animation fortsetzen`)})}if(e)return;let r=document.getElementById(`ambient-nebula`),i=document.querySelectorAll(`.tilt-card`);window.addEventListener(`mousemove`,e=>{let{clientX:t,clientY:n}=e,i=window.innerWidth/2,a=window.innerHeight/2,o=(t-i)*.025,s=(n-a)*.025;r&&(r.style.transform=`translate3d(${o}px, ${s}px, 0)`)},{passive:!0}),i.forEach(e=>{let t=e;t.addEventListener(`mousemove`,e=>{let n=t.getBoundingClientRect(),r=e.clientX-n.left-n.width/2,i=(e.clientY-n.top-n.height/2)/(n.height/2)*-6,a=r/(n.width/2)*6;t.style.transform=`perspective(600px) rotateX(${i.toFixed(2)}deg) rotateY(${a.toFixed(2)}deg) translateY(-6px)`}),t.addEventListener(`mouseleave`,()=>{t.style.transform=``})})})();</script></body></html>
