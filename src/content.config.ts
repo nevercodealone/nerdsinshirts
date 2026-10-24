@@ -26,6 +26,9 @@ const heroSchema = z.object({
   headline: z.string(),
   headlineAccent: z.string(),
   description: z.string(),
+  logoCta: z
+    .object({ label: z.string(), href: z.string(), icon: z.string().optional() })
+    .optional(),
   cta: z.array(ctaSchema),
 });
 
@@ -62,4 +65,51 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { pages };
+const agenticCodingNews = defineCollection({
+  loader: glob({
+    base: './src/content/agentic-coding-news',
+    pattern: ['*.md', '!_*.md'],
+  }),
+  schema: ({ image }) =>
+    z
+      .object({
+        title: z
+          .string()
+          .max(70)
+          .refine((value) => !value.includes(':'), {
+            message: 'title must not contain ":" (headlines are sentences)',
+          }),
+        description: z.string().min(80).max(160),
+        pubDate: z.coerce.date(),
+        updatedDate: z.coerce.date().optional(),
+        author: z.enum(['roland-golla', 'benjamin-klein']),
+        tags: z.array(z.string()).default([]),
+        draft: z.boolean().default(true),
+        workshop: z.enum(['developer', 'alle-abteilungen']).default('developer'),
+        image: image().optional(),
+        imageAlt: z.string().optional(),
+        tldr: z.string().min(40),
+        quoteText: z.string().max(200),
+        quoteAuthor: z.string(),
+        quoteRole: z.string().optional(),
+        quoteUrl: z.url(),
+        faq: z
+          .array(z.object({ question: z.string(), answer: z.string() }))
+          .min(5),
+        sources: z
+          .array(
+            z.object({
+              title: z.string(),
+              url: z.url(),
+              publisher: z.string().optional(),
+            })
+          )
+          .min(1),
+      })
+      .refine((data) => !data.image || Boolean(data.imageAlt), {
+        message: 'imageAlt is required when image is set',
+        path: ['imageAlt'],
+      }),
+});
+
+export const collections = { pages, agenticCodingNews };

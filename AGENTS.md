@@ -32,3 +32,16 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Agentic Coding News (exception to the block rule)
+
+Articles are prose written in Obsidian, so they are the one exception to rule 1. The prose goes in the Markdown body. The structured parts (title, TL;DR, quote, FAQ, sources) go in the frontmatter.
+
+- Vault and articles: `src/content/agentic-coding-news/<slug>.md`. Files and folders starting with `_` (`_templates/`, `_bilder/`) are Obsidian only and never built.
+- Schema: `agenticCodingNews` in `src/content.config.ts`. A broken article fails `astro check` and `astro build`.
+- `draft` defaults to `true`. Drafts render in dev with an "Entwurf" label and are excluded from the build, RSS, sitemap and `llms.txt`.
+- Routes: `src/pages/agentic-coding-news/` (overview, `[slug].astro`, `rss.xml.ts`) and `src/pages/llms.txt.ts`.
+- Helpers: `src/lib/agentic-coding-news.ts`.
+- Workshop block: `src/lib/workshop-inline-ad.ts`. The Sätteri hast plugin in `astro.config.mjs` inserts it before the second `##`. If the body has fewer than two `##` headings, the article page renders it after the body instead.
+- Workshop facts: `src/data/workshops.ts`. Only facts from the NCA workshop pages go here, and no prices.
+- Spec: `openspec/changes/add-agentic-coding-news/`.

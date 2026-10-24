@@ -23,6 +23,10 @@ blocks:
       Tempo. <strong class="text-on-surface font-semibold underline
       decoration-primary/40 decoration-2 underline-offset-4">Gebaut wird live,
       nicht auf Folien.</strong>
+    logoCta:
+      label: Agentic Coding News
+      href: /agentic-coding-news/
+      icon: newspaper
     cta:
       - label: NCA AI Workshop für Developer
         href: 'https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer'

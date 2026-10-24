@@ -5,9 +5,10 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  ogType?: 'website' | 'article';
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, ogType = 'website' } = Astro.props;
 const siteName = 'Nerds in Shirts';
 const fullTitle = title === siteName ? title : `${title}`;
 const ogImage = image ?? '/og-image.jpg';
@@ -29,7 +30,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     {description && <meta name="description" content={description} />}
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
@@ -46,6 +47,13 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     <meta name="twitter:title" content={fullTitle} />
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={imageUrl} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Agentic Coding News"
+      href={new URL('/agentic-coding-news/rss.xml', siteOrigin).toString()}
+    />
+    <slot name="head" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -63,6 +71,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
       /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
       _paq.push(['trackPageView']);
       _paq.push(['enableLinkTracking']);
+      _paq.push(['trackVisibleContentImpressions']);
       (function () {
         var u = '//stats.nevercodealone.de/';
         _paq.push(['setTrackerUrl', u + 'matomo.php']);
