@@ -1,0 +1,20 @@
+---
+import { authors, initials } from '../../../lib/agentic-coding-news';
+
+interface Props {
+  author: keyof typeof authors;
+}
+
+const author = authors[Astro.props.author];
+---
+
+<aside class="news-author" aria-label="Autor">
+  <span class="news-avatar" aria-hidden="true">{initials(author.name)}</span>
+  <div>
+    <p class="news-author__label">Geschrieben von</p>
+    <p class="news-author__name">{author.name}</p>
+    <p class="news-author__meta">
+      Nerds in Shirts · <a href={author.url} target="_blank" rel="noopener">LinkedIn</a>
+    </p>
+  </div>
+</aside>

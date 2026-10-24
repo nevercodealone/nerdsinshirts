@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import AuthorBox from '../../components/news/ads/AuthorBox.astro';
+import WorkshopMiniAd from '../../components/news/ads/WorkshopMiniAd.astro';
+import NewsHeader from '../../components/news/NewsHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import {
+  authors,
+  domain,
+  formatDate,
+  getNews,
+  hasInlineWorkshop,
+  initials,
+  readingMinutes,
+  type NewsEntry,
+} from '../../lib/agentic-coding-news';
+import { workshopBlockHtml } from '../../lib/workshop-inline-ad';
+
+export async function getStaticPaths() {
+  const entries = await getNews();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: NewsEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const author = authors[data.author];
+const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+const imageUrl = data.image ? new URL(data.image.src, siteOrigin).toString() : undefined;
+const workshopAfterBody = !hasInlineWorkshop(entry.rendered?.html);
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.pubDate.toISOString(),
+  dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+  author: { '@type': 'Person', name: author.name, url: author.url },
+  publisher: { '@type': 'Organization', name: 'Nerds in Shirts', url: siteOrigin },
+  mainEntityOfPage: canonicalUrl,
+  inLanguage: 'de-DE',
+  ...(imageUrl && { image: imageUrl }),
+  ...(data.tags.length > 0 && { keywords: data.tags.join(', ') }),
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: data.faq.map(({ question, answer }) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<Layout title={data.title} description={data.description} image={data.image?.src} ogType="article">
+  <Fragment slot="head">
+    <meta property="article:published_time" content={data.pubDate.toISOString()} />
+    {data.updatedDate && <meta property="article:modified_time" content={data.updatedDate.toISOString()} />}
+    <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </Fragment>
+
+  <article class="news-sheet">
+    <NewsHeader current="article" />
+
+    <p class="news-meta">
+      {data.draft && <span class="news-draft">Entwurf</span>}
+      <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{readingMinutes(entry.body)} Min. Lesezeit</span>
+      {
+        data.updatedDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>
+              aktualisiert am <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
+            </span>
+          </>
+        )
+      }
+    </p>
+
+    <h1 class="news-title">{data.title}</h1>
+    <p class="news-byline">von {author.name}</p>
+
+    <section class="news-tldr" aria-label="Kurz gesagt">
+      <p class="news-tldr__label">&gt; kurz gesagt</p>
+      <p>{data.tldr}</p>
+    </section>
+
+    <WorkshopMiniAd />
+
+    {
+      data.image && (
+        <Image class="news-image" src={data.image} alt={data.imageAlt ?? ''} widths={[390, 672, 1344]} sizes="(min-width: 44rem) 42rem, 100vw" />
+      )
+    }
+
+    <div class="news-prose">
+      <Content />
+    </div>
+
+    {workshopAfterBody && <Fragment set:html={workshopBlockHtml(data.workshop, 'artikel')} />}
+
+    <figure class="news-quote">
+      <blockquote>„{data.quoteText}“</blockquote>
+      <figcaption>
+        <span class="news-avatar" aria-hidden="true">{initials(data.quoteAuthor)}</span>
+        <span>
+          <span class="news-quote__name">{data.quoteAuthor}</span>
+          {data.quoteRole && <span class="news-quote__role">{data.quoteRole}</span>}
+          <a class="news-quote__link" href={data.quoteUrl} target="_blank" rel="noopener">
+            Zum Original auf {domain(data.quoteUrl)}
+          </a>
+        </span>
+      </figcaption>
+    </figure>
+
+    <section class="news-faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Häufige Fragen</h2>
+      {
+        data.faq.map(({ question, answer }) => (
+          <details>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))
+      }
+    </section>
+
+    <section class="news-sources" aria-labelledby="sources-heading">
+      <h2 id="sources-heading">Quellen</h2>
+      <ol>
+        {
+          data.sources.map((source) => (
+            <li>
+              <a href={source.url} target="_blank" rel="noopener">
+                {source.title}
+              </a>
+              <span class="news-sources__meta">
+                {[source.publisher, domain(source.url)].filter(Boolean).join(' · ')}
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <AuthorBox author={data.author} />
+  </article>
+</Layout>

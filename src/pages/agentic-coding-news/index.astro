@@ -1,0 +1,46 @@
+---
+import NewsHeader from '../../components/news/NewsHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import { authors, formatDate, getNews, newsUrl } from '../../lib/agentic-coding-news';
+import { workshopBlockHtml } from '../../lib/workshop-inline-ad';
+
+const entries = await getNews();
+---
+
+<Layout
+  title="Agentic Coding News von Nerds in Shirts"
+  description="Aktuelle Entwicklungen und Best Practices rund um Agentic Coding, mit Quellen belegt, von Benjamin Klein und Roland Golla."
+>
+  <div class="news-sheet">
+    <NewsHeader current="overview" />
+    <h1 class="news-title">Agentic Coding News</h1>
+
+    {
+      entries.length === 0 ? (
+        <p class="news-empty">Die ersten Artikel erscheinen in Kürze.</p>
+      ) : (
+        <ol class="news-list">
+          {entries.map((entry, index) => (
+            <>
+              <li class="news-item">
+                <p class="news-meta">
+                  {entry.data.draft && <span class="news-draft">Entwurf</span>}
+                  <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+                  <span aria-hidden="true">·</span>
+                  <span>{authors[entry.data.author].name}</span>
+                </p>
+                <h2 class="news-item__title">
+                  <a href={newsUrl(entry)}>{entry.data.title}</a>
+                </h2>
+                <p class="news-item__tldr">{entry.data.tldr}</p>
+              </li>
+              {index === 0 && (
+                <li class="news-list__ad" set:html={workshopBlockHtml(entry.data.workshop, 'uebersicht')} />
+              )}
+            </>
+          ))}
+        </ol>
+      )
+    }
+  </div>
+</Layout>

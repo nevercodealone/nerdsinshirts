@@ -1,0 +1,30 @@
+---
+import { workshops } from '../../../data/workshops';
+import { trackedUrl } from '../../../lib/workshop-inline-ad';
+
+// Compact teaser for both workshops, shown right after the TL;DR box.
+const slot = 'tldr';
+---
+
+<aside
+  class="news-mini-ad"
+  data-track-content
+  data-content-name="workshop-mini"
+  data-content-piece={slot}
+  aria-label="NCA KI Workshops"
+>
+  <p class="news-mini-ad__label">&gt; NCA KI Workshops</p>
+  <ul>
+    {
+      Object.values(workshops).map((workshop) => (
+        <li>
+          <a href={trackedUrl(workshop.url, `${slot}-${workshop.id}`)} data-content-target>
+            <span class="news-mini-ad__title">{workshop.title}</span>
+            <span class="news-mini-ad__trainer">mit {workshop.trainer}</span>
+            <span class="news-mini-ad__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</aside>

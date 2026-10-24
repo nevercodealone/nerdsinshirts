@@ -1,0 +1,29 @@
+---
+import { NEWS_BASE } from '../../lib/agentic-coding-news';
+
+interface Props {
+  current: 'overview' | 'article';
+}
+
+const { current } = Astro.props;
+---
+
+<header class="news-header">
+  <a class="news-header__home" href="/" aria-label="Zur Startseite">
+    <span class="news-logo">
+      <img src="/nerds-in-shirts-gruen.png" alt="" width="48" height="48" />
+    </span>
+    <span class="news-header__name">Nerds in Shirts</span>
+  </a>
+  <nav class="news-breadcrumb" aria-label="Brotkrumen">
+    <a href="/">Startseite</a>
+    <span aria-hidden="true">/</span>
+    {
+      current === 'article' ? (
+        <a href={NEWS_BASE}>Agentic Coding News</a>
+      ) : (
+        <span aria-current="page">Agentic Coding News</span>
+      )
+    }
+  </nav>
+</header>
