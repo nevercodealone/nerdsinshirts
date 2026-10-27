@@ -4,4 +4,5 @@
 
 ## Agentic Coding News
 
+- [KI generierten Code testen, welche Tests Agents wirklich brauchen](https://nerdsinshirts.de/agentic-coding-news/ki-code-testen/): Wenn Agents mehr Code schreiben, als Menschen lesen können, wird der Nachweis zum Engpass. Das Claude Code Team setzt deshalb auf Tests, die der Agent selbst ausführt: End to End Tests als Wahrheit, Property Based Tests und schnelle, deterministische Testläufe.
 - [So prüft das Claude Code Team Code, den zu 90 Prozent Claude schreibt](https://nerdsinshirts.de/agentic-coding-news/claude-code-team-code-review/): Claude schreibt rund 90 Prozent des Codes von Claude Code, Menschen können das nicht mehr Zeile für Zeile lesen. Das Team prüft deshalb in Schichten: Der Agent testet sich selbst, KI Reviewer suchen Fehler, und wie viele Menschen freigeben, hängt vom Risiko der Änderung ab.
