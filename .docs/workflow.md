@@ -34,8 +34,7 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
 | Roland says | Agent does |
 |---|---|
 | "commit" | Checks, then commit. No push. |
-| "push" | Push what is committed. |
-| "make it live", "ship it", "commit and push" | Checks, commit, push, then verify on nerdsinshirts.de |
+| "push", "make it live", "commit and push" | Checks, commit, push to `origin` (rogoit). Roland opens the PR and deploys. |
 | Nothing | Nothing. Leave changes uncommitted and say so. |
 
 ### How to commit
@@ -52,18 +51,22 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
    ```
 6. Work on `main`. No force push, no rewriting pushed history, no `--no-verify`.
 
-### How to push and verify
+### How to push
 
-1. `git push origin main`. This triggers `.github/workflows/deploy.yml`, which runs check, then build, then deploys to GitHub Pages.
-2. The site is live after about 2 minutes. `gh` is not installed, so verify on the live site instead: poll the new or changed URL until it returns 200 (timeout 10 minutes), then check that the change is in the live HTML (for an article: the page, the overview entry and its line in `/llms.txt`).
-3. Report the commit hashes, the push range and the live check result. If the site isn't updated after 10 minutes, say so and point Roland to the Actions tab.
+| Remote | Repo | Who |
+|---|---|---|
+| `origin` | `rogoit/nerdsinshirts` (fork) | Agents push here, and only here. |
+| upstream | `nevercodealone/nerdsinshirts` | Deploys nerdsinshirts.de. Roland opens and merges the PR from `rogoit/main`. |
+
+1. `git push origin main`.
+2. Report the commit hashes and the push range. Don't open PRs, don't push upstream, and don't poll the live site. A push to the fork doesn't deploy, so never say something is live.
 
 ### Publishing an article ("make it live")
 
 1. `draft: false` in the article. `pubDate` stays the day the file was added (see [agentic-coding-news.md](agentic-coding-news.md)).
 2. Run the checks, and confirm the article is in `dist/`, the RSS feed, the sitemap and `llms.txt`.
-3. Commit with `Add article on <topic>` (or `Publish article on <topic>` if it was committed as a draft before), then push and verify as above.
-4. After it's live, remind Roland of the Google Rich Results Test for the URL.
+3. Commit with `Add article on <topic>` (or `Publish article on <topic>` if it was committed as a draft before), then push to `origin`.
+4. Roland opens the PR and deploys. After that, he runs the Google Rich Results Test on the URL.
 
 ## Specs (OpenSpec)
 
