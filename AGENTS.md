@@ -1,47 +1,26 @@
-## Development
+# AGENTS.md
 
-When starting the dev server, use background mode:
+nerdsinshirts.de: Astro 7 static site with the start page and Agentic Coding News. **All rules are in [`.docs/`](.docs/README.md).** Read the file for the area you're changing.
+
+## Checks you must run and show
 
 ```
-astro dev --background
+npm run check            # 0 errors, 0 warnings, 0 hints
+npm run build            # must pass, CI blocks the deploy otherwise
+npx astro dev --background   # dev server, always in background mode (status | logs | stop)
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+UI changes also need screenshots at 390px and 1440px with no horizontal scroll. Details: [.docs/workflow.md](.docs/workflow.md).
 
-## Content & Page Authoring Rules
+## Hard rules
 
-1. **Every content element is a block.** All page content lives in the frontmatter `blocks` array of a markdown file. Each block has a `type` discriminator plus typed props. The markdown body is not used for layout — only frontmatter.
-2. **Pages are md files with clean properties.** Page content lives in `src/content/pages/**/*.md`, validated by the Zod schema in `src/content.config.ts`. Each md file has a companion `.astro` route in `src/pages/` that loads the entry and renders it via `BlockRenderer`.
-3. **Adding a block type** requires three coordinated changes:
-   - `src/components/blocks/<Name>.astro` — the block component accepting its props.
-   - A new variant in the discriminated-union `blockSchema` in `src/content.config.ts`.
-   - A new `case` in `src/components/blocks/BlockRenderer.astro`.
-4. **Adding a page** requires two files:
-   - `src/content/pages/<slug>.md` — frontmatter with `title`, optional `seo`, and `blocks`.
-   - `src/pages/<slug>.astro` — loads the entry via `getEntry('pages', '<id>')` and renders `<BlockRenderer blocks={entry.data.blocks} />` inside `<Layout>`.
+1. No invented content. Text comes from content files, `src/data/workshops.ts` or fixed UI labels, and never includes prices. See [.docs/content.md](.docs/content.md).
+2. Pages are frontmatter blocks. Articles are the only exception (prose in the body). See [.docs/pages-and-blocks.md](.docs/pages-and-blocks.md) and [.docs/agentic-coding-news.md](.docs/agentic-coding-news.md).
+3. Every new field goes into the Zod schema in `src/content.config.ts` first.
+4. Never write article prose or set `draft: false` unless Roland asks.
+5. Commit and push only when asked, and push only to `origin` (rogoit fork). Roland opens the PR and deploys. One-line commit messages, no Co-Authored-By, author `Roland Golla <rolandgolla@gmail.com>`. See [.docs/workflow.md](.docs/workflow.md#git-commit-and-push).
+6. Show evidence before calling something done. Risk tiers and review rules are in [.docs/agents.md](.docs/agents.md), and the review checklist is in [REVIEW.md](REVIEW.md).
 
-## Documentation
+## Astro docs
 
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
-
-## Agentic Coding News (exception to the block rule)
-
-Articles are prose written in Obsidian, so they are the one exception to rule 1. The prose goes in the Markdown body. The structured parts (title, TL;DR, quote, FAQ, sources) go in the frontmatter.
-
-- Vault and articles: `src/content/agentic-coding-news/<slug>.md`. Files and folders starting with `_` (`_templates/`, `_bilder/`) are Obsidian only and never built.
-- Schema: `agenticCodingNews` in `src/content.config.ts`. A broken article fails `astro check` and `astro build`.
-- `draft` defaults to `true`. Drafts render in dev with an "Entwurf" label and are excluded from the build, RSS, sitemap and `llms.txt`.
-- Routes: `src/pages/agentic-coding-news/` (overview, `[slug].astro`, `rss.xml.ts`) and `src/pages/llms.txt.ts`.
-- Helpers: `src/lib/agentic-coding-news.ts`.
-- Workshop block: `src/lib/workshop-inline-ad.ts`. The Sätteri hast plugin in `astro.config.mjs` inserts it before the second `##`. If the body has fewer than two `##` headings, the article page renders it after the body instead.
-- Workshop facts: `src/data/workshops.ts`. Only facts from the NCA workshop pages go here, and no prices.
-- Spec: `openspec/changes/add-agentic-coding-news/`.
+https://docs.astro.build: [routing](https://docs.astro.build/en/guides/routing/), [components](https://docs.astro.build/en/basics/astro-components/), [content collections](https://docs.astro.build/en/guides/content-collections/), [styling](https://docs.astro.build/en/guides/styling/)
