@@ -25,7 +25,7 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 |---|---|
 | `title` | max 70 chars, **no `:`** (headlines are sentences) |
 | `description` | 80 to 160 chars |
-| `pubDate` | required, `YYYY-MM-DD` |
+| `pubDate` | required, `YYYY-MM-DD`, **set to the day the article is added to the repo** (see below) |
 | `updatedDate` | optional, set it when content changes after publishing |
 | `author` | `roland-golla` or `benjamin-klein` |
 | `tags` | list, optional |
@@ -43,6 +43,11 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 - FAQ answers must match the article. They are shown on the page and sent to Google as FAQPage data.
 - No ratings, scores or editorial verdicts.
 - Don't put your own workshop block in the body. It's added automatically (see below).
+
+## Publication date
+
+- When an article file is added to the repo (copied in from Obsidian or Downloads), set `pubDate` to **that day's date**, even if the file carries an older date.
+- Don't touch `pubDate` again after that. Later content changes go into `updatedDate`.
 
 ## Draft and publish
 
