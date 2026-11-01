@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/png" href="/favicon.png"><link rel="icon" href="/favicon.ico"><meta name="generator" content="Astro v7.3.5"><title>Claude Code Kosten senken, Token, Cache und Compaction erklärt</title><link rel="canonical" href="https://nerdsinshirts.de/agentic-coding-news/claude-code-kosten/"><meta name="description" content="Wie Prompt Cache, Compaction, Effort und Subagents die Nutzung in Claude Code bestimmen. Mit den Tipps von Lydia Hallie und der aktuellen Kritik."><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:site_name" content="Nerds in Shirts"><meta property="og:title" content="Claude Code Kosten senken, Token, Cache und Compaction erklärt"><meta property="og:description" content="Wie Prompt Cache, Compaction, Effort und Subagents die Nutzung in Claude Code bestimmen. Mit den Tipps von Lydia Hallie und der aktuellen Kritik."><meta property="og:image" content="https://nerdsinshirts.de/og-image.jpg"><meta property="og:image:width" content="1792"><meta property="og:image:height" content="592"><meta property="og:url" content="https://nerdsinshirts.de/agentic-coding-news/claude-code-kosten/"><meta property="og:locale" content="de_DE"><!-- Twitter / X --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@nerdsinshirts"><meta name="twitter:creator" content="@nerdsinshirts"><meta name="twitter:title" content="Claude Code Kosten senken, Token, Cache und Compaction erklärt"><meta name="twitter:description" content="Wie Prompt Cache, Compaction, Effort und Subagents die Nutzung in Claude Code bestimmen. Mit den Tipps von Lydia Hallie und der aktuellen Kritik."><meta name="twitter:image" content="https://nerdsinshirts.de/og-image.jpg"><link rel="alternate" type="application/rss+xml" title="Agentic Coding News" href="https://nerdsinshirts.de/agentic-coding-news/rss.xml"><meta property="article:published_time" content="2026-11-01T00:00:00.000Z"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Claude Code Kosten senken, Token, Cache und Compaction erklärt","description":"Wie Prompt Cache, Compaction, Effort und Subagents die Nutzung in Claude Code bestimmen. Mit den Tipps von Lydia Hallie und der aktuellen Kritik.","datePublished":"2026-11-01T00:00:00.000Z","dateModified":"2026-11-01T00:00:00.000Z","author":{"@type":"Person","name":"Roland Golla","url":"https://www.linkedin.com/in/rolandgolla/"},"publisher":{"@type":"Organization","name":"Nerds in Shirts","url":"https://nerdsinshirts.de/"},"mainEntityOfPage":"https://nerdsinshirts.de/agentic-coding-news/claude-code-kosten/","inLanguage":"de-DE","keywords":"Claude Code, Kontext, Kosten"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Warum kostet eine lange Session in Claude Code 2026 mehr?","acceptedAnswer":{"@type":"Answer","text":"Weil bei jeder neuen Nachricht die gesamte bisherige Unterhaltung erneut an das Modell geht. Jeder Tool Aufruf schickt sie noch einmal mit. Meist kommen diese Token günstig aus dem Cache, sie zählen aber trotzdem gegen die Nutzung. Deshalb empfehlen Lydia Hallie und die Doku, zwischen zwei Aufgaben /clear zu nutzen."}},{"@type":"Question","name":"Wie lange hält der Prompt Cache in Claude Code 2026?","acceptedAnswer":{"@type":"Answer","text":"Mit einem Claude Abo innerhalb der Plan Nutzung hält der Cache der Hauptunterhaltung eine Stunde. Mit API Key, Cloud Anbieter oder Usage Credits sind es fünf Minuten. Subagents bekommen auch im Abo nur fünf Minuten. Ab Version 2.1.242 lässt sich das mit promptCacheTtl und subagentPromptCacheTtl selbst festlegen."}},{"@type":"Question","name":"Was ist Idle Compaction in Claude Code 2026?","acceptedAnswer":{"@type":"Answer","text":"Idle Compaction fasst im Terminal eine Unterhaltung mit mehr als 200.000 Token zusammen, wenn sie etwa 54 Minuten ungenutzt ist, kurz bevor der einstündige Cache abläuft. Mit dem Standard von fünf Minuten, etwa per API Key, greift sie nicht. Claude arbeitet danach nur mit der Zusammenfassung weiter. Abschalten geht mit idleCompaction false oder in /config."}},{"@type":"Question","name":"Bricht ein Wechsel von Modell oder Effort 2026 den Cache?","acceptedAnswer":{"@type":"Answer","text":"Ein Modellwechsel bricht den Cache immer, weil jedes Modell seinen eigenen Cache hat. Beim Effort hängt es vom Modell ab. Bei Opus 5.5, Sonnet 5.5, Haiku 5.5 und Fable 5.1 bleibt der Cache mit API Key oder Abo erhalten. Auf Bedrock, Google Cloud und über einen Claude Apps Gateway gilt das nicht."}},{"@type":"Question","name":"Warum sind die Claude Code Limits 2026 so schnell leer?","acceptedAnswer":{"@type":"Answer","text":"Seit Mitte Oktober melden viele Nutzer, dass ihre Limits schneller leer sind. Laut Boris Cherny fand Anthropic keine einzelne Ursache und keine Regression, nur kleinere Fehler, die behoben werden. Meist lag es an schweren Sessions mit xhigh Effort, /goal, Workflows oder Agent Teams. Subagents erben den Effort der Session. /usage zeigt, wo die Token hingehen."}},{"@type":"Question","name":"Was geht bei Auto Compact verloren?","acceptedAnswer":{"@type":"Answer","text":"Die Unterhaltung wird durch eine Zusammenfassung ersetzt. Exakte Fehlermeldungen, verworfene Ansätze und einmal genannte Vorgaben können dabei fehlen. Erhalten bleiben System Prompt, die CLAUDE.md im Projekt, Auto Memory und der Plan aus dem Plan Mode. Bis zu fünf zuletzt geänderte Dateien liest Claude Code neu ein."}},{"@type":"Question","name":"Was ist besser, /compact oder /clear?","acceptedAnswer":{"@type":"Answer","text":"Für eine neue Aufgabe ist /clear besser. Es kostet nichts und startet frisch. /compact lohnt sich, wenn man an derselben Aufgabe weiterarbeiten will. Es liest dafür die ganze Unterhaltung, was bei kaltem Cache teuer ist. Mit einer Anweisung wie /compact focus on the auth bug bestimmt man selbst, was die Zusammenfassung behält."}},{"@type":"Question","name":"Wann lohnen sich Subagents?","acceptedAnswer":{"@type":"Answer","text":"Subagents haben ein eigenes Kontextfenster. Nur ihre Antwort kommt in die Hauptsession zurück. Das lohnt sich für Aufgaben mit viel Ausgabe, etwa Tests oder Logs. Ihre Anfragen zählen trotzdem gegen die Nutzung, und ihr Cache hält nur fünf Minuten. Ein günstigeres Subagent Modell senkt die Kosten."}},{"@type":"Question","name":"Gibt es den Befehl /cost noch?","acceptedAnswer":{"@type":"Answer","text":"Ja, /cost ist heute ein Alias für /usage. Dort stehen Kosten der Session, die Limits des Plans, eine Zeile zum Prompt Cache und eine Aufschlüsselung nach Skills, Subagents, Plugins und MCP Servern. Seit Version 2.1.305 setzt die Taste f passende Empfehlungen direkt um."}}]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"><!-- Matomo --><script>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      _paq.push(['trackVisibleContentImpressions']);
+      (function () {
+        var u = '//stats.nevercodealone.de/';
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script><!-- End Matomo Code --><link rel="stylesheet" href="/_astro/Layout.DBFVFcw8.css"></head><body class="bg-background font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><main class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-x-clip"><!-- Matrix Rain Background Canvas --><canvas class="fixed inset-0 pointer-events-none opacity-50 z-0" id="matrix-rain"></canvas><!-- Skyline background behind rain --><div class="absolute inset-0 pointer-events-none z-0 overflow-hidden"><img src="/og-image.jpg" alt="" aria-hidden="true" class="absolute bottom-0 left-0 w-full max-w-none h-[35vh] object-cover object-bottom opacity-40" fetchpriority="high"></div><!-- Gentle Center Readability Shade --><div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.75)_0%,rgba(11,19,38,0.25)_70%,transparent_100%)] z-0"></div><!-- Subtle Ambient Nebula Lights --><div class="absolute inset-0 pointer-events-none overflow-hidden transition-transform duration-700 ease-out z-0" id="ambient-nebula"><div class="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[90px] animate-pulse-glow"></div><div class="absolute top-[35%] left-[30%] w-[380px] h-[380px] bg-secondary/10 rounded-full blur-[80px]"></div><div class="absolute top-[28%] right-[28%] w-[340px] h-[340px] bg-tertiary-container/10 rounded-full blur-[80px]"></div></div><!-- Pause/Play Button for Matrix Rain --><button id="rain-toggle" type="button" aria-label="Matrix rain animation pausieren" class="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high/80 backdrop-blur-sm border border-surface-variant/40 text-on-surface-variant hover:text-primary hover:border-primary/40 transition-all duration-300 group"><span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" id="rain-toggle-icon">pause</span></button><!-- Page Content (blocks render here) --><div class="relative z-10 flex flex-col items-center w-full px-4 xs:px-6 lg:px-8"><article class="news-sheet"><header class="news-header"><a class="news-header__home" href="/" aria-label="Zur Startseite"><span class="news-logo"><img src="/nerds-in-shirts-gruen.png" alt="" width="48" height="48"></span><span class="news-header__name">Nerds in Shirts</span></a><nav class="news-breadcrumb" aria-label="Brotkrumen"><a href="/">Startseite</a><span aria-hidden="true">/</span><a href="/agentic-coding-news/">Agentic Coding News</a></nav></header><p class="news-meta"><time datetime="2026-11-01T00:00:00.000Z">1. November 2026</time><span aria-hidden="true">·</span><span>16 Min. Lesezeit</span></p><h1 class="news-title">Claude Code Kosten senken, Token, Cache und Compaction erklärt</h1><p class="news-byline">von Roland Golla</p><section class="news-tldr" aria-label="Kurz gesagt"><p class="news-tldr__label">&gt; kurz gesagt</p><p>Claude Code schickt bei jeder Nachricht die ganze bisherige Unterhaltung an das Modell. Wer Cache, Compaction, Effort und Subagents versteht, spart Nutzung. Seit Mitte Oktober gibt es dazu Idle Compaction, eine Warnung beim Fortsetzen und viele Berichte über zu schnell leere Limits. Anthropic fand dafür keine einzelne Ursache.</p></section><aside class="news-mini-ad" data-track-content data-content-name="workshop-mini" data-content-piece="tldr" aria-label="NCA KI Workshops"><p class="news-mini-ad__label">&gt; NCA KI Workshops</p><ul><li><a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=tldr-developer" data-content-target><span class="news-mini-ad__title">NCA KI Workshop für Developer</span><span class="news-mini-ad__trainer">mit Benjamin Klein</span><span class="news-mini-ad__arrow" aria-hidden="true">→</span></a></li><li><a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-alle-abteilungen?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=tldr-alle-abteilungen" data-content-target><span class="news-mini-ad__title">NCA KI Workshop für alle Abteilungen</span><span class="news-mini-ad__trainer">mit Roland Golla</span><span class="news-mini-ad__arrow" aria-hidden="true">→</span></a></li></ul></aside><div class="news-prose"><h2 id="warum-claude-code-so-viele-token-verbraucht">Warum Claude Code so viele Token verbraucht</h2>
+<p>Wer die Kosten in Claude Code senken will, muss zuerst eines verstehen. Das Modell merkt sich zwischen zwei Nachrichten nichts. Claude Code schickt deshalb bei jeder Nachricht alles noch einmal mit: System Prompt, CLAUDE.md, gelesene Dateien, Ausgaben von Befehlen und alle früheren Antworten. Dieser Gesamttext heißt Kontext. Er wächst mit jeder Runde.</p>
+<p>Und es ist nicht eine Anfrage pro Nachricht. Jedes Mal, wenn Claude ein Tool nutzt, geht eine weitere Anfrage mit dem ganzen Kontext raus. Die Doku sagt es deutlich: Eine einzeilige Frage in einer Session, die den ganzen Tag offen ist, zieht Nutzung für die ganze Unterhaltung.</p>
+<p>Lydia Hallie aus dem Claude Code Team hat im August im Claude Blog beschrieben, <a href="https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions">wie man das Beste aus einer Session herausholt</a>. Seitdem postet sie auf X fast wöchentlich Neuerungen dazu. Ihr Grundgedanke: Effizient heißt, die Token in die eigentliche Aufgabe zu stecken und nicht in Ballast.</p>
+<p>Dieser Artikel bündelt ihre Tipps, den aktuellen Stand der <a href="https://code.claude.com/docs/en/costs">offiziellen Doku</a> und das, was im Oktober schiefgelaufen ist.</p>
+<aside class="workshop-block" data-track-content data-content-name="workshop-developer" data-content-piece="artikel" aria-label="NCA KI Workshop"><p class="workshop-block__label">&gt; NCA KI Workshop</p><p class="workshop-block__title">NCA KI Workshop für Developer mit Benjamin Klein</p><p class="workshop-block__intro">Ein Tag für Developer, Tester und Admins, die mit KI Agenten produktiv arbeiten wollen, statt Code aus dem Chat zu kopieren.</p><ul class="workshop-block__list"><li><span aria-hidden="true">✓</span> Einen Harness bauen</li><li><span aria-hidden="true">✓</span> Context Engineering beherrschen</li><li><span aria-hidden="true">✓</span> Entscheidungen festhalten mit ADR und PDR</li><li><span aria-hidden="true">✓</span> Prüfen statt glauben</li></ul><p class="workshop-block__format">Inhouse bei euch vor Ort, ein Tag von 9.00 bis 16.30 Uhr.</p><a class="workshop-block__cta" href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=artikel" data-content-target>Zum Workshop <span aria-hidden="true">→</span></a></aside><h2 id="was-die-kosten-in-claude-code-bestimmt">Was die Kosten in Claude Code bestimmt</h2>
+<p>Laut Lydias Artikel bestimmen vier Dinge, was eine Aufgabe kostet:</p>
+<table>
+<thead>
+<tr>
+<th>Treiber</th>
+<th>Was dahinter steckt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modell</td>
+<td>Jedes Token wird mit dem Preis des Modells multipliziert. Große Modelle für schwere Aufgaben, kleine für Routine.</td>
+</tr>
+<tr>
+<td>Eingabe gegen Ausgabe</td>
+<td>Ausgabe Token kosten etwa das Fünffache von Eingabe Token.</td>
+</tr>
+<tr>
+<td>Cache</td>
+<td>Aus dem Cache gelesene Token kosten etwa ein Zehntel, Schreiben in den Cache bis zum Doppelten.</td>
+</tr>
+<tr>
+<td>Thinking</td>
+<td>Das Effort Level steuert, wie viel das Modell pro Runde nachdenkt. Thinking wird als Ausgabe abgerechnet.</td>
+</tr>
+</tbody>
+</table>
+<p>Zur Einordnung nennt die Doku Zahlen aus Enterprise Einsätzen: im Schnitt etwa 13 Dollar pro Entwickler und aktivem Tag, 150 bis 250 Dollar im Monat. Bei 90 Prozent der Nutzer bleibt es unter 30 Dollar pro aktivem Tag. Im Abo zählt dagegen nicht der Dollarbetrag, sondern der Anteil am Limit für fünf Stunden und für die Woche.</p>
+<h2 id="claude-code-prompt-cache-richtig-nutzen">Claude Code Prompt Cache richtig nutzen</h2>
+<p>Der Cache ist der größte Hebel. Claude Code verwaltet ihn automatisch. Das Prinzip: Der Anfang einer Anfrage wird mit dem verglichen, was der Server zuletzt verarbeitet hat. Passt er exakt, wird er günstig aus dem Cache gelesen. Ändert sich irgendetwas weiter vorne, wird alles dahinter neu und zum vollen Preis verarbeitet. Es gibt keinen Cache pro Datei.</p>
+<h3 id="wie-lange-der-cache-hält">Wie lange der Cache hält</h3>
+<p>Die Doku unterscheidet zwei Gruppen von Anfragen:</p>
+<table>
+<thead>
+<tr>
+<th>Anfragen</th>
+<th>Abo im Rahmen der Plan Nutzung</th>
+<th>API Key, Cloud Anbieter oder Usage Credits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hauptunterhaltung</td>
+<td>eine Stunde</td>
+<td>fünf Minuten</td>
+</tr>
+<tr>
+<td>Subagents, Workflows, Compaction</td>
+<td>fünf Minuten, bis auf einige Hilfsanfragen, die Anthropic serverseitig auf eine Stunde setzt</td>
+<td>fünf Minuten</td>
+</tr>
+</tbody>
+</table>
+<p>Zwei Details überraschen viele. Sobald man im Abo über das Limit geht und Usage Credits nutzt, fällt auch die Hauptunterhaltung auf fünf Minuten. Und Subagents haben auch im Abo nur fünf Minuten. Ab Version 2.1.242 lässt sich das mit <code>promptCacheTtl</code> und <code>subagentPromptCacheTtl</code> in der settings.json selbst festlegen. Wer mit API Key arbeitet und oft Pausen macht, kann so eine Stunde einstellen. Das Schreiben in den Cache kostet dann aber mehr.</p>
+<h3 id="was-den-cache-bricht">Was den Cache bricht</h3>
+<p>Laut der <a href="https://code.claude.com/docs/en/prompt-caching">Doku zum Prompt Caching</a> führen diese Aktionen zu einer langsamen und teuren Runde:</p>
+<ul>
+<li><strong>Modellwechsel mit <code>/model</code>:</strong> Jedes Modell hat seinen eigenen Cache. Das gilt auch für <code>opusplan</code>, das beim Plan Mode zwischen Opus und Sonnet wechselt, und für Skills mit eigenem <code>model</code> im Frontmatter.</li>
+<li><strong>Effort Wechsel:</strong> bei den meisten Modellen ja. Bei Opus 5.5, Sonnet 5.5, Haiku 5.5 und Fable 5.1 mit API Key oder Abo bleibt der Cache inzwischen erhalten, nicht aber auf Bedrock, Google Cloud oder über einen Claude Apps Gateway.</li>
+<li><strong>Fast Mode einschalten:</strong> einmal pro Unterhaltung. Am besten gleich zu Beginn.</li>
+<li><strong>MCP Server hinzufügen oder entfernen:</strong> nur wenn die Tools nicht verzögert geladen werden. Mit Tool Search, dem Standard, bleibt der Cache.</li>
+<li><strong>Ein ganzes Tool verbieten,</strong> etwa <code>Bash</code> als Deny Regel, ebenfalls nur ohne Tool Search.</li>
+<li><strong>Plugins mit eigenen MCP Servern</strong> ein oder ausschalten. Skills, Commands und Hooks aus Plugins brechen den Cache nicht.</li>
+<li><strong><code>/compact</code>:</strong> ersetzt die Unterhaltung. Der System Prompt bleibt im Cache.</li>
+<li><strong>Viele Bilder:</strong> Claude Code entfernt dann die ältesten, und ab dort wird neu gelesen.</li>
+<li><strong>Update von Claude Code:</strong> die erste Session nach dem Neustart baut den Cache neu auf.</li>
+<li><strong>Pause länger als die Cache Dauer.</strong></li>
+</ul>
+<p>Genauso wichtig ist, was den Cache <strong>nicht</strong> bricht: Dateien im Repo bearbeiten, Permission Mode wechseln, Output Style ändern, Skills aufrufen, <code>/recap</code>, <code>/rewind</code> und Subagents starten.</p>
+<p>Ein Fallstrick: Wer die CLAUDE.md mitten in der Session ändert, bricht den Cache nicht. Die Änderung wirkt aber auch erst nach <code>/clear</code>, <code>/compact</code> oder einem Neustart.</p>
+<p>Addy Osmani hat Ende August <a href="https://x.com/addyosmani/status/2092424172907745451">auf X ergänzt</a>: Modell und Effort am Anfang einer Session wählen. Die Doku formuliert es fast gleich und rät, <code>/compact</code> für natürliche Pausen zwischen Aufgaben aufzuheben.</p>
+<p>Lydias Tipp aus ihrem Artikel: Wer einen falschen Weg verwerfen will, nutzt <code>/rewind</code> statt <code>/compact</code>. Die früheren Runden liegen dann noch im Cache.</p>
+<h2 id="claude-code-compact-und-autocompact-erklärt">Claude Code compact und autocompact erklärt</h2>
+<p>Compaction heißt: Die Unterhaltung wird durch eine Zusammenfassung ersetzt. Weil das auf X oft falsch verstanden wurde, hat Lydia es im Oktober <a href="https://x.com/lydiahallie/status/2108624109538291901">klargestellt</a>:</p>
+<blockquote>
+<p>auto-compact does summarize. When it runs, your whole conversation is replaced by a short summary.</p>
+</blockquote>
+<p>Auto Compact behält also nicht einfach die letzten Token. Bei Modellen mit 1 Million Token Kontext läuft es laut Lydia standardmäßig erst bei etwa 967.000 Token. Bis dahin enthält jede Anfrage die komplette Unterhaltung. Ihre Lösung:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/autocompact 400k</span></span></code></pre>
+<p>Dann wird schon bei 400.000 Token zusammengefasst. Das Fenster wird <a href="https://x.com/lydiahallie/status/2107905737179734173">pro Modell gespeichert</a>. Wer mit API Abrechnung arbeitet, kann zum Beispiel Haiku 5.5 schon bei 100.000 Token zusammenfassen lassen, ohne die anderen Modelle zu ändern.</p>
+<h3 id="was-nach-der-compaction-bleibt">Was nach der Compaction bleibt</h3>
+<p>Die <a href="https://code.claude.com/docs/en/context-window">Doku zum Kontextfenster</a> listet genau auf, was eine Compaction überlebt:</p>
+<table>
+<thead>
+<tr>
+<th>Inhalt</th>
+<th>Nach der Compaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System Prompt und Output Style</td>
+<td>bleiben</td>
+</tr>
+<tr>
+<td>CLAUDE.md im Projekt, Auto Memory</td>
+<td>werden neu von der Platte geladen</td>
+</tr>
+<tr>
+<td>Plan aus dem Plan Mode</td>
+<td>wird neu geladen</td>
+</tr>
+<tr>
+<td>Gelesene oder bearbeitete Dateien</td>
+<td>bis zu fünf, die zuletzt geänderten zuerst. Dateien über 5.000 Token nur als Pfad</td>
+</tr>
+<tr>
+<td>Aufgerufene Skills</td>
+<td>gekürzt auf 5.000 Token pro Skill, 25.000 insgesamt</td>
+</tr>
+<tr>
+<td>Regeln mit <code>paths:</code> und verschachtelte CLAUDE.md</td>
+<td>weg, sie laden erst beim nächsten passenden Zugriff</td>
+</tr>
+<tr>
+<td>Alles andere aus der Unterhaltung</td>
+<td>nur noch als Zusammenfassung</td>
+</tr>
+</tbody>
+</table>
+<p>Daraus folgen drei praktische Regeln. Was immer gelten muss, gehört in die CLAUDE.md im Projekt. Das Wichtigste eines Skills gehört an den Anfang der SKILL.md. Und wer selbst steuern will, was bleibt, gibt eine Anweisung mit:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/compact focus on the auth bug fix</span></span></code></pre>
+<p>Die Kosten der Compaction selbst unterschätzen viele. <code>/compact</code> liest die ganze Unterhaltung, um sie zusammenzufassen. Bei warmem Cache ist das günstig. Nach einer langen Pause ist der Cache kalt, dann wird alles zum vollen Preis gelesen. <code>/clear</code> dagegen kostet nichts.</p>
+<h2 id="idle-compaction-in-claude-code-vorteil-und-kritik">Idle Compaction in Claude Code, Vorteil und Kritik</h2>
+<p>Mit Version 2.1.299 vom 14. Oktober kam <strong>Idle Compaction</strong> offiziell ins Changelog. Sie läuft im Terminal und nur mit dem einstündigen Cache, also typischerweise im Abo. Bleibt eine Unterhaltung mit mehr als 200.000 Token etwa 54 Minuten liegen, fasst Claude Code sie <a href="https://x.com/lydiahallie/status/2110484840256819380">kurz vor Ablauf des Caches zusammen</a>. Wer nach der Mittagspause zurückkommt, zahlt dann nur für die Zusammenfassung statt für den ganzen kalten Kontext.</p>
+<p>Der Haken, den auch Lydia nennt: Claude arbeitet danach mit der Zusammenfassung weiter, nicht mit dem vollen Kontext.</p>
+<h3 id="die-kritik">Die Kritik</h3>
+<p>Genau daran entzündet sich der Ärger. Im <a href="https://github.com/anthropics/claude-code/issues/98747">GitHub Issue 98747</a> beschreibt ein Nutzer, dass die Funktion schon mit Version 2.1.286 still aktiv war, ohne Warnung und ohne Opt out. Von seinen etwa 20 parallelen Sessions wurden über Nacht sieben zusammengefasst. Exakte Anweisungen, Begründungen und vereinbarte Vorgehensweisen waren weg. Sein Fazit: Der Kontext sei der wertvolle Teil, er zahle lieber für das erneute Einlesen. Dazu kam, dass diese Compactions im Log als <code>manual</code> markiert waren, obwohl niemand <code>/compact</code> ausgeführt hatte.</p>
+<p>Sébastien Dubois hält die Funktion in seinem <a href="https://www.dsebastien.net/2026-10-16-claude-code-idle-compaction-cheaper-to-resume-but-from-a-summary/">Blogpost</a> für einen vernünftigen Standard, bringt das Problem aber auf drei Worte: „Compaction is lossy.“ Er nennt typische Verluste: ein vor zwei Stunden verworfener Ansatz, die exakte Fehlermeldung beim Debuggen, eine Vorgabe, die man einmal am Anfang genannt hat. Wer das später neu erklären muss, zahlt am Ende vielleicht mehr als für ein einziges volles Einlesen. Und oft merkt man gar nicht, was fehlt.</p>
+<p>Inzwischen lässt sich die Funktion steuern. Laut Changelog braucht die Einstellung zum Abschalten Version 2.1.290 oder neuer. Seit 2.1.302 steht sie auch in <code>/config</code>, und der Hinweis nach einer Idle Compaction sagt, wie man sie abschaltet.</p>
+<h3 id="so-steuert-ihr-idle-compaction">So steuert ihr Idle Compaction</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "idleCompaction"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>Ganz abschalten:</strong> <code>idleCompaction</code> auf <code>false</code> in der settings.json oder die Zeile „Idle compaction“ in <code>/config</code>.</li>
+<li><strong>Später auslösen:</strong> Mit <code>CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS</code> die Schwelle von 200.000 Token anheben, damit nur sehr große Sessions betroffen sind.</li>
+<li><strong>Selbst bestimmen, was bleibt:</strong> vor der Pause <code>/compact</code> mit einer Anweisung ausführen.</li>
+</ul>
+<h3 id="neu-warnung-beim-fortsetzen">Neu: Warnung beim Fortsetzen</h3>
+<p>Seit Version 2.1.304 warnt Claude Code in Pro und Max Plänen, wenn das Fortsetzen einer alten Unterhaltung einen spürbaren Teil des Fünfstundenlimits kosten würde. Man kann trotzdem fortsetzen oder eine neue Unterhaltung starten. Claude kann die alte nachschlagen, wenn man sich darauf bezieht.</p>
+<h2 id="claude-code-effort-level-einstellen">Claude Code Effort Level einstellen</h2>
+<p>Effort legt fest, wie viel das Modell nachdenkt. Mehr Effort heißt bessere Antworten bei schweren Aufgaben, aber auch mehr Ausgabe Token. Bei Opus 5.5, Sonnet 5.5, Haiku 5.5 und den Fable Modellen lässt sich Thinking nicht abschalten. Dort ist <code>/effort</code> die Stellschraube.</p>
+<p>Seit Claude Code 2.1.251 wird der Effort <a href="https://x.com/lydiahallie/status/2096026520422945202">pro Modell gespeichert</a>, über <code>/effort</code> oder in den <code>modelSettings</code> der settings.json. Für Fable 5.1 schrieb Lydia, Medium entspreche ungefähr Fable 5 auf High. Es sei das erste Modell, bei dem Medium ihr Standard ist.</p>
+<p>Beim Cache hat sich viel getan. Anfang September schrieb Lydia, dass ein Effort Wechsel bei Fable 5.1 <a href="https://x.com/lydiahallie/status/2096046163862679590">den Cache nicht mehr bricht</a>. Für Opus 5.5 kam das <a href="https://x.com/lydiahallie/status/2102513987699212344">ab Claude Code 2.1.280</a>. Heute gilt es laut Doku auch für Sonnet 5.5 und Haiku 5.5. Der Effort lässt sich bei diesen Modellen also mitten in der Session senken, ohne dass es teuer wird.</p>
+<p>Seit 2.1.299 warnt <code>/usage</code> außerdem, wenn Max Effort einen großen Teil der Nutzung ausmacht.</p>
+<h2 id="claude-code-subagents-mit-günstigerem-modell">Claude Code Subagents mit günstigerem Modell</h2>
+<p>Ein Subagent ist ein zweiter Agent, den Claude für eine Teilaufgabe startet. Er hat ein eigenes Kontextfenster. Nur seine Antwort kommt in die Hauptsession zurück. Das lohnt sich bei Aufgaben mit viel Ausgabe, etwa Tests ausführen oder Logs durchsuchen. Für kleine Aufgaben ist der Aufwand zu groß.</p>
+<p>Wichtig: Der Subagent spart Platz in eurem Kontext, nicht automatisch Nutzung. Seine Anfragen zählen voll mit, und sein Cache hält nur fünf Minuten. Zwei Stellschrauben helfen:</p>
+<ul>
+<li><strong>Günstigeres Modell:</strong> Lydia setzt das Subagent Modell auf Opus, weil Fable 5.1 viele Subagents startet, die selten Fable brauchen. Das <a href="https://x.com/lydiahallie/status/2099195114115707210">spart ihr nach eigener Aussage viel Nutzung</a>. Für einfache Subagents empfiehlt die Doku <code>model: haiku</code> in der Konfiguration.</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E1E4E8">CLAUDE_CODE_SUBAGENT_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">opus</span></span></code></pre>
+<p>Hat ein Subagent in seiner eigenen Definition ein <code>model</code> gesetzt, gilt dieser Wert.</p>
+<ul>
+<li><strong>Eigener Effort:</strong> Subagents erben standardmäßig den Effort der Session. Laut <a href="https://x.com/bcherny/status/2115592371224346734">Boris Cherny</a> summiert sich das schnell. Ein <code>effort</code> im Frontmatter des Subagents legt einen eigenen Wert fest. Seit Claude Code 2.1.292 kann man Claude außerdem bitten, <a href="https://x.com/lydiahallie/status/2107625236430798909">Subagents mit einem bestimmten Effort Level zu starten</a>.</li>
+</ul>
+<p>Noch teurer sind Agent Teams. Laut Doku verbrauchen sie im Plan Mode etwa siebenmal so viele Token wie eine normale Session, weil jedes Teammitglied eine eigene Instanz ist.</p>
+<h2 id="claude-code-token-verbrauch-anzeigen">Claude Code Token Verbrauch anzeigen</h2>
+<p>Bevor man spart, sollte man sehen, wo die Token hingehen. Addy Osmani hat die Befehle dafür <a href="https://x.com/addyosmani/status/2098297991019057363">auf X zusammengestellt</a>. Der Stand Anfang November:</p>
+<table>
+<thead>
+<tr>
+<th>Befehl</th>
+<th>Zeigt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/usage</code></td>
+<td>Kosten der Session, Limits des Plans und Aufschlüsselung nach Skills, Subagents, Plugins und MCP Servern. <code>/cost</code> ist heute nur noch ein Alias dafür</td>
+</tr>
+<tr>
+<td><code>/context</code></td>
+<td>Was gerade im Kontextfenster steckt, mit Vorschlägen</td>
+</tr>
+<tr>
+<td><code>/tasks</code></td>
+<td>Laufende und beendete Hintergrundarbeit, auch Subagents</td>
+</tr>
+<tr>
+<td><code>/insights</code></td>
+<td>HTML Bericht über eure letzten Sessions und wo es hakt</td>
+</tr>
+<tr>
+<td><code>/skill-doctor</code></td>
+<td>Welche Skills man wirklich nutzt</td>
+</tr>
+</tbody>
+</table>
+<p>In <code>/usage</code> stecken zwei neue Funktionen, die viele noch nicht kennen.</p>
+<p><strong>Die Cache Zeile.</strong> Seit 2.1.251 zeigt <code>/usage</code> eine Zeile „Prompt cache (main)“: Anteil der Eingabe aus dem Cache, Zahl der Misses und ob der Cache gerade warm ist. Seit 2.1.260 nennt sie oft auch die wahrscheinliche Ursache des letzten Miss, etwa geänderte Tool Definitionen. Liegt der Anteil dauerhaft niedrig, ändert sich irgendwo vorne im Kontext etwas.</p>
+<p><strong>Empfehlungen mit f.</strong> Für alles, was mindestens 10 Prozent der Nutzung ausmacht, zeigt <code>/usage</code> eine Empfehlung, etwa eine zu große CLAUDE.md oder Max Effort. Seit 2.1.305 setzt die Taste <code>f</code> passende Empfehlungen um. Effort Änderungen laufen direkt, bei anderen zeigt Claude jede Änderung vorher.</p>
+<h3 id="warum-die-nutzung-in-langen-sessions-steigt">Warum die Nutzung in langen Sessions steigt</h3>
+<p>Die Doku nennt Ursachen, an die kaum jemand denkt. Sie alle schicken den ganzen Kontext, auch wenn ihr gerade nichts tippt:</p>
+<ul>
+<li><code>/loop</code> und andere geplante Aufgaben in der Session</li>
+<li>Nachrichten aus anderen eigenen Sessions, die als neue Runde ankommen</li>
+<li>Check ins bei einem aktiven Goal, höchstens drei zwischen zwei Prompts</li>
+<li>Subagents, Workflows und Agent Teams</li>
+</ul>
+<h2 id="was-in-claude-code-gerade-nicht-rund-läuft">Was in Claude Code gerade nicht rund läuft</h2>
+<p>Ein ehrlicher Artikel über Kosten muss auch das zeigen. Seit Mitte Oktober häufen sich auf GitHub Berichte über Limits, die viel schneller leer sind als vorher, und zwar bei unveränderter Arbeitsweise.</p>
+<ul>
+<li><a href="https://github.com/anthropics/claude-code/issues/105240">Issue 105240</a>: Max 5x, Wochenlimit nach weniger als 48 Stunden bei 94 Prozent. Spürbar ab dem 17. Oktober, schlimmer ab dem 24. Der Autor verlinkt sechs ähnliche Berichte.</li>
+<li><a href="https://github.com/anthropics/claude-code/issues/106372">Issue 106372</a>: Team und Pro mit Opus 5.5. Früher zwei bis drei Stunden Arbeit, seit dem 27. Oktober etwa 30 Minuten.</li>
+<li>In verlinkten Issues berichten Nutzer sogar, dass die Nutzung stieg, während laut eigener Messung keine Anfragen den Rechner verließen.</li>
+</ul>
+<p>Auch auf X kam das Thema hoch. Am 21. Oktober fragte ein Nutzer, warum seine Nutzung fünfmal so schnell schmelze. Boris Cherny antwortete zwei Tage später, man schaue sich das an.</p>
+<h3 id="was-anthropic-dazu-sagt">Was Anthropic dazu sagt</h3>
+<p>In den GitHub Issues ist bis zum 1. November keine öffentliche Antwort von Anthropic zu sehen. Auf X dagegen schon:</p>
+<ul>
+<li><strong>22. Oktober, Lydia Hallie:</strong> Die Limits hätten sich <a href="https://x.com/lydiahallie/status/2113366380842254746">nicht geändert</a>. Sie bat um <code>/feedback</code> IDs und fragte <a href="https://x.com/lydiahallie/status/2113400495058686376">gezielt nach</a>: Kommt ihr oft nach mehr als einer Stunde in lange Sessions zurück, wenn der Cache abgelaufen ist? Nutzt ihr viele Subagents? Welches Modell und welcher Effort?</li>
+<li><strong>26. Oktober, Lydia Hallie:</strong> Man prüfe die Berichte noch und brauche <a href="https://x.com/lydiahallie/status/2114557937587036433">weitere Feedback IDs</a>. Sie fragte auch, ob <code>/usage</code> Warnungen zeigt.</li>
+<li><strong>28. Oktober, Boris Cherny,</strong> der Leiter von Claude Code, mit dem <a href="https://x.com/bcherny/status/2115592371224346734">Ergebnis der Analyse</a>.</li>
+</ul>
+<p>Boris schreibt, das Team habe alle eingereichten Session IDs durchgesehen. Ein paar kleinere Probleme hätten Sessions schneller Token verbrauchen lassen als nötig, die Fixes würden ausgerollt. Aber:</p>
+<blockquote>
+<p>We didn’t find a single root cause or any regression in Claude Code.</p>
+</blockquote>
+<p>Meist ließ sich der höhere Verbrauch laut Boris auf ein oder zwei schwere Sessions zurückführen: xhigh Effort, <code>/goal</code>, Workflows, Agent Teams oder lange SDK Jobs. Das seien gute Arten, Claude Code zu nutzen. Es liege aber an Anthropic, klarer zu machen, wann man sie einsetzt und was sie kosten. Sein wichtigster Hinweis: Subagents erben standardmäßig den Effort der Session, und das summiert sich schnell.</p>
+<p>In den Antworten zeigt sich, dass das nicht alle überzeugt. Manche fordern Gutschriften für die verbrauchte Nutzung. Andere ergänzen praktische Tipps, etwa ein eigenes <code>effort</code> im Frontmatter von Subagents.</p>
+<p>Am 30. Oktober folgte eine Änderung der Pläne. Max 5x heißt jetzt <a href="https://x.com/claudeai/status/2116220869479428500">Max, Max 20x heißt Ultra</a>. Für verifizierte Ultra Konten fällt das Fünfstundenlimit weg, die Wochenlimits bleiben unverändert.</p>
+<p>Wichtig für die Einordnung: Die GitHub Berichte sind Aussagen einzelner Nutzer, keine kontrollierten Messungen. Und Anthropics Analyse ist die Sicht des Herstellers. Neu ist das Thema nicht: Schon im März hatte Anthropic <a href="https://thenewstack.io/claude-code-usage-limits/">laut The New Stack</a> eingeräumt, dass Limits schneller als erwartet erreicht wurden.</p>
+<p>Ein paar Fixes aus dem <a href="https://code.claude.com/docs/en/changelog">Changelog</a> zeigen, wo es zuletzt hakte. Version 2.1.311 vom 26. Oktober behebt, dass <code>/usage</code> große Cache Misses nie in der Aufschlüsselung zeigte. Außerdem sah Claude nach automatischer Compaction veraltete Inhalte von MEMORY.md und CLAUDE.md, wenn diese vorher in der Session geändert wurden. Version 2.1.309 behebt Sessions, die nach dem Lesen einer sehr großen verschachtelten CLAUDE.md immer wieder komprimiert wurden.</p>
+<p>Was ihr tun könnt, wenn eure Limits plötzlich schmelzen:</p>
+<ol>
+<li>Mit <code>claude --version</code> prüfen, ob ihr auf dem neuesten Stand seid.</li>
+<li>In <code>/usage</code> die Aufschlüsselung für 24 Stunden und 7 Tage vergleichen.</li>
+<li>Auf die Cache Zeile achten: viele Misses heißt, irgendetwas bricht den Cache.</li>
+<li>Den Effort prüfen, auch den der Subagents. Er wird standardmäßig vererbt.</li>
+<li>Hängt es nicht an euch, <code>/feedback</code> in der betroffenen Session ausführen. Mit der ID kann das Team die Session nachvollziehen.</li>
+</ol>
+<h2 id="checkliste-claude-code-kosten-im-alltag-senken">Checkliste, Claude Code Kosten im Alltag senken</h2>
+<ul>
+<li><strong>Für eine neue Aufgabe <code>/clear</code>.</strong> Vorher <code>/rename</code>, dann findet ihr die Session mit <code>/resume</code> wieder.</li>
+<li><strong>Modell und Effort zu Beginn wählen,</strong> nicht mitten in der Aufgabe.</li>
+<li><strong>Sonnet für die meisten Aufgaben,</strong> Opus für Architektur und schwere Probleme.</li>
+<li><strong><code>/compact</code> mit Anweisung in natürlichen Pausen,</strong> bevor Auto oder Idle Compaction es ohne euch tun.</li>
+<li><strong><code>/rewind</code> statt <code>/compact</code>,</strong> um einen falschen Weg zu verwerfen.</li>
+<li><strong>CLAUDE.md unter 200 Zeilen.</strong> Spezielle Abläufe in Skills auslagern, die nur bei Bedarf laden.</li>
+<li><strong>Nicht genutzte MCP Server mit <code>/mcp</code> abschalten.</strong> CLI Tools wie <code>gh</code> sind sparsamer.</li>
+<li><strong>Dateien mit @ anhängen,</strong> statt sie nur beim Namen zu nennen. Laut Lydia spart das einen extra Read Aufruf.</li>
+<li><strong>Konkrete Prompts.</strong> „Verbessere die Codebase“ löst breite Suchen aus.</li>
+<li><strong>Lange Ausgaben filtern.</strong> Ein PreToolUse Hook kann zum Beispiel bei Tests nur die Fehler durchlassen.</li>
+</ul>
+<h2 id="fazit">Fazit</h2>
+<p>Die Kosten einer Aufgabe in Claude Code hängen weniger an der Aufgabe als daran, wie die Session geführt wird. Wer den Cache schont, Compaction selbst steuert, den Effort passend wählt und Subagents gezielt einsetzt, bekommt mehr aus derselben Nutzung. Das Claude Code Team baut diese Stellschrauben Woche für Woche aus, mit Idle Compaction, der Warnung beim Fortsetzen und den Empfehlungen in <code>/usage</code>.</p>
+<p>Der Oktober zeigt aber auch die Kehrseite. Automatische Sparfunktionen können genau den Kontext kosten, auf den es ankommt. Und wenn Limits plötzlich schmelzen, hilft nur, die eigenen Zahlen in <code>/usage</code> zu kennen.</p>
+<p>Für uns sind solche Einblicke der Grund, warum wir die Neuigkeiten rund um Agentic Coding laufend verfolgen. Was wir dabei lernen, testen wir zuerst praktisch in eigenen Side Projects. Was sich dort bewährt, bringen wir in Kundenprojekte und in unsere Workshops. Wenn ihr Coding Agents in eurem Team effizient einsetzen wollt, schaut euch gern den <a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer">NCA KI Workshop für Developer</a> an.</p>
+</div><figure class="news-quote"><blockquote>„auto-compact does summarize. When it runs, your whole conversation is replaced by a short summary.“</blockquote><figcaption><span class="news-avatar" aria-hidden="true">LH</span><span><span class="news-quote__name">Lydia Hallie</span><span class="news-quote__role">Claude Code Team, Anthropic</span><a class="news-quote__link" href="https://x.com/lydiahallie/status/2108624109538291901" target="_blank" rel="noopener">Zum Original auf x.com</a></span></figcaption></figure><section class="news-faq" aria-labelledby="faq-heading"><h2 id="faq-heading">Häufige Fragen</h2><details><summary>Warum kostet eine lange Session in Claude Code 2026 mehr?</summary><p>Weil bei jeder neuen Nachricht die gesamte bisherige Unterhaltung erneut an das Modell geht. Jeder Tool Aufruf schickt sie noch einmal mit. Meist kommen diese Token günstig aus dem Cache, sie zählen aber trotzdem gegen die Nutzung. Deshalb empfehlen Lydia Hallie und die Doku, zwischen zwei Aufgaben /clear zu nutzen.</p></details><details><summary>Wie lange hält der Prompt Cache in Claude Code 2026?</summary><p>Mit einem Claude Abo innerhalb der Plan Nutzung hält der Cache der Hauptunterhaltung eine Stunde. Mit API Key, Cloud Anbieter oder Usage Credits sind es fünf Minuten. Subagents bekommen auch im Abo nur fünf Minuten. Ab Version 2.1.242 lässt sich das mit promptCacheTtl und subagentPromptCacheTtl selbst festlegen.</p></details><details><summary>Was ist Idle Compaction in Claude Code 2026?</summary><p>Idle Compaction fasst im Terminal eine Unterhaltung mit mehr als 200.000 Token zusammen, wenn sie etwa 54 Minuten ungenutzt ist, kurz bevor der einstündige Cache abläuft. Mit dem Standard von fünf Minuten, etwa per API Key, greift sie nicht. Claude arbeitet danach nur mit der Zusammenfassung weiter. Abschalten geht mit idleCompaction false oder in /config.</p></details><details><summary>Bricht ein Wechsel von Modell oder Effort 2026 den Cache?</summary><p>Ein Modellwechsel bricht den Cache immer, weil jedes Modell seinen eigenen Cache hat. Beim Effort hängt es vom Modell ab. Bei Opus 5.5, Sonnet 5.5, Haiku 5.5 und Fable 5.1 bleibt der Cache mit API Key oder Abo erhalten. Auf Bedrock, Google Cloud und über einen Claude Apps Gateway gilt das nicht.</p></details><details><summary>Warum sind die Claude Code Limits 2026 so schnell leer?</summary><p>Seit Mitte Oktober melden viele Nutzer, dass ihre Limits schneller leer sind. Laut Boris Cherny fand Anthropic keine einzelne Ursache und keine Regression, nur kleinere Fehler, die behoben werden. Meist lag es an schweren Sessions mit xhigh Effort, /goal, Workflows oder Agent Teams. Subagents erben den Effort der Session. /usage zeigt, wo die Token hingehen.</p></details><details><summary>Was geht bei Auto Compact verloren?</summary><p>Die Unterhaltung wird durch eine Zusammenfassung ersetzt. Exakte Fehlermeldungen, verworfene Ansätze und einmal genannte Vorgaben können dabei fehlen. Erhalten bleiben System Prompt, die CLAUDE.md im Projekt, Auto Memory und der Plan aus dem Plan Mode. Bis zu fünf zuletzt geänderte Dateien liest Claude Code neu ein.</p></details><details><summary>Was ist besser, /compact oder /clear?</summary><p>Für eine neue Aufgabe ist /clear besser. Es kostet nichts und startet frisch. /compact lohnt sich, wenn man an derselben Aufgabe weiterarbeiten will. Es liest dafür die ganze Unterhaltung, was bei kaltem Cache teuer ist. Mit einer Anweisung wie /compact focus on the auth bug bestimmt man selbst, was die Zusammenfassung behält.</p></details><details><summary>Wann lohnen sich Subagents?</summary><p>Subagents haben ein eigenes Kontextfenster. Nur ihre Antwort kommt in die Hauptsession zurück. Das lohnt sich für Aufgaben mit viel Ausgabe, etwa Tests oder Logs. Ihre Anfragen zählen trotzdem gegen die Nutzung, und ihr Cache hält nur fünf Minuten. Ein günstigeres Subagent Modell senkt die Kosten.</p></details><details><summary>Gibt es den Befehl /cost noch?</summary><p>Ja, /cost ist heute ein Alias für /usage. Dort stehen Kosten der Session, die Limits des Plans, eine Zeile zum Prompt Cache und eine Aufschlüsselung nach Skills, Subagents, Plugins und MCP Servern. Seit Version 2.1.305 setzt die Taste f passende Empfehlungen direkt um.</p></details></section><section class="news-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Quellen</h2><ol><li><a href="https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions" target="_blank" rel="noopener">Maximizing the value of your Claude Code sessions</a><span class="news-sources__meta">Claude Blog, Lydia Hallie · claude.com</span></li><li><a href="https://x.com/lydiahallie/status/2108624109538291901" target="_blank" rel="noopener">Lydia Hallie zu Auto Compact</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2110484840256819380" target="_blank" rel="noopener">Lydia Hallie zu Idle Compaction</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2102513987699212344" target="_blank" rel="noopener">Lydia Hallie zu Effort und Prompt Cache bei Opus 5.5</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2099195114115707210" target="_blank" rel="noopener">Lydia Hallie zum Subagent Modell</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2107905737179734173" target="_blank" rel="noopener">Lydia Hallie zum Autocompact Fenster pro Modell</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/addyosmani/status/2092424172907745451" target="_blank" rel="noopener">Addy Osmani: Modell und Effort zu Beginn wählen</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/addyosmani/status/2098297991019057363" target="_blank" rel="noopener">Addy Osmani zu den Aufräumbefehlen in Claude Code</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/bcherny/status/2115592371224346734" target="_blank" rel="noopener">Boris Cherny zur Analyse der Nutzungsberichte</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2113366380842254746" target="_blank" rel="noopener">Lydia Hallie: Die Limits haben sich nicht geändert</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/lydiahallie/status/2113400495058686376" target="_blank" rel="noopener">Lydia Hallie: Fragen zu Cache, Subagents und Effort</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://x.com/claudeai/status/2116220869479428500" target="_blank" rel="noopener">Claude: Max Pläne umbenannt, Fünfstundenlimit für Ultra entfällt</a><span class="news-sources__meta">X · x.com</span></li><li><a href="https://code.claude.com/docs/en/costs" target="_blank" rel="noopener">Manage costs effectively</a><span class="news-sources__meta">Claude Code Doku · code.claude.com</span></li><li><a href="https://code.claude.com/docs/en/prompt-caching" target="_blank" rel="noopener">How Claude Code uses prompt caching</a><span class="news-sources__meta">Claude Code Doku · code.claude.com</span></li><li><a href="https://code.claude.com/docs/en/context-window" target="_blank" rel="noopener">Explore the context window</a><span class="news-sources__meta">Claude Code Doku · code.claude.com</span></li><li><a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener">Claude Code Changelog</a><span class="news-sources__meta">Claude Code Doku · code.claude.com</span></li><li><a href="https://github.com/anthropics/claude-code/issues/98747" target="_blank" rel="noopener">Issue 98747: Idle Compaction verwirft Arbeitskontext</a><span class="news-sources__meta">GitHub · github.com</span></li><li><a href="https://github.com/anthropics/claude-code/issues/105240" target="_blank" rel="noopener">Issue 105240: Max 5x Wochenlimit nach 48 Stunden bei 94 Prozent</a><span class="news-sources__meta">GitHub · github.com</span></li><li><a href="https://github.com/anthropics/claude-code/issues/106372" target="_blank" rel="noopener">Issue 106372: Opus 5.5 Limits etwa viermal so schnell leer</a><span class="news-sources__meta">GitHub · github.com</span></li><li><a href="https://www.dsebastien.net/2026-10-16-claude-code-idle-compaction-cheaper-to-resume-but-from-a-summary/" target="_blank" rel="noopener">Claude Code idle compaction, cheaper to resume, but from a summary</a><span class="news-sources__meta">Sébastien Dubois · dsebastien.net</span></li></ol></section><aside class="news-author" aria-label="Autor"><span class="news-avatar" aria-hidden="true">RG</span><div><p class="news-author__label">Geschrieben von</p><p class="news-author__name">Roland Golla</p><p class="news-author__meta">Nerds in Shirts · <a href="https://www.linkedin.com/in/rolandgolla/" target="_blank" rel="noopener">LinkedIn</a></p></div></aside></article></div><!-- Footer (shared chrome) --><footer class="w-full px-4 py-4 text-center z-10 bg-transparent relative mt-auto"><div class="font-label text-label-sm text-on-surface-variant/75 hover:text-on-surface-variant transition-colors">© 2026 Nerds in Shirts — Benjamin Klein &amp; Roland Golla • Never Code Alone • <a href="https://nevercodealone.de/de/ueber-uns/impressum" target="_blank" rel="nofollow noopener" class="underline decoration-on-surface-variant/40 underline-offset-2 hover:text-primary hover:decoration-primary">Impressum</a></div></footer></main><script type="module">(function(){let e=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=document.getElementById(`matrix-rain`),n=!e;if(t&&!e){let e=t,r=e.getContext(`2d`),i=`日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789<>{}/$#*+=~_0101`.split(``),a=[];function o(){return{y:Math.floor(Math.random()*-30),speed:1,headChar:i[Math.floor(Math.random()*i.length)],length:Math.floor(Math.random()*14)+12,history:[]}}let s=0,c=0;function l(){let t=document.documentElement,n=t.clientWidth||window.innerWidth,r=t.clientHeight||window.innerHeight,i=n!==s,l=r>c;if(!i&&!l)return;i&&(s=n),l&&(c=r),e.width=s,e.height=c;let u=Math.floor(s/28);for(let e=a.length;e<u;e++)a[e]=o();a.length=u}window.addEventListener(`resize`,l),l();let u=0;function d(t){if(!n){requestAnimationFrame(d);return}requestAnimationFrame(d);let o=t-u;if(!(o<150)){u=t-o%150,r.fillStyle=`rgba(11, 19, 38, 0.08)`,r.fillRect(0,0,e.width,e.height),r.font=`700 24px "JetBrains Mono", monospace`,r.textBaseline=`top`,r.shadowBlur=0;for(let t=0;t<a.length;t++){let n=a[t],o=t*28+2,s=n.y*24,c=i[Math.floor(Math.random()*i.length)];n.y>=0&&s<=e.height+24&&(r.fillStyle=`#ffffff`,r.fillText(c,o,s));let l=(n.y-1)*24;l>=0&&l<=e.height+24&&(r.fillStyle=`#6bff8f`,r.fillText(n.headChar,o,l));let u=(n.y-2)*24;u>=0&&u<=e.height+24&&n.history[0]&&(r.fillStyle=`#4be277`,r.fillText(n.history[0],o,u));let d=(n.y-3)*24;d>=0&&d<=e.height+24&&n.history[1]&&(r.fillStyle=`#22c55e`,r.fillText(n.history[1],o,d));let f=(n.y-4)*24;f>=0&&f<=e.height+24&&n.history[2]&&(r.fillStyle=`#16a34a`,r.fillText(n.history[2],o,f)),n.history.unshift(n.headChar),n.history.length>6&&n.history.pop(),n.headChar=c,n.y+=n.speed,s>e.height+n.length*24&&Math.random()>.25&&(n.y=-Math.floor(Math.random()*20),n.length=Math.floor(Math.random()*14)+12,n.history=[])}}}requestAnimationFrame(d);let f=document.getElementById(`rain-toggle`),p=document.getElementById(`rain-toggle-icon`);f&&p&&f.addEventListener(`click`,()=>{n=!n,p.textContent=n?`pause`:`play_arrow`,f.setAttribute(`aria-label`,n?`Matrix rain animation pausieren`:`Matrix rain animation fortsetzen`)})}if(e)return;let r=document.getElementById(`ambient-nebula`),i=document.querySelectorAll(`.tilt-card`);window.addEventListener(`mousemove`,e=>{let{clientX:t,clientY:n}=e,i=window.innerWidth/2,a=window.innerHeight/2,o=(t-i)*.025,s=(n-a)*.025;r&&(r.style.transform=`translate3d(${o}px, ${s}px, 0)`)},{passive:!0}),i.forEach(e=>{let t=e;t.addEventListener(`mousemove`,e=>{let n=t.getBoundingClientRect(),r=e.clientX-n.left-n.width/2,i=(e.clientY-n.top-n.height/2)/(n.height/2)*-6,a=r/(n.width/2)*6;t.style.transform=`perspective(600px) rotateX(${i.toFixed(2)}deg) rotateY(${a.toFixed(2)}deg) translateY(-6px)`}),t.addEventListener(`mouseleave`,()=>{t.style.transform=``})})})();</script></body></html>
