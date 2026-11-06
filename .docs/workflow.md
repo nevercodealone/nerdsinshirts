@@ -41,10 +41,10 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
 
 1. **Run the checks first**: `npm run check` (0 errors, 0 warnings, 0 hints) and `npm run build`. If either fails, don't commit; report the failure.
 2. **Clean up** temporary test files (sample articles, helper pages in `public/`) and confirm they're gone with `git status`.
-3. **Group by concern**, one commit each: spec, feature code, article content, start page, docs. Split a file across commits (stage a partial version) when it has changes for two concerns.
-4. **Message:** one line, English, imperative, no trailing period, no body, **no Co-Authored-By or other trailer**. Examples:
-   - `Add article on testing AI generated code`
-   - `Document pubDate rule for new articles`
+3. **Group by task, single files**: one commit per concern (spec, feature code, article content, start page, docs) and one file per commit where possible. Split a file across commits (stage a partial version) when it has changes for two concerns.
+4. **Message:** one simple line, English, imperative, starts with a capital letter, ends with a full stop, no body, **no Co-Authored-By or other trailer**. Examples:
+   - `Add article on testing AI generated code.`
+   - `Document pubDate rule for new articles.`
 5. **Author:** `Roland Golla <rolandgolla@gmail.com>`. Git has no global identity on Roland's machine, so pass it per commit without changing the git config:
    ```
    git -c "user.name=Roland Golla" -c user.email=rolandgolla@gmail.com commit -m "<one line>"
