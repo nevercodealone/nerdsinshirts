@@ -470,14 +470,6 @@
     color: var(--color-primary);
   }
 
-  .news-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: 0 0 2rem;
-    border-radius: 0.75rem;
-  }
-
   /* Prose */
   .news-prose {
     font-size: 1.0625rem;

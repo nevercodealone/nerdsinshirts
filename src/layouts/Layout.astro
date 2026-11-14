@@ -1,20 +1,23 @@
 ---
+import { defaultOgImage, type OgImage } from '../lib/og-image';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** Plain image path for pages without size data (block pages); uses the default size and alt. */
   image?: string;
+  ogImage?: OgImage;
   ogType?: 'website' | 'article';
 }
 
 const { title, description, image, ogType = 'website' } = Astro.props;
 const siteName = 'Nerds in Shirts';
 const fullTitle = title === siteName ? title : `${title}`;
-const ogImage = image ?? '/og-image.jpg';
+const ogImage = Astro.props.ogImage ?? (image ? { ...defaultOgImage, src: image } : defaultOgImage);
 const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
-const imageUrl = new URL(ogImage, siteOrigin).toString();
+const imageUrl = new URL(ogImage.src, siteOrigin).toString();
 ---
 
 <!doctype html>
@@ -28,6 +31,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonicalUrl} />
     {description && <meta name="description" content={description} />}
+    <meta name="robots" content="max-image-preview:large" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
@@ -35,8 +39,10 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:width" content="1792" />
-    <meta property="og:image:height" content="592" />
+    <meta property="og:image:type" content={ogImage.type} />
+    <meta property="og:image:width" content={String(ogImage.width)} />
+    <meta property="og:image:height" content={String(ogImage.height)} />
+    <meta property="og:image:alt" content={ogImage.alt} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="de_DE" />
 
@@ -47,6 +53,7 @@ const imageUrl = new URL(ogImage, siteOrigin).toString();
     <meta name="twitter:title" content={fullTitle} />
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={ogImage.alt} />
     <link
       rel="alternate"
       type="application/rss+xml"
