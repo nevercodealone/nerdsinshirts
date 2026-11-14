@@ -1,9 +1,11 @@
 ---
 import Hero from './Hero.astro';
+import SiteNav from './SiteNav.astro';
 import StatusBar from './StatusBar.astro';
 import SocialLinks from './SocialLinks.astro';
 
 type Block =
+  | { type: 'siteNav' }
   | {
       type: 'statusBar';
       text: string;
@@ -20,7 +22,6 @@ type Block =
       headline: string;
       headlineAccent: string;
       description: string;
-      logoCta?: { label: string; href: string; icon?: string };
       cta: {
         label: string;
         href: string;
@@ -43,6 +44,8 @@ const { blocks } = Astro.props;
 
 {blocks.map((block) => {
   switch (block.type) {
+    case 'siteNav':
+      return <SiteNav />;
     case 'statusBar':
       return <StatusBar {...block} />;
     case 'hero':

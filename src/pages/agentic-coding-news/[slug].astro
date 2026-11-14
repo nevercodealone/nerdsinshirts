@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import { render } from 'astro:content';
 import AuthorBox from '../../components/news/ads/AuthorBox.astro';
 import WorkshopMiniAd from '../../components/news/ads/WorkshopMiniAd.astro';
-import NewsHeader from '../../components/news/NewsHeader.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
 import Layout from '../../layouts/Layout.astro';
 import {
   authors,
@@ -55,6 +55,17 @@ const articleLd = {
   datePublished: data.pubDate.toISOString(),
   dateModified: modified,
   author: { '@type': 'Person', name: author.name, url: author.url },
+  // The person the article reports on; the page author stays the real writer.
+  citation: {
+    '@type': 'CreativeWork',
+    url: data.quoteUrl,
+    author: {
+      '@type': 'Person',
+      name: data.quoteAuthor,
+      ...(data.quotePosition && { jobTitle: data.quotePosition }),
+      ...(data.quoteCompany && { worksFor: { '@type': 'Organization', name: data.quoteCompany } }),
+    },
+  },
   publisher: { '@type': 'Organization', name: 'Nerds in Shirts', url: siteOrigin },
   mainEntityOfPage: canonicalUrl,
   inLanguage: 'de-DE',
@@ -90,10 +101,10 @@ const faqLd = {
     <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   </Fragment>
 
-  <article class="news-sheet">
-    <NewsHeader current="article" />
+  <SiteHeader current="article" />
+  <article class="news-sheet max-w-5xl">
 
-    {/* width = column content width (37rem); sizes must be explicit, Picture only copies it to <source> when passed */}
+    {/* width = card content width (59rem); sizes must be explicit, Picture only copies it to <source> when passed */}
     {
       data.image && (
         <Picture
@@ -101,9 +112,9 @@ const faqLd = {
           alt={data.imageAlt ?? ''}
           formats={['avif', 'webp']}
           layout="constrained"
-          width={592}
-          height={311}
-          sizes="(min-width: 44rem) 37rem, calc(100vw - 2rem)"
+          width={944}
+          height={496}
+          sizes="(min-width: 64rem) 59rem, calc(100vw - 2rem)"
           priority
           class="mb-6 block h-auto w-full rounded-xl"
         />
@@ -128,7 +139,12 @@ const faqLd = {
     </p>
 
     <h1 class="news-title">{data.title}</h1>
-    <p class="news-byline">von {author.name}</p>
+    <p class="news-byline">
+      <a href={data.quoteUrl} target="_blank" rel="noopener" class="text-primary hover:underline">
+        {data.quoteAuthor}
+      </a>
+      {[data.quotePosition, data.quoteCompany].filter(Boolean).map((part) => <span> · {part}</span>)}
+    </p>
 
     <section class="news-tldr" aria-label="Kurz gesagt">
       <p class="news-tldr__label">&gt; kurz gesagt</p>
