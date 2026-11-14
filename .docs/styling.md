@@ -18,8 +18,8 @@ Material Symbols icons are loaded in `Layout.astro`. In ads and anywhere the mea
 
 ## Where styles go
 
-- **Block components** (start page): Tailwind utility classes in the markup.
-- **News pages and prose**: named classes in `@layer components` in `global.css` (`.news-*`, `.workshop-block*`). The workshop block is generated as an HTML string, so it can't use scoped styles.
+- **Default: Tailwind utility classes in the markup.** All new styles go there, on block components and news pages alike. Example: the header images on the article page and overview.
+- **Exception: named classes in `@layer components`** in `global.css`, only for HTML we don't write as Astro markup: Markdown prose (`.news-prose`) and the workshop block, which is generated as an HTML string (`.workshop-block*`). The existing `.news-*` classes stay; don't add new ones.
 - `@layer components` keeps utilities able to override component styles. Don't use `!important` (the only exception is the code block background over Shiki's inline style).
 - Prose rules target direct children (`.news-prose > ul`, `.news-prose > :not(.workshop-block) a`) so they don't leak into the injected workshop block.
 

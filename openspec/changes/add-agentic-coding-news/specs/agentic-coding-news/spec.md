@@ -48,7 +48,7 @@ The system SHALL serve the overview at `/agentic-coding-news/`, each published a
 - **AND** its canonical link points to that URL
 
 ### Requirement: Article page structure
-The system SHALL render each article in a single column in this order: logo header with breadcrumb (start page, overview), meta line, H1, author line, TL;DR box, workshop teaser, optional image, body, quote card, FAQ, sources, author box.
+The system SHALL render each article in a single column in this order: logo header with breadcrumb (start page, overview), optional header image, meta line, H1, author line, TL;DR box, workshop teaser, body, quote card, FAQ, sources, author box.
 
 #### Scenario: Meta line
 - **WHEN** an article is rendered
