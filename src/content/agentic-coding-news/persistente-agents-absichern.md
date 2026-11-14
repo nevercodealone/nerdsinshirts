@@ -7,7 +7,7 @@ tags:
   - Security
   - OpenClaw
   - Agentic Coding
-draft: true
+draft: false
 image: "./_bilder/persistente-agents-absichern-header.jpg"
 imageAlt: "Grüner Comic: Roboter Agents in Glaswürfeln an einer Rennstrecke, ein Wächter Roboter prüft ihre Aktionen"
 workshop: developer
@@ -15,6 +15,7 @@ tldr: "Persistente Agents laufen dauerhaft, ändern ihre eigene Konfiguration un
 quoteText: "Attacks come from the inside when agents take misaligned actions."
 quoteAuthor: "Kevin S Lin"
 quoteRole: "Autor im OpenAI Developer Blog"
+quoteCompany: "OpenAI"
 quoteUrl: "https://developers.openai.com/blog/securing-persistent-agents-like-openclaw-at-openai"
 faq:
   - question: "Was sind persistente Agents 2026?"
