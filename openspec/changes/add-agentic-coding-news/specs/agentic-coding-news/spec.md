@@ -48,7 +48,7 @@ The system SHALL serve the overview at `/agentic-coding-news/`, each published a
 - **AND** its canonical link points to that URL
 
 ### Requirement: Article page structure
-The system SHALL render each article in a single column in this order: logo header with breadcrumb (start page, overview), optional header image, meta line, H1, author line, TL;DR box, workshop teaser, body, quote card, FAQ, sources, author box.
+The system SHALL render each article in a single column in this order: site header bar with navigation (start page, overview; same bar and width as the start page, above the reading column), optional header image, meta line, H1, source line (`quoteAuthor`, `quotePosition`, `quoteCompany`), TL;DR box, workshop teaser, body, quote card, FAQ, sources, author box.
 
 #### Scenario: Meta line
 - **WHEN** an article is rendered
@@ -56,7 +56,7 @@ The system SHALL render each article in a single column in this order: logo head
 
 #### Scenario: TL;DR box
 - **WHEN** an article is rendered
-- **THEN** a box labelled `> kurz gesagt` shows the `tldr` text directly below the author line
+- **THEN** a box labelled `> kurz gesagt` shows the `tldr` text directly below the source line
 
 #### Scenario: Quote card
 - **WHEN** an article is rendered
@@ -102,14 +102,14 @@ The system SHALL render exactly one workshop block per article, placed after the
 - **AND** the block carries `data-track-content`
 
 ### Requirement: Overview page
-The system SHALL list published articles newest first, each with date, author, title and TL;DR, and SHALL place one workshop block after the newest article.
+The system SHALL list published articles newest first, each with date, source person (`quoteAuthor`, `quotePosition`, `quoteCompany`), title and TL;DR, and SHALL place one workshop block after the newest article.
 
 #### Scenario: Empty overview
 - **WHEN** no published article exists
 - **THEN** the page shows "Die ersten Artikel erscheinen in Kürze." and no workshop block
 
 ### Requirement: Mobile first layout
-The system SHALL render all Agentic Coding News pages without horizontal scrolling at a viewport width of 390px and SHALL limit the reading column to 42rem on wider screens.
+The system SHALL render all Agentic Coding News pages without horizontal scrolling at a viewport width of 390px and SHALL use the start page width on wider screens: the content card is as wide as the site header bar (64rem).
 
 #### Scenario: Phone viewport
 - **WHEN** a page is opened at 390px width
@@ -118,6 +118,7 @@ The system SHALL render all Agentic Coding News pages without horizontal scrolli
 #### Scenario: Desktop viewport
 - **WHEN** a page is opened at 1440px width
 - **THEN** the content is a single centered column with no sidebar
+- **AND** the card and the site header bar have the same width and position
 
 ### Requirement: Structured data and feeds
 The system SHALL emit Article and FAQPage JSON-LD on every article page, set `og:type` to `article`, include published articles in the sitemap and RSS feed, and list them in `/llms.txt` with title, URL and TL;DR.

@@ -20,7 +20,7 @@ Applies to every page except Agentic Coding News articles (see [agentic-coding-n
 2. Add it to the component's `Props` and to the `Block` type in `BlockRenderer.astro`.
 3. Render nothing when an optional prop is missing. Never use a fallback text.
 
-Example: `hero.logoCta` (the Agentic Coding News link under the logo).
+Example: `statusBar.highlightHref` (optional link on the top pill).
 
 ## Add a page (2 files)
 
@@ -31,6 +31,7 @@ Example: `hero.logoCta` (the Agentic Coding News link under the logo).
 
 | Type | Component | Used on |
 |---|---|---|
+| `siteNav` | `SiteNav.astro` | Start page, logo header with navigation (renders the shared `SiteHeader.astro`, no props) |
 | `statusBar` | `StatusBar.astro` | Start page, top pill |
-| `hero` | `Hero.astro` | Start page, avatar, headline, CTAs, optional `logoCta` |
+| `hero` | `Hero.astro` | Start page, avatar, headline, CTAs |
 | `socialLinks` | `SocialLinks.astro` | Start page, social cards |

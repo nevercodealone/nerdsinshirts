@@ -23,8 +23,9 @@ src/
     llms.txt.ts              LLM index of published articles
   layouts/Layout.astro       The only layout: head, meta, Matomo, background, footer
   components/
+    SiteHeader.astro         Shared logo header + navigation (start page, overview, articles)
     blocks/                  One component per block type + BlockRenderer
-    news/                    News only components (NewsHeader, ads/)
+    news/ads/                News only ad and author components
   lib/                       Pure helpers, no UI
     agentic-coding-news.ts   getNews, newsUrl, formatDate, readingMinutes, authors, ...
     workshop-inline-ad.ts    workshopBlockHtml, trackedUrl, Sätteri plugin

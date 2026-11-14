@@ -27,6 +27,6 @@ Material Symbols icons are loaded in `Layout.astro`. In ads and anywhere the mea
 
 - **Mobile first.** Write the phone layout first, then add `min-width` media queries.
 - **390px must work**: `document.documentElement.scrollWidth === 390`. Long content (tables, code) scrolls inside its own box, never the page.
-- **Reading column:** `.news-sheet` is full width on phones and a centered 42rem card from a 44rem viewport up. No sidebars.
+- **Page width:** the start page and the news pages share one width. The `SiteHeader` bar and the news card (`news-sheet max-w-5xl`) are both 64rem wide and centered. On phones the card is full width. No sidebars.
 - Respect `prefers-reduced-motion`. The global rule in `global.css` already cuts animations, so don't override it.
 - Hover effects are decoration. Only links and buttons get `cursor: pointer`.
