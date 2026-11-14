@@ -13,6 +13,8 @@ tldr: "Claude schreibt rund 90 Prozent des Codes von Claude Code, Menschen könn
 quoteText: "I could not imagine being productive without Claude Code Review."
 quoteAuthor: "Boris Cherny"
 quoteRole: "Hat Claude Code entwickelt und leitet das Team"
+quotePosition: "Head of Claude Code"
+quoteCompany: "Anthropic"
 quoteUrl: "https://x.com/bcherny/status/2111158313463525518"
 faq:
   - question: "Wie viel Code von Claude Code schreibt Claude 2026 selbst?"

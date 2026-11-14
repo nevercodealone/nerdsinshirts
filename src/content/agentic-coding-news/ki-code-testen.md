@@ -13,6 +13,8 @@ tldr: "Wenn Agents mehr Code schreiben, als Menschen lesen können, wird der Nac
 quoteText: "When generating software at a faster rate than you can review it, the bottleneck shifts to proving that it works."
 quoteAuthor: "Addy Osmani"
 quoteRole: "Claude Code Team, Anthropic"
+quotePosition: "Claude Code Team"
+quoteCompany: "Anthropic"
 quoteUrl: "https://x.com/addyosmani/status/2111604705340326393"
 faq:
   - question: "Warum werden Tests beim Agentic Coding 2026 wichtiger?"
