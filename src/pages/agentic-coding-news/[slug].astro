@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { render } from 'astro:content';
 import AuthorBox from '../../components/news/ads/AuthorBox.astro';
 import WorkshopMiniAd from '../../components/news/ads/WorkshopMiniAd.astro';
-import NewsHeader from '../../components/news/NewsHeader.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
 import Layout from '../../layouts/Layout.astro';
 import {
   authors,
@@ -15,6 +15,7 @@ import {
   readingMinutes,
   type NewsEntry,
 } from '../../lib/agentic-coding-news';
+import { defaultOgImage, type OgImage } from '../../lib/og-image';
 import { workshopBlockHtml } from '../../lib/workshop-inline-ad';
 
 export async function getStaticPaths() {
@@ -32,7 +33,18 @@ const { Content } = await render(entry);
 const author = authors[data.author];
 const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
-const imageUrl = data.image ? new URL(data.image.src, siteOrigin).toString() : undefined;
+// Social crawlers get the untouched original (see [slug]-header.jpg.ts); the page renders <Picture>.
+const ogImage: OgImage = data.image
+  ? {
+      src: `/agentic-coding-news/${entry.id}-header.jpg`,
+      width: data.image.width,
+      height: data.image.height,
+      type: 'image/jpeg',
+      alt: data.imageAlt ?? data.title,
+    }
+  : defaultOgImage;
+const imageUrl = new URL(ogImage.src, siteOrigin).toString();
+const modified = (data.updatedDate ?? data.pubDate).toISOString();
 const workshopAfterBody = !hasInlineWorkshop(entry.rendered?.html);
 
 const articleLd = {
@@ -41,12 +53,23 @@ const articleLd = {
   headline: data.title,
   description: data.description,
   datePublished: data.pubDate.toISOString(),
-  dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+  dateModified: modified,
   author: { '@type': 'Person', name: author.name, url: author.url },
+  // The person the article reports on; the page author stays the real writer.
+  citation: {
+    '@type': 'CreativeWork',
+    url: data.quoteUrl,
+    author: {
+      '@type': 'Person',
+      name: data.quoteAuthor,
+      ...(data.quotePosition && { jobTitle: data.quotePosition }),
+      ...(data.quoteCompany && { worksFor: { '@type': 'Organization', name: data.quoteCompany } }),
+    },
+  },
   publisher: { '@type': 'Organization', name: 'Nerds in Shirts', url: siteOrigin },
   mainEntityOfPage: canonicalUrl,
   inLanguage: 'de-DE',
-  ...(imageUrl && { image: imageUrl }),
+  image: { '@type': 'ImageObject', url: imageUrl, width: ogImage.width, height: ogImage.height },
   ...(data.tags.length > 0 && { keywords: data.tags.join(', ') }),
 };
 
@@ -61,16 +84,42 @@ const faqLd = {
 };
 ---
 
-<Layout title={data.title} description={data.description} image={data.image?.src} ogType="article">
+<Layout
+  title={data.title}
+  description={data.description}
+  ogImage={ogImage}
+  ogType="article"
+>
   <Fragment slot="head">
+    <meta name="author" content={author.name} />
     <meta property="article:published_time" content={data.pubDate.toISOString()} />
-    {data.updatedDate && <meta property="article:modified_time" content={data.updatedDate.toISOString()} />}
+    <meta property="article:modified_time" content={modified} />
+    <meta property="article:author" content={author.url} />
+    <meta property="article:section" content="Agentic Coding News" />
+    {data.tags.map((tag) => <meta property="article:tag" content={tag} />)}
     <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   </Fragment>
 
-  <article class="news-sheet">
-    <NewsHeader current="article" />
+  <SiteHeader current="article" />
+  <article class="news-sheet max-w-5xl">
+
+    {/* width = card content width (59rem); sizes must be explicit, Picture only copies it to <source> when passed */}
+    {
+      data.image && (
+        <Picture
+          src={data.image}
+          alt={data.imageAlt ?? ''}
+          formats={['avif', 'webp']}
+          layout="constrained"
+          width={944}
+          height={496}
+          sizes="(min-width: 64rem) 59rem, calc(100vw - 2rem)"
+          priority
+          class="mb-6 block h-auto w-full rounded-xl"
+        />
+      )
+    }
 
     <p class="news-meta">
       {data.draft && <span class="news-draft">Entwurf</span>}
@@ -90,7 +139,12 @@ const faqLd = {
     </p>
 
     <h1 class="news-title">{data.title}</h1>
-    <p class="news-byline">von {author.name}</p>
+    <p class="news-byline">
+      <a href={data.quoteUrl} target="_blank" rel="noopener" class="text-primary hover:underline">
+        {data.quoteAuthor}
+      </a>
+      {[data.quotePosition, data.quoteCompany].filter(Boolean).map((part) => <span> · {part}</span>)}
+    </p>
 
     <section class="news-tldr" aria-label="Kurz gesagt">
       <p class="news-tldr__label">&gt; kurz gesagt</p>
@@ -99,11 +153,6 @@ const faqLd = {
 
     <WorkshopMiniAd />
 
-    {
-      data.image && (
-        <Image class="news-image" src={data.image} alt={data.imageAlt ?? ''} widths={[390, 672, 1344]} sizes="(min-width: 44rem) 42rem, 100vw" />
-      )
-    }
 
     <div class="news-prose">
       <Content />

@@ -7,7 +7,6 @@ interface Props {
   headline: string;
   headlineAccent: string;
   description: string;
-  logoCta?: { label: string; href: string; icon?: string };
   cta: {
     label: string;
     href: string;
@@ -16,7 +15,7 @@ interface Props {
   }[];
 }
 
-const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, logoCta, cta } =
+const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, cta } =
   Astro.props;
 ---
 
@@ -74,22 +73,6 @@ const { eyebrow, badge, logo, avatar, headline, headlineAccent, description, log
     </div>
   </div>
 
-  {
-    logoCta && (
-      <a
-        href={logoCta.href}
-        class="inline-flex max-w-full items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-high/95 backdrop-blur-sm border border-surface-variant/40 shadow-lg shadow-surface-container-lowest/50 mb-space-lg font-label text-label-sm font-bold tracking-wider text-primary hover:border-primary/40 hover:bg-surface-container-highest hover:text-primary-fixed hover:scale-[1.02] transition-all duration-300 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-      >
-        {logoCta.icon && (
-          <span class="material-symbols-outlined text-lg" aria-hidden="true">
-            {logoCta.icon}
-          </span>
-        )}
-        <span>{logoCta.label}</span>
-        <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
-      </a>
-    )
-  }
 
   <!-- Section Subheading (Clean & Static) -->
   <div class="flex items-center justify-center gap-space-sm mb-space-sm group">

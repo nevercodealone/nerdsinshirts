@@ -10,6 +10,8 @@ tldr: ''
 quoteText: ''
 quoteAuthor: ''
 quoteRole: ''
+quotePosition: ''
+quoteCompany: ''
 quoteUrl: ''
 faq:
   - question: ''

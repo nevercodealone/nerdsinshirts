@@ -13,6 +13,8 @@ tldr: "Laut Boris Cherny gibt es beim Prompting keine Geheimnisse mehr. Ein Mode
 quoteText: "Talk to Claude the way you would a coworker. There's no secret to prompting."
 quoteAuthor: "Boris Cherny"
 quoteRole: "Head of Claude Code bei Anthropic"
+quotePosition: "Head of Claude Code"
+quoteCompany: "Anthropic"
 quoteUrl: "https://x.com/bcherny/status/2107565388250874193"
 faq:
   - question: "Wie prompte ich Coding Agents 2026 richtig?"

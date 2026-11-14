@@ -26,9 +26,6 @@ const heroSchema = z.object({
   headline: z.string(),
   headlineAccent: z.string(),
   description: z.string(),
-  logoCta: z
-    .object({ label: z.string(), href: z.string(), icon: z.string().optional() })
-    .optional(),
   cta: z.array(ctaSchema),
 });
 
@@ -45,7 +42,12 @@ const socialLinksSchema = z.object({
   ),
 });
 
+const siteNavSchema = z.object({
+  type: z.literal('siteNav'),
+});
+
 const blockSchema = z.discriminatedUnion('type', [
+  siteNavSchema,
   statusBarSchema,
   heroSchema,
   socialLinksSchema,
@@ -92,6 +94,8 @@ const agenticCodingNews = defineCollection({
         quoteText: z.string().max(200),
         quoteAuthor: z.string(),
         quoteRole: z.string().optional(),
+        quotePosition: z.string().optional(),
+        quoteCompany: z.string().optional(),
         quoteUrl: z.url(),
         faq: z
           .array(z.object({ question: z.string(), answer: z.string() }))

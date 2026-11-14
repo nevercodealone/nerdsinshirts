@@ -1,7 +1,8 @@
 ---
-import NewsHeader from '../../components/news/NewsHeader.astro';
+import { Picture } from 'astro:assets';
+import SiteHeader from '../../components/SiteHeader.astro';
 import Layout from '../../layouts/Layout.astro';
-import { authors, formatDate, getNews, newsUrl } from '../../lib/agentic-coding-news';
+import { formatDate, getNews, newsUrl } from '../../lib/agentic-coding-news';
 import { workshopBlockHtml } from '../../lib/workshop-inline-ad';
 
 const entries = await getNews();
@@ -11,8 +12,8 @@ const entries = await getNews();
   title="Agentic Coding News von Nerds in Shirts"
   description="Aktuelle Entwicklungen und Best Practices rund um Agentic Coding, mit Quellen belegt, von Benjamin Klein und Roland Golla."
 >
-  <div class="news-sheet">
-    <NewsHeader current="overview" />
+  <SiteHeader current="overview" />
+  <div class="news-sheet max-w-5xl">
     <h1 class="news-title">Agentic Coding News</h1>
 
     {
@@ -23,11 +24,29 @@ const entries = await getNews();
           {entries.map((entry, index) => (
             <>
               <li class="news-item">
+                {/* Same rendering as the article header; only the newest item may be the LCP image */}
+                {entry.data.image && (
+                  <a class="group block" href={newsUrl(entry)} tabindex="-1" aria-hidden="true">
+                    <Picture
+                      src={entry.data.image}
+                      alt=""
+                      formats={['avif', 'webp']}
+                      layout="constrained"
+                      width={944}
+                      height={496}
+                      sizes="(min-width: 64rem) 59rem, calc(100vw - 2rem)"
+                      priority={index === 0}
+                      class="mb-4 block h-auto w-full rounded-xl transition-opacity duration-200 group-hover:opacity-85"
+                    />
+                  </a>
+                )}
                 <p class="news-meta">
                   {entry.data.draft && <span class="news-draft">Entwurf</span>}
                   <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
                   <span aria-hidden="true">·</span>
-                  <span>{authors[entry.data.author].name}</span>
+                  <span>
+                    {[entry.data.quoteAuthor, entry.data.quotePosition, entry.data.quoteCompany].filter(Boolean).join(' · ')}
+                  </span>
                 </p>
                 <h2 class="news-item__title">
                   <a href={newsUrl(entry)}>{entry.data.title}</a>

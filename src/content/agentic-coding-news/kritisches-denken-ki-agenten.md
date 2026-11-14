@@ -13,6 +13,8 @@ tldr: "Addy Osmani aus dem Claude Code Team warnt vor kognitiver Kapitulation: W
 quoteText: "You may offload the work and much of the auditing, but not the accountability."
 quoteAuthor: "Addy Osmani"
 quoteRole: "Claude Code Team, Anthropic"
+quotePosition: "Claude Code Team"
+quoteCompany: "Anthropic"
 quoteUrl: "https://x.com/addyosmani/status/2117512471930167377"
 faq:
   - question: "Was ist kognitive Kapitulation bei KI 2026?"

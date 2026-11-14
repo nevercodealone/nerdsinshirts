@@ -64,7 +64,7 @@ Quote fields are flat so they stay editable in the Obsidian properties view.
 
 ### Layout
 
-- `.news-sheet` container: full bleed on phones, centered column with max width 42rem from 44rem viewport upward.
+- `.news-sheet` container: full bleed on phones, centered card as wide as the site header bar (`max-w-5xl`, 64rem) from 44rem viewport upward.
 - Reuse existing fonts: Space Grotesk for headlines, Plus Jakarta Sans for body, JetBrains Mono for labels and meta.
 - Prose styles live in `@layer components` so Tailwind utilities can override them.
 - Code blocks are styled as terminal windows (three dots, monospace).

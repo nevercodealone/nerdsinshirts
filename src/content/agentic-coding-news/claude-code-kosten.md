@@ -13,6 +13,8 @@ tldr: "Claude Code schickt bei jeder Nachricht die ganze bisherige Unterhaltung 
 quoteText: "auto-compact does summarize. When it runs, your whole conversation is replaced by a short summary."
 quoteAuthor: "Lydia Hallie"
 quoteRole: "Claude Code Team, Anthropic"
+quotePosition: "Claude Code Team"
+quoteCompany: "Anthropic"
 quoteUrl: "https://x.com/lydiahallie/status/2108624109538291901"
 faq:
   - question: "Warum kostet eine lange Session in Claude Code 2026 mehr?"
