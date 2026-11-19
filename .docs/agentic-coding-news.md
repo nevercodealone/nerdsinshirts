@@ -52,9 +52,17 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 
 ## Draft and publish
 
-- `draft: true`: renders in the dev server with an "Entwurf" label, and is absent from the build, RSS, sitemap and `llms.txt`.
+- `draft: true`: renders in the dev server with an "Entwurf" label, and is absent from the build, RSS, sitemap and `llms.txt`. The draft state is for writing and verifying locally only.
 - `draft: false`: published on the next push to `main`.
 - Only Roland decides when an article ships.
+- **Never push a draft.** A push to `main` always publishes. If the article is not ready, don't push it.
+
+### Publishing an article
+
+1. Set `draft: false` in the frontmatter. Leave `pubDate` untouched.
+2. Run `npm run check` and `npm run build`. The article must now show up in the build, RSS, sitemap and `llms.txt`.
+3. Commit the flip on its own: `Publish article on <topic>.`
+4. Push to `origin`. The article goes live with the deploy; report the URL but don't poll the site.
 
 ## Page structure (fixed, one template)
 
