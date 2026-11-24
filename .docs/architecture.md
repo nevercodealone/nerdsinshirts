@@ -13,22 +13,28 @@
 
 ```
 src/
-  content.config.ts          Zod schemas for all collections (pages, agenticCodingNews)
+  content.config.ts          Zod schemas for all collections (pages, agenticCodingNews, glossar)
   content/
     pages/*.md               Block based pages (frontmatter only)
     agentic-coding-news/     Obsidian vault, one article per <slug>.md
+    glossar/                 One glossary term per <slug>.md
   pages/                     Routes (.astro, .ts endpoints)
     index.astro              Start page -> pages/home.md
     agentic-coding-news/     Overview, [slug].astro, rss.xml.ts
+    glossar/                 Overview, [slug].astro
     llms.txt.ts              LLM index of published articles
   layouts/Layout.astro       The only layout: head, meta, Matomo, background, footer
   components/
-    SiteHeader.astro         Shared logo header + navigation (start page, overview, articles)
+    SiteHeader.astro         Shared logo header + navigation (start page, news, glossary)
     blocks/                  One component per block type + BlockRenderer
+    news/                    Faq and Sources, shared by articles and glossary pages
     news/ads/                News only ad and author components
+    glossar/                 Provider badges and term cards
   lib/                       Pure helpers, no UI
     agentic-coding-news.ts   getNews, newsUrl, formatDate, readingMinutes, authors, ...
     workshop-inline-ad.ts    workshopBlockHtml, trackedUrl, Sätteri plugin
+    glossar.ts               getGlossar, glossarUrl, resolveBegriffe, articlesFor, ...
+    glossar-links.ts         Sätteri plugin for links to /glossar/<slug>/
   data/workshops.ts          Workshop facts (single source)
   styles/global.css          Tokens (@theme), base, components layer
 public/                      Static files served as is

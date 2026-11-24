@@ -7,6 +7,7 @@ Rules for everyone working on nerdsinshirts.de, human or agent. Read the file fo
 | [architecture.md](architecture.md) | Stack, folder map, how a request becomes a page |
 | [pages-and-blocks.md](pages-and-blocks.md) | Block based pages (start page and future pages) |
 | [agentic-coding-news.md](agentic-coding-news.md) | Articles, Obsidian vault, frontmatter, workshop ads |
+| [glossar.md](glossar.md) | Glossary terms, frontmatter, linking, tooltip |
 | [content.md](content.md) | What text may appear on the site and where it comes from |
 | [styling.md](styling.md) | Tokens, fonts, layout, mobile first |
 | [seo.md](seo.md) | Meta tags, structured data, sitemap, RSS, llms.txt |

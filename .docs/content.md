@@ -7,7 +7,7 @@
 | `src/content/**/*.md` | All page and article copy |
 | `src/data/workshops.ts` | Workshop titles, trainers, intros, formats, learning goals |
 | `authors` in `src/lib/agentic-coding-news.ts` | Author names and profile links |
-| Components | Fixed UI labels only: "Häufige Fragen", "Quellen", "> kurz gesagt", "Entwurf", aria labels |
+| Components | Fixed UI labels only: "Häufige Fragen", "Quellen", "> kurz gesagt", "Entwurf", "Glossar", "Begriffe in diesem Artikel", "In unseren Artikeln", "Verwandte Begriffe", "Offizielle Doku von …", provider names ("Claude Code", "Codex"), aria labels |
 
 Anything else is invented content and not allowed.
 

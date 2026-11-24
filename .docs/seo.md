@@ -21,11 +21,18 @@
 
 Since 2023, Google shows FAQ rich results mainly for authoritative government and health sites. The markup is still valid and read by search engines and AI crawlers.
 
+## Glossary pages
+
+- `/glossar/`: `DefinedTermSet` JSON-LD with one `DefinedTerm` per published term.
+- `/glossar/<slug>/`: `DefinedTerm` (`name` from `begriff`, `description` from `kurzdefinition`, `inDefinedTermSet` pointing to `/glossar/`, `sameAs` with the links from `doku`), `BreadcrumbList` matching the visible breadcrumb, and `FAQPage` from the same `faq` array as the visible FAQ.
+- No image of their own: the default site image is used.
+- Build JSON-LD script content with `jsonLd()` from `src/lib/agentic-coding-news.ts`. It escapes `<`, so content can't close the script tag.
+
 ## Feeds and indexes
 
 | File | Contains | Excludes |
 |---|---|---|
-| `/sitemap-index.xml` (`@astrojs/sitemap`) | All built pages | Drafts (never built) |
+| `/sitemap-index.xml` (`@astrojs/sitemap`) | All built pages, including the glossary | Drafts (never built) |
 | `/agentic-coding-news/rss.xml` | Published articles: title, description, date, link, tags | Drafts |
 | `/llms.txt` | Site intro plus one line per published article: title, URL, TL;DR | Drafts |
 

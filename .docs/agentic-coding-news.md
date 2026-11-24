@@ -33,6 +33,7 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 | `workshop` | `developer` (default) or `alle-abteilungen`, picks the big workshop block |
 | `image` / `imageAlt` | optional header image `./_bilder/<slug>-header.jpg`, `imageAlt` required when `image` is set |
 | `tldr` | min 40 chars |
+| `begriffe` | optional list of glossary slugs linked in the article, e.g. `[skills, hooks]`. Renders the box "Begriffe in diesem Artikel" (see [glossar.md](glossar.md)) |
 | `quoteText` | max 200 chars, `quoteAuthor` and `quoteUrl` required, `quoteRole` optional. `quoteAuthor` is the **source person** the article reports on |
 | `quotePosition` / `quoteCompany` | optional, the source person's position and company, e.g. `Head of Claude Code` / `Anthropic`. Leave empty when the source doesn't say; never guess |
 | `faq` | **at least 5** `{question, answer}` |
@@ -76,10 +77,11 @@ The page is one column, in this order:
 6. TL;DR box
 7. Workshop mini ad
 8. Body, with the workshop block inside
-9. Quote card
-10. FAQ
-11. Sources
-12. Author box
+9. Box "Begriffe in diesem Artikel" (only with `begriffe`)
+10. Quote card
+11. FAQ
+12. Sources
+13. Author box
 
 ## Header image
 
@@ -101,7 +103,7 @@ There are exactly two per article. Don't add more, and no sidebars or sticky ads
 | Ad | Where | Source | `mtm_content` |
 |---|---|---|---|
 | Mini ad, both workshops | Below the TL;DR | `components/news/ads/WorkshopMiniAd.astro` | `tldr-<workshop id>` |
-| Workshop block | Before the second `##` (fallback: after the body) | `workshopBlockHtml()` via the Sätteri plugin | `artikel`, `artikel-secondary` |
+| Workshop block | Before the second `##` (fallback: after the body) | `workshopBlockHtml()` via the Sätteri plugin | `artikel`, `artikel-secondary` (glossary pages: `glossar`) |
 
 The overview has one workshop block after the newest article (`mtm_content=uebersicht`).
 
