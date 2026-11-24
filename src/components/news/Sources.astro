@@ -1,0 +1,25 @@
+---
+import { domain } from '../../lib/agentic-coding-news';
+
+interface Props {
+  sources: { title: string; url: string; publisher?: string | undefined }[];
+}
+
+const { sources } = Astro.props;
+---
+
+<section class="news-sources" aria-labelledby="sources-heading">
+  <h2 id="sources-heading">Quellen</h2>
+  <ol>
+    {
+      sources.map((source) => (
+        <li>
+          <a href={source.url} target="_blank" rel="noopener">
+            {source.title}
+          </a>
+          <span class="news-sources__meta">{[source.publisher, domain(source.url)].filter(Boolean).join(' · ')}</span>
+        </li>
+      ))
+    }
+  </ol>
+</section>

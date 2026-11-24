@@ -1,0 +1,29 @@
+---
+import { glossarUrl, type GlossarEntry } from '../../lib/glossar';
+import AnbieterBadges from './AnbieterBadges.astro';
+
+// Cards with term, provider badges and short definition. Used by the overview,
+// "Verwandte Begriffe" and "Begriffe in diesem Artikel".
+interface Props {
+  entries: GlossarEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ul class="grid gap-3 sm:grid-cols-2">
+  {
+    entries.map((entry) => (
+      <li>
+        <a
+          href={glossarUrl(entry)}
+          class="flex h-full flex-col gap-2 rounded-xl border border-outline-variant/60 bg-surface-container-low p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          <span class="font-headline text-lg font-semibold text-on-surface">{entry.data.begriff}</span>
+          <AnbieterBadges entry={entry} />
+          <span class="text-[0.9375rem] leading-relaxed text-on-surface-variant">{entry.data.kurzdefinition}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

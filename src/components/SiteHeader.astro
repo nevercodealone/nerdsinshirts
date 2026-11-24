@@ -1,8 +1,9 @@
 ---
 import { NEWS_BASE } from '../lib/agentic-coding-news';
+import { GLOSSAR_BASE } from '../lib/glossar-links';
 
 interface Props {
-  current: 'home' | 'overview' | 'article';
+  current: 'home' | 'overview' | 'article' | 'glossar' | 'glossar-entry';
 }
 
 const { current } = Astro.props;
@@ -11,6 +12,13 @@ const pill =
   'rounded-full px-3 py-1.5 font-label text-label-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 const active = `${pill} bg-primary/15 font-bold text-primary ring-1 ring-primary/40`;
 const inactive = `${pill} text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface`;
+
+// `page` is the item's own page (no link), `section` a sub page of it (active link).
+const items = [
+  { label: 'Startseite', href: '/', page: 'home', section: undefined },
+  { label: 'Agentic Coding News', href: NEWS_BASE, page: 'overview', section: 'article' },
+  { label: 'Glossar', href: GLOSSAR_BASE, page: 'glossar', section: 'glossar-entry' },
+] as const;
 ---
 
 <header
@@ -33,29 +41,20 @@ const inactive = `${pill} text-on-surface-variant hover:bg-surface-container-hig
 
   <nav aria-label="Navigation" class="flex flex-wrap items-center gap-2">
     {
-      current === 'home' ? (
-        <span aria-current="page" class={active}>
-          Startseite
-        </span>
-      ) : (
-        <a href="/" class={inactive}>
-          Startseite
-        </a>
-      )
-    }
-    {
-      current === 'overview' ? (
-        <span aria-current="page" class={active}>
-          Agentic Coding News
-        </span>
-      ) : current === 'article' ? (
-        <a href={NEWS_BASE} aria-current="true" class={active}>
-          Agentic Coding News
-        </a>
-      ) : (
-        <a href={NEWS_BASE} class={inactive}>
-          Agentic Coding News
-        </a>
+      items.map((item) =>
+        current === item.page ? (
+          <span aria-current="page" class={active}>
+            {item.label}
+          </span>
+        ) : current === item.section ? (
+          <a href={item.href} aria-current="true" class={active}>
+            {item.label}
+          </a>
+        ) : (
+          <a href={item.href} class={inactive}>
+            {item.label}
+          </a>
+        )
       )
     }
   </nav>

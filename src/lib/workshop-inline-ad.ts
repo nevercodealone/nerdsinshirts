@@ -43,18 +43,27 @@ export function workshopBlockHtml(workshopId: WorkshopId, slot: string): string 
   ].join('');
 }
 
-/** Marker the page uses to detect that the plugin already placed the block in the body. */
+/** Markers the pages use to detect that the plugin already placed the block in the body. */
 export const INLINE_SLOT = 'artikel';
+export const GLOSSAR_SLOT = 'glossar';
 
-const NEWS_DIR = '/content/agentic-coding-news/';
+/** Content folders that get the block, each with its own `mtm_content` slot. */
+const SLOT_BY_DIR = {
+  '/content/agentic-coding-news/': INLINE_SLOT,
+  '/content/glossar/': GLOSSAR_SLOT,
+} as const;
 
-/** Sätteri hast plugin: inserts the workshop block before the second top level h2 of an article. */
+/** Sätteri hast plugin: inserts the workshop block before the second top level h2 of an article or glossary page. */
 export const workshopAdPlugin: HastPluginEntry = (factory) => {
   const path = factory.fileURL ? fileURLToPath(factory.fileURL).replaceAll('\\', '/') : '';
-  if (!path.includes(NEWS_DIR) || path.slice(path.indexOf(NEWS_DIR) + NEWS_DIR.length).includes('/')) {
+  const dir = Object.keys(SLOT_BY_DIR).find((candidate) => path.includes(candidate)) as
+    | keyof typeof SLOT_BY_DIR
+    | undefined;
+  if (!dir || path.slice(path.indexOf(dir) + dir.length).includes('/')) {
     return null;
   }
 
+  const slot = SLOT_BY_DIR[dir];
   const frontmatter = factory.data.astro?.frontmatter ?? {};
   const workshopId: WorkshopId = frontmatter.workshop === 'alle-abteilungen' ? 'alle-abteilungen' : 'developer';
   let seen = 0;
@@ -67,7 +76,7 @@ export const workshopAdPlugin: HastPluginEntry = (factory) => {
         if (ctx.parent(node)?.type !== 'root') return;
         seen++;
         if (seen === 2) {
-          ctx.insertBefore(node, { type: 'raw', value: workshopBlockHtml(workshopId, INLINE_SLOT) });
+          ctx.insertBefore(node, { type: 'raw', value: workshopBlockHtml(workshopId, slot) });
         }
       },
     },

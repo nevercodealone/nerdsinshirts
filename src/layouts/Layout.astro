@@ -1,4 +1,5 @@
 ---
+import { GLOSSAR_BASE } from '../lib/glossar-links';
 import { defaultOgImage, type OgImage } from '../lib/og-image';
 import '../styles/global.css';
 
@@ -171,6 +172,12 @@ const imageUrl = new URL(ogImage.src, siteOrigin).toString();
             rel="nofollow noopener"
             class="underline decoration-on-surface-variant/40 underline-offset-2 hover:text-primary hover:decoration-primary"
             >Impressum</a
+          >{' '}
+          •{' '}
+          <a
+            href={GLOSSAR_BASE}
+            class="underline decoration-on-surface-variant/40 underline-offset-2 hover:text-primary hover:decoration-primary"
+            >Glossar</a
           >
         </div>
       </footer>

@@ -3,18 +3,24 @@ import { Picture } from 'astro:assets';
 import { render } from 'astro:content';
 import AuthorBox from '../../components/news/ads/AuthorBox.astro';
 import WorkshopMiniAd from '../../components/news/ads/WorkshopMiniAd.astro';
+import BegriffCards from '../../components/glossar/BegriffCards.astro';
+import Faq from '../../components/news/Faq.astro';
+import Sources from '../../components/news/Sources.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import Layout from '../../layouts/Layout.astro';
 import {
   authors,
   domain,
+  faqLd,
   formatDate,
   getNews,
   hasInlineWorkshop,
   initials,
+  jsonLd,
   readingMinutes,
   type NewsEntry,
 } from '../../lib/agentic-coding-news';
+import { resolveBegriffe } from '../../lib/glossar';
 import { defaultOgImage, type OgImage } from '../../lib/og-image';
 import { workshopBlockHtml } from '../../lib/workshop-inline-ad';
 
@@ -73,15 +79,7 @@ const articleLd = {
   ...(data.tags.length > 0 && { keywords: data.tags.join(', ') }),
 };
 
-const faqLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: data.faq.map(({ question, answer }) => ({
-    '@type': 'Question',
-    name: question,
-    acceptedAnswer: { '@type': 'Answer', text: answer },
-  })),
-};
+const begriffe = await resolveBegriffe(data.begriffe, `Article "${entry.id}"`);
 ---
 
 <Layout
@@ -97,8 +95,8 @@ const faqLd = {
     <meta property="article:author" content={author.url} />
     <meta property="article:section" content="Agentic Coding News" />
     {data.tags.map((tag) => <meta property="article:tag" content={tag} />)}
-    <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+    <script type="application/ld+json" set:html={jsonLd(articleLd)} />
+    <script type="application/ld+json" set:html={jsonLd(faqLd(data.faq))} />
   </Fragment>
 
   <SiteHeader current="article" />
@@ -160,6 +158,17 @@ const faqLd = {
 
     {workshopAfterBody && <Fragment set:html={workshopBlockHtml(data.workshop, 'artikel')} />}
 
+    {
+      begriffe.length > 0 && (
+        <section class="mt-10" aria-labelledby="begriffe-heading">
+          <h2 id="begriffe-heading" class="mb-4 font-headline text-2xl font-semibold leading-tight text-on-surface">
+            Begriffe in diesem Artikel
+          </h2>
+          <BegriffCards entries={begriffe} />
+        </section>
+      )
+    }
+
     <figure class="news-quote">
       <blockquote>„{data.quoteText}“</blockquote>
       <figcaption>
@@ -174,35 +183,9 @@ const faqLd = {
       </figcaption>
     </figure>
 
-    <section class="news-faq" aria-labelledby="faq-heading">
-      <h2 id="faq-heading">Häufige Fragen</h2>
-      {
-        data.faq.map(({ question, answer }) => (
-          <details>
-            <summary>{question}</summary>
-            <p>{answer}</p>
-          </details>
-        ))
-      }
-    </section>
+    <Faq items={data.faq} />
 
-    <section class="news-sources" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">Quellen</h2>
-      <ol>
-        {
-          data.sources.map((source) => (
-            <li>
-              <a href={source.url} target="_blank" rel="noopener">
-                {source.title}
-              </a>
-              <span class="news-sources__meta">
-                {[source.publisher, domain(source.url)].filter(Boolean).join(' · ')}
-              </span>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
+    <Sources sources={data.sources} />
 
     <AuthorBox author={data.author} />
   </article>

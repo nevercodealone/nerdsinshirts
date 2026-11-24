@@ -7,6 +7,7 @@ tags: []
 draft: true
 workshop: developer
 tldr: ''
+begriffe: []
 quoteText: ''
 quoteAuthor: ''
 quoteRole: ''

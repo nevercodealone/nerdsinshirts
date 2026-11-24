@@ -1,0 +1,85 @@
+---
+import BegriffCards from '../../components/glossar/BegriffCards.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import { jsonLd } from '../../lib/agentic-coding-news';
+import { getGlossar, glossarUrl, letterOf, type GlossarEntry } from '../../lib/glossar';
+
+const entries = await getGlossar();
+const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+
+const title = 'Glossar für Agentic Coding von Nerds in Shirts';
+const description =
+  'Begriffe aus den Agentic Coding News von A bis Z, auf Deutsch erklärt und mit der offiziellen Doku von Anthropic und OpenAI belegt.';
+
+const letters = new Map<string, GlossarEntry[]>();
+for (const entry of entries) {
+  const letter = letterOf(entry);
+  letters.set(letter, [...(letters.get(letter) ?? []), entry]);
+}
+
+const setLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: title,
+  description,
+  url: canonicalUrl,
+  inLanguage: 'de-DE',
+  hasDefinedTerm: entries.map((entry) => ({
+    '@type': 'DefinedTerm',
+    name: entry.data.begriff,
+    description: entry.data.kurzdefinition,
+    url: new URL(glossarUrl(entry), siteOrigin).toString(),
+  })),
+};
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={jsonLd(setLd)} />
+  </Fragment>
+
+  <SiteHeader current="glossar" />
+  <div class="news-sheet max-w-5xl">
+    <h1 class="news-title">Glossar</h1>
+
+    {
+      entries.length === 0 ? (
+        <p class="news-empty">Die ersten Begriffe erscheinen in Kürze.</p>
+      ) : (
+        <>
+          <nav aria-label="Buchstaben" class="mt-6">
+            <ul class="flex flex-wrap gap-2">
+              {[...letters.keys()].map((letter) => (
+                <li>
+                  <a
+                    href={`#buchstabe-${letter.toLowerCase()}`}
+                    class="inline-flex size-9 items-center justify-center rounded-lg bg-surface-container font-label font-bold text-primary hover:bg-surface-container-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  >
+                    {letter}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {[...letters].map(([letter, group]) => (
+            <section
+              class="mt-8 scroll-mt-4"
+              aria-labelledby={`buchstabe-${letter.toLowerCase()}`}
+            >
+              <h2
+                id={`buchstabe-${letter.toLowerCase()}`}
+                class="mb-3 font-headline text-2xl font-semibold text-primary"
+              >
+                {letter}
+              </h2>
+              <BegriffCards entries={group} />
+            </section>
+          ))}
+        </>
+      )
+    }
+  </div>
+</Layout>

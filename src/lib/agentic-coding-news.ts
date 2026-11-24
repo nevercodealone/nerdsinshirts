@@ -44,4 +44,19 @@ export const initials = (name: string) =>
 export const domain = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
 /** True when the Markdown plugin already placed the workshop block inside the body. */
-export const hasInlineWorkshop = (html = '') => html.includes(`data-content-piece="${INLINE_SLOT}"`);
+export const hasInlineWorkshop = (html = '', slot: string = INLINE_SLOT) =>
+  html.includes(`data-content-piece="${slot}"`);
+
+/** FAQPage JSON-LD, built from the same items as the visible FAQ. */
+export const faqLd = (items: { question: string; answer: string }[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map(({ question, answer }) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+});
+
+/** JSON-LD for a script tag. Escapes "<" so content can never close the tag. */
+export const jsonLd = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
