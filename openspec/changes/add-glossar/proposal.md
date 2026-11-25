@@ -18,4 +18,5 @@ The full spec is in [specs/glossar/spec.md](specs/glossar/spec.md).
 
 - **No OG image per term.** Glossary pages use the default site image (Roland, 2026-11-25: no image handling in version 1).
 - **Tooltip without JavaScript.** It is CSS only, shown for devices that can hover, and not inside tables.
+- **No draft state** (Roland, 2026-11-25). The `draft` field of the spec is not in the schema; a term in the repo is live with the next deploy.
 - **No provider filter on the overview** (Roland, 2026-11-25). The provider badges on the cards stay.

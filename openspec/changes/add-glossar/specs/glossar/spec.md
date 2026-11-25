@@ -42,7 +42,7 @@ Jeder Fachbegriff aus den Agentic Coding News bekommt eine eigene Seite. Die Sei
 | tldr | string | ja | mindestens 40 Zeichen |
 | faq | object[] | ja | mindestens 5 Einträge mit `frage` und `antwort` |
 | sources | object[] | ja | mindestens 1, nur offizielle Doku Seiten, Felder `title` und `url` |
-| draft | boolean | ja | immer `true` bei Lieferung |
+| draft | boolean | entfällt | Entfernt am 25.11.2026. Kein Entwurfsstatus mehr, das Feld wird ignoriert |
 
 Kein `image` Feld. Glossar Seiten bekommen kein eigenes Header Bild (siehe Aussehen).
 
@@ -63,7 +63,7 @@ Bestehende Artikel brauchen das Feld nicht. Es wird nach und nach ergänzt.
 | `/glossar/` | Übersicht aller Begriffe von A bis Z, mit Filter nach Anbieter (Alle, Claude Code, Codex) |
 | `/glossar/<slug>/` | Einzelseite eines Begriffs |
 
-Seiten mit `draft: true` erscheinen weder in der Übersicht noch in der Sitemap.
+Es gibt keinen Entwurfsstatus (entfernt am 25.11.2026). Jede Seite im Repo erscheint in der Übersicht und in der Sitemap.
 
 ## Navigation
 

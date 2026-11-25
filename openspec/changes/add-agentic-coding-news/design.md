@@ -38,7 +38,7 @@
 | `updatedDate` | date | optional |
 | `author` | enum | `roland-golla`, `benjamin-klein` |
 | `tags` | string[] | default `[]` |
-| `draft` | boolean | default `true` |
+| `draft` | removed on 2026-11-25 | no draft state, the key is ignored |
 | `workshop` | enum | `developer` (default), `alle-abteilungen` |
 | `image` | image() | optional, local file |
 | `imageAlt` | string | required when `image` is set |
@@ -76,7 +76,6 @@ Quote fields are flat so they stay editable in the Obsidian properties view.
 | Overview | `/agentic-coding-news/` |
 | Article | `/agentic-coding-news/<slug>/` |
 | RSS | `/agentic-coding-news/rss.xml` |
-| LLM index | `/llms.txt` |
 
 Slugs come from file names: lowercase, words joined by `-`, ASCII only (`ae`, `oe`, `ue`, `ss` for umlauts). Example: `claude-duet-sicherheitstechnik-claude-code.md`.
 

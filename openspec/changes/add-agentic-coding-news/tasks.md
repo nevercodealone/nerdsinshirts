@@ -7,7 +7,7 @@
 ## 2. Content
 - [x] 2.1 Add `agenticCodingNews` collection with the schema from `design.md`, including the no colon rule for `title`
 - [x] 2.2 Create vault `src/content/agentic-coding-news/` with `.obsidian/` config, `.gitignore`, `_templates/artikel.md`, `_bilder/.gitkeep`
-- [x] 2.3 Add helpers in `src/lib/agentic-coding-news.ts`: `getNews` (draft filter), `newsUrl`, `formatDate`, `readingMinutes`, `initials`
+- [x] 2.3 Add helpers in `src/lib/agentic-coding-news.ts`: `getNews` (the draft filter was removed on 2026-11-25), `newsUrl`, `formatDate`, `readingMinutes`, `initials`
 
 ## 3. Workshop block
 - [x] 3.1 Add `src/data/workshops.ts` with facts from the two NCA workshop pages
@@ -19,7 +19,7 @@
 - [x] 4.2 Build `src/pages/agentic-coding-news/[slug].astro` per the article requirements
 - [x] 4.3 Build `src/pages/agentic-coding-news/index.astro` per the overview requirements
 - [x] 4.4 Add `src/components/news/ads/AuthorBox.astro`
-- [x] 4.5 Add `rss.xml.ts` and `src/pages/llms.txt.ts`
+- [x] 4.5 Add `rss.xml.ts` (`src/pages/llms.txt.ts` was removed again on 2026-11-25)
 - [x] 4.6 Add `.news-sheet`, prose, TL;DR, quote card, FAQ, sources and workshop block styles to `global.css`
 
 ## 5. Documentation
@@ -27,7 +27,7 @@
 
 ## 6. Verification
 - [x] 6.1 `npm run check` passes with 0 errors and 0 warnings
-- [x] 6.2 `npm run build` passes and excludes drafts
+- [x] 6.2 `npm run build` passes (draft exclusion was removed on 2026-11-25)
 - [x] 6.3 Add the first article, confirm the workshop block sits before the second `##`
 - [x] 6.4 Check 390px and 1440px viewports, no horizontal scroll, single column
 - [ ] 6.5 Validate JSON-LD of one article with the Rich Results Test

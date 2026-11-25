@@ -8,7 +8,8 @@
 - [x] Article box "Begriffe in diesem Artikel", glossary section "In unseren Artikeln"
 - [x] Link style and tooltip
 - [x] JSON-LD: `DefinedTermSet`, `DefinedTerm`, `BreadcrumbList`, `FAQPage`
-- [x] First delivery: `skills`, `hooks`, article `claude-code-skills` (all drafts)
+- [x] First delivery: `skills`, `hooks`, article `claude-code-skills`
+- [x] Draft state removed again (2026-11-25): content in the repo is always live
 - [x] Docs in `.docs/`
 - [ ] OG image per term (not in version 1)
 - [ ] Collection `personen` (not in version 1)
