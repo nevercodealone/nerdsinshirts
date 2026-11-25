@@ -7,7 +7,6 @@ tags:
   - Claude Code
   - Verifikation
   - Best Practices
-draft: false
 workshop: developer
 tldr: "Addy Osmani aus dem Claude Code Team warnt vor kognitiver Kapitulation: Wer Agents viel arbeiten lässt, prüft irgendwann nicht mehr. Seine Antwort sind einfache Gewohnheiten. Vorher eine Vermutung aufschreiben, Belege vor der Zusammenfassung lesen, fragen, was ein grüner Test nicht prüft."
 quoteText: "You may offload the work and much of the auditing, but not the accountability."

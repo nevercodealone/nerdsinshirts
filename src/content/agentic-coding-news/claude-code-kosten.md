@@ -7,7 +7,6 @@ tags:
   - Claude Code
   - Kontext
   - Kosten
-draft: false
 workshop: developer
 tldr: "Claude Code schickt bei jeder Nachricht die ganze bisherige Unterhaltung an das Modell. Wer Cache, Compaction, Effort und Subagents versteht, spart Nutzung. Seit Mitte Oktober gibt es dazu Idle Compaction, eine Warnung beim Fortsetzen und viele Berichte über zu schnell leere Limits. Anthropic fand dafür keine einzelne Ursache."
 quoteText: "auto-compact does summarize. When it runs, your whole conversation is replaced by a short summary."

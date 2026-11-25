@@ -1,0 +1,19 @@
+---
+import { anbieterLabels, anbieterOf, type GlossarEntry } from '../../lib/glossar';
+
+interface Props {
+  entry: GlossarEntry;
+}
+
+const { entry } = Astro.props;
+---
+
+<span class="flex flex-wrap items-center gap-2">
+  {
+    anbieterOf(entry).map((anbieter) => (
+      <span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-label text-xs font-medium text-primary ring-1 ring-primary/40">
+        {anbieterLabels[anbieter]}
+      </span>
+    ))
+  }
+</span>

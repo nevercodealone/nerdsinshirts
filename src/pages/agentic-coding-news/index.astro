@@ -41,7 +41,6 @@ const entries = await getNews();
                   </a>
                 )}
                 <p class="news-meta">
-                  {entry.data.draft && <span class="news-draft">Entwurf</span>}
                   <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
                   <span aria-hidden="true">·</span>
                   <span>

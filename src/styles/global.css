@@ -283,15 +283,6 @@
     color: var(--color-on-surface-variant);
   }
 
-  .news-draft {
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.25rem;
-    background: var(--color-error-container);
-    color: var(--color-on-error-container);
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
   .news-title {
     margin: 0 0 0.75rem;
     font-family: var(--font-headline);
@@ -425,6 +416,53 @@
     text-decoration: underline;
     text-decoration-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
     text-underline-offset: 3px;
+  }
+
+  /* Glossary links: data-glossar is set by glossarLinkPlugin and carries the short definition */
+  .news-prose > :not(.workshop-block) a[data-glossar] {
+    text-decoration-style: dotted;
+    text-decoration-color: var(--color-primary);
+  }
+
+  /* Tooltip only for devices that hover, and not in tables (they scroll in their own box) */
+  @media (hover: hover) {
+    .news-prose > :not(.workshop-block, table) a[data-glossar] {
+      position: relative;
+    }
+
+    .news-prose > :not(.workshop-block, table) a[data-glossar]:is(:hover, :focus-visible)::after {
+      content: attr(data-glossar);
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      left: 0;
+      z-index: 20;
+      width: max-content;
+      max-width: min(20rem, 70vw);
+      padding: 0.625rem 0.75rem;
+      border: 1px solid var(--color-primary);
+      border-radius: 0.5rem;
+      background: var(--color-surface-container-low);
+      color: var(--color-on-surface);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.5;
+      hyphens: manual;
+      white-space: normal;
+      pointer-events: none;
+    }
+
+    /* Where supported, anchor the tooltip to the link and flip it to the left near the card edge */
+    @supports (position-area: bottom span-right) {
+      .news-prose > :not(.workshop-block, table) a[data-glossar]:is(:hover, :focus-visible)::after {
+        top: auto;
+        left: auto;
+        margin-top: 0.375rem;
+        position-area: bottom span-right;
+        position-try-fallbacks: flip-inline;
+      }
+    }
   }
 
   .news-prose > ul,

@@ -13,22 +13,28 @@
 
 ```
 src/
-  content.config.ts          Zod schemas for all collections (pages, agenticCodingNews)
+  content.config.ts          Zod schemas for all collections (pages, agenticCodingNews, glossar)
   content/
     pages/*.md               Block based pages (frontmatter only)
     agentic-coding-news/     Obsidian vault, one article per <slug>.md
+    glossar/                 One glossary term per <slug>.md
   pages/                     Routes (.astro, .ts endpoints)
     index.astro              Start page -> pages/home.md
     agentic-coding-news/     Overview, [slug].astro, rss.xml.ts
-    llms.txt.ts              LLM index of published articles
+    glossar/                 Overview, [slug].astro
+    robots.txt.ts            robots.txt with the sitemap URL
   layouts/Layout.astro       The only layout: head, meta, Matomo, background, footer
   components/
-    SiteHeader.astro         Shared logo header + navigation (start page, overview, articles)
+    SiteHeader.astro         Shared logo header + navigation (start page, news, glossary)
     blocks/                  One component per block type + BlockRenderer
+    news/                    Faq and Sources, shared by articles and glossary pages
     news/ads/                News only ad and author components
+    glossar/                 Provider badges and term cards
   lib/                       Pure helpers, no UI
     agentic-coding-news.ts   getNews, newsUrl, formatDate, readingMinutes, authors, ...
     workshop-inline-ad.ts    workshopBlockHtml, trackedUrl, Sätteri plugin
+    glossar.ts               getGlossar, glossarUrl, resolveBegriffe, articlesFor, ...
+    glossar-links.ts         Sätteri plugin for links to /glossar/<slug>/
   data/workshops.ts          Workshop facts (single source)
   styles/global.css          Tokens (@theme), base, components layer
 public/                      Static files served as is
@@ -39,7 +45,7 @@ openspec/changes/            Specs for larger changes
 ## Rules
 
 - **Routes stay thin.** A route loads data and composes components. Logic goes in `src/lib/`, data in `src/data/` or content files.
-- **`src/lib/` has no Astro components** and no side effects at import time. It must stay importable from `astro.config.mjs`.
+- **`src/lib/` has no Astro components** and no side effects at import time. The two Markdown plugin files, `workshop-inline-ad.ts` and `glossar-links.ts`, are imported by `astro.config.mjs` and must not import `astro:*` modules (directly or through another file). The other lib files may use `astro:content`.
 - **One layout.** Every page uses `Layout.astro`. Extend it through props (`title`, `description`, `image`, `ogType`) or the `head` slot, never with a second layout.
 - **No client JavaScript** unless a feature can't work without it. The only scripts today are Matomo and the matrix rain in `Layout.astro`.
 - **No new dependency** without a reason in the commit or spec. Pin anything that Astro itself depends on to the version Astro ships.

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-nerdsinshirts.de: Astro 7 static site with the start page and Agentic Coding News. **All rules are in [`.docs/`](.docs/README.md).** Read the file for the area you're changing.
+nerdsinshirts.de: Astro 7 static site with the start page, Agentic Coding News and the Glossar. **All rules are in [`.docs/`](.docs/README.md).** Read the file for the area you're changing.
 
 ## Checks you must run and show
 
@@ -15,9 +15,9 @@ UI changes also need screenshots at 390px and 1440px with no horizontal scroll. 
 ## Hard rules
 
 1. No invented content. Text comes from content files, `src/data/workshops.ts` or fixed UI labels, and never includes prices. See [.docs/content.md](.docs/content.md).
-2. Pages are frontmatter blocks. Articles are the only exception (prose in the body). See [.docs/pages-and-blocks.md](.docs/pages-and-blocks.md) and [.docs/agentic-coding-news.md](.docs/agentic-coding-news.md).
+2. Pages are frontmatter blocks. Articles and glossary terms are the only exceptions (prose in the body). See [.docs/pages-and-blocks.md](.docs/pages-and-blocks.md), [.docs/agentic-coding-news.md](.docs/agentic-coding-news.md) and [.docs/glossar.md](.docs/glossar.md).
 3. Every new field goes into the Zod schema in `src/content.config.ts` first.
-4. Never write article prose or set `draft: false` unless Roland asks.
+4. Never write article or glossary prose. There is no draft state: a content file in the repo is live with the next deploy, so add one only when Roland asks.
 5. Commit and push only when asked, and push only to `origin` (rogoit fork). Roland opens the PR and deploys. One-line commit messages, no Co-Authored-By, author `Roland Golla <rolandgolla@gmail.com>`. See [.docs/workflow.md](.docs/workflow.md#git-commit-and-push).
 6. Show evidence before calling something done. Risk tiers and review rules are in [.docs/agents.md](.docs/agents.md), and the review checklist is in [REVIEW.md](REVIEW.md).
 

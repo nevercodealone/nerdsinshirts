@@ -1,0 +1,174 @@
+---
+import { render } from 'astro:content';
+import AnbieterBadges from '../../components/glossar/AnbieterBadges.astro';
+import BegriffCards from '../../components/glossar/BegriffCards.astro';
+import Faq from '../../components/news/Faq.astro';
+import Sources from '../../components/news/Sources.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import {
+  authors,
+  faqLd,
+  formatDate,
+  hasInlineWorkshop,
+  jsonLd,
+  newsUrl,
+} from '../../lib/agentic-coding-news';
+import {
+  GLOSSAR_BASE,
+  articlesFor,
+  dokuLabels,
+  dokuLinks,
+  getGlossar,
+  resolveBegriffe,
+  type GlossarEntry,
+} from '../../lib/glossar';
+import { GLOSSAR_SLOT, workshopBlockHtml } from '../../lib/workshop-inline-ad';
+
+export async function getStaticPaths() {
+  const entries = await getGlossar();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: GlossarEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const author = authors[data.author];
+const siteOrigin = Astro.site?.toString() ?? Astro.request.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+const glossarUrl = new URL(GLOSSAR_BASE, siteOrigin).toString();
+const doku = dokuLinks(entry);
+const faq = data.faq.map(({ frage, antwort }) => ({ question: frage, answer: antwort }));
+const articles = await articlesFor(entry.id);
+const verwandt = await resolveBegriffe(data.verwandt, `Glossary term "${entry.id}"`);
+const workshopAfterBody = !hasInlineWorkshop(entry.rendered?.html, GLOSSAR_SLOT);
+
+const breadcrumb = [
+  { name: 'Startseite', url: new URL('/', siteOrigin).toString() },
+  { name: 'Glossar', url: glossarUrl },
+  { name: data.begriff, url: canonicalUrl },
+];
+
+const termLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: data.begriff,
+  description: data.kurzdefinition,
+  url: canonicalUrl,
+  inDefinedTermSet: glossarUrl,
+  sameAs: doku.map(({ url }) => url),
+  inLanguage: 'de-DE',
+};
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumb.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.url,
+  })),
+};
+
+const h2 = 'mb-4 font-headline text-2xl font-semibold leading-tight text-on-surface';
+---
+
+<Layout title={data.title} description={data.description}>
+  <Fragment slot="head">
+    <meta name="author" content={author.name} />
+    <script type="application/ld+json" set:html={jsonLd(termLd)} />
+    <script type="application/ld+json" set:html={jsonLd(breadcrumbLd)} />
+    <script type="application/ld+json" set:html={jsonLd(faqLd(faq))} />
+  </Fragment>
+
+  <SiteHeader current="glossar-entry" />
+  <article class="news-sheet max-w-5xl">
+    <nav aria-label="Brotkrumen" class="mb-4 font-label text-[0.8125rem] text-on-surface-variant">
+      <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <li><a href="/" class="hover:text-primary hover:underline">Startseite</a></li>
+        <li aria-hidden="true">›</li>
+        <li><a href={GLOSSAR_BASE} class="hover:text-primary hover:underline">Glossar</a></li>
+        <li aria-hidden="true">›</li>
+        <li aria-current="page" class="text-on-surface">{data.begriff}</li>
+      </ol>
+    </nav>
+
+    <p class="mb-3"><AnbieterBadges entry={entry} /></p>
+
+    <h1 class="news-title">{data.title}</h1>
+
+    <section
+      class="mb-8 mt-6 rounded-xl border border-primary bg-surface-container-low p-5"
+      aria-label="Kurzdefinition"
+    >
+      <p class="text-lg leading-relaxed">{data.kurzdefinition}</p>
+      <p class="mt-4 flex flex-wrap gap-3">
+        {
+          doku.map(({ anbieter, url }) => (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener"
+              class="inline-block rounded-lg bg-primary-container px-4 py-2.5 font-label text-sm font-bold text-on-primary-container transition-colors hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Offizielle Doku von {dokuLabels[anbieter]} <span aria-hidden="true">→</span>
+            </a>
+          ))
+        }
+      </p>
+    </section>
+
+    <section class="news-tldr" aria-label="Kurz gesagt">
+      <p class="news-tldr__label">&gt; kurz gesagt</p>
+      <p>{data.tldr}</p>
+    </section>
+
+    <div class="news-prose">
+      <Content />
+    </div>
+
+    {workshopAfterBody && <Fragment set:html={workshopBlockHtml(data.workshop, GLOSSAR_SLOT)} />}
+
+    {
+      articles.length > 0 && (
+        <section class="mt-10" aria-labelledby="articles-heading">
+          <h2 id="articles-heading" class={h2}>
+            In unseren Artikeln
+          </h2>
+          <ul class="divide-y divide-outline-variant">
+            {articles.map((article) => (
+              <li class="py-3">
+                <a href={newsUrl(article)} class="font-headline text-lg font-semibold hover:text-primary">
+                  {article.data.title}
+                </a>
+                <p class="font-label text-[0.8125rem] text-on-surface-variant">
+                  <time datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      verwandt.length > 0 && (
+        <section class="mt-10" aria-labelledby="verwandt-heading">
+          <h2 id="verwandt-heading" class={h2}>
+            Verwandte Begriffe
+          </h2>
+          <BegriffCards entries={verwandt} />
+        </section>
+      )
+    }
+
+    <Faq items={faq} />
+
+    <Sources sources={data.sources} />
+  </article>
+</Layout>

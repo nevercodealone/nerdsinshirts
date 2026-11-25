@@ -8,7 +8,7 @@ Report these as **Important**:
 
 - **Invented content:** visible text that doesn't come from a content file, `src/data/workshops.ts` or a fixed UI label. Placeholder text for an empty optional field. Any price.
 - **Schema drift:** a frontmatter field used in code but missing from `src/content.config.ts`, a block prop missing from the schema, the component `Props` or the `Block` type in `BlockRenderer.astro`.
-- **Draft leaks:** a code path that could put a `draft: true` article into the build, RSS, sitemap or `llms.txt`.
+- **Dead glossary links:** a link to `/glossar/<slug>/` or a slug in `begriffe` / `verwandt` that can point to a missing term without failing the build.
 - **Workshop ads:** more or fewer than one workshop block per article, more than one mini ad, an ad link not built with `trackedUrl()`, or an ad container missing `data-track-content`.
 - **Structured data mismatch:** FAQPage or Article JSON-LD that differs from the visible content, or JSON-LD that can break the page (unescaped `</script>`).
 - **Mobile breakage:** anything that can cause horizontal scroll at 390px, such as a fixed width, an unwrapped long line, or a table or `pre` without its own overflow.

@@ -7,7 +7,6 @@ tags:
   - Claude Code
   - Code Review
   - Verifikation
-draft: false
 workshop: developer
 tldr: "Claude schreibt rund 90 Prozent des Codes von Claude Code, Menschen können das nicht mehr Zeile für Zeile lesen. Das Team prüft deshalb in Schichten: Der Agent testet sich selbst, KI Reviewer suchen Fehler, und wie viele Menschen freigeben, hängt vom Risiko der Änderung ab."
 quoteText: "I could not imagine being productive without Claude Code Review."

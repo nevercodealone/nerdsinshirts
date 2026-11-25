@@ -19,9 +19,15 @@ Material Symbols icons are loaded in `Layout.astro`. In ads and anywhere the mea
 ## Where styles go
 
 - **Default: Tailwind utility classes in the markup.** All new styles go there, on block components and news pages alike. Example: the header images on the article page and overview.
-- **Exception: named classes in `@layer components`** in `global.css`, only for HTML we don't write as Astro markup: Markdown prose (`.news-prose`) and the workshop block, which is generated as an HTML string (`.workshop-block*`). The existing `.news-*` classes stay; don't add new ones.
+- **Exception: named classes in `@layer components`** in `global.css`, only for HTML we don't write as Astro markup: Markdown prose (`.news-prose`) and the workshop block, which is generated as an HTML string (`.workshop-block*`). The existing `.news-*` classes stay; don't add new ones. Glossary pages reuse them (`news-sheet`, `news-title`, `news-tldr`, `news-prose`, `news-faq`, `news-sources`); glossary links in prose are styled through the `a[data-glossar]` attribute, not a class.
 - `@layer components` keeps utilities able to override component styles. Don't use `!important` (the only exception is the code block background over Shiki's inline style).
 - Prose rules target direct children (`.news-prose > ul`, `.news-prose > :not(.workshop-block) a`) so they don't leak into the injected workshop block.
+
+## Behavior without JavaScript
+
+- Interactive behavior is done in CSS where possible: `:has()` for state, `attr()` for content. Example: the glossary tooltip (`a[data-glossar]` in `global.css`).
+- CSS anchor positioning (`position-area`, `position-try-fallbacks`) goes inside `@supports`, with a plain `position: absolute` rule as the fallback.
+- Tailwind only generates classes it finds as literal strings in the source. Don't build class names from variables.
 
 ## Layout
 

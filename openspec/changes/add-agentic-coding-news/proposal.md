@@ -11,11 +11,11 @@ Nerds in Shirts publishes ongoing articles about current developments and best p
   - `/agentic-coding-news/` (overview)
   - `/agentic-coding-news/<slug>/` (article, slug = file name without `.md`)
   - `/agentic-coding-news/rss.xml` (RSS feed)
-- Add a strict frontmatter schema: title, description, dates, author, tags, draft, workshop, image, TL;DR, quote, FAQ, sources.
+- Add a strict frontmatter schema: title, description, dates, author, tags, workshop, image, TL;DR, quote, FAQ, sources.
 - Render articles mobile first in a single column: meta line, H1, author, TL;DR box, body, one workshop block, quote card, FAQ, sources, author box.
 - Insert exactly one workshop block per article, automatically, after the first body section.
-- Hide drafts from the production build, RSS, sitemap and `llms.txt`. Show them in the dev server.
-- Add Article and FAQPage JSON-LD, `og:type=article`, sitemap integration and `llms.txt`.
+- No draft state (removed on 2026-11-25): every article in the repo is in the build, RSS and sitemap.
+- Add Article and FAQPage JSON-LD, `og:type=article`, and sitemap integration.
 
 ## Out of Scope
 
@@ -31,7 +31,6 @@ Nerds in Shirts publishes ongoing articles about current developments and best p
 - Affected code:
   - `src/content.config.ts` (new collection, existing `pages` collection unchanged)
   - `src/pages/agentic-coding-news/` (new routes)
-  - `src/pages/llms.txt.ts` (new)
   - `src/lib/` (helpers, workshop block, Markdown plugin)
   - `src/data/workshops.ts` (new)
   - `src/components/news/` (new components)

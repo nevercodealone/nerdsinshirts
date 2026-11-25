@@ -10,7 +10,6 @@ tags:
   - Subagents
   - Fable 5.2
   - Opus 5.5
-draft: false
 workshop: developer
 image: ./_bilder/welches-claude-modell-header.jpg
 imageAlt: "Grünes Aquarell Comic bei Nacht in der Boxengasse, Roboter Fable 5.2 am Kommandostand, Boxencrew Haiku 5.5 am Wagen Opus 5.5, dahinter Sonnet 5.5 und jubelnde Fans"

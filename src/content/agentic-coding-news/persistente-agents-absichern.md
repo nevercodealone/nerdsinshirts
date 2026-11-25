@@ -7,7 +7,6 @@ tags:
   - Security
   - OpenClaw
   - Agentic Coding
-draft: false
 image: "./_bilder/persistente-agents-absichern-header.jpg"
 imageAlt: "Grüner Comic: Roboter Agents in Glaswürfeln an einer Rennstrecke, ein Wächter Roboter prüft ihre Aktionen"
 workshop: developer

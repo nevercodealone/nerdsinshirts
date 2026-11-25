@@ -4,7 +4,7 @@ German articles on current developments and best practices in agentic coding, wr
 
 ## The exception to the block rule
 
-Articles are prose. The **prose goes in the Markdown body**. The **structured parts** (title, TL;DR, quote, FAQ, sources) **go in the frontmatter**. Nothing else in the project uses the Markdown body.
+Articles are prose. The **prose goes in the Markdown body**. The **structured parts** (title, TL;DR, quote, FAQ, sources) **go in the frontmatter**. The only other content with a Markdown body are glossary terms (see [glossar.md](glossar.md)).
 
 ## Vault
 
@@ -21,6 +21,8 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 
 ## Frontmatter rules (enforced by the schema)
 
+The schema in `src/content.config.ts` is the source of truth. If this table and the schema differ, the table is wrong.
+
 | Field | Rule |
 |---|---|
 | `title` | max 70 chars, **no `:`** (headlines are sentences) |
@@ -29,10 +31,10 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 | `updatedDate` | optional, set it when content changes after publishing |
 | `author` | `roland-golla` or `benjamin-klein` |
 | `tags` | list, optional |
-| `draft` | default `true` |
 | `workshop` | `developer` (default) or `alle-abteilungen`, picks the big workshop block |
 | `image` / `imageAlt` | optional header image `./_bilder/<slug>-header.jpg`, `imageAlt` required when `image` is set |
 | `tldr` | min 40 chars |
+| `begriffe` | optional list of glossary slugs linked in the article, e.g. `[skills, hooks]`. Renders the box "Begriffe in diesem Artikel" (see [glossar.md](glossar.md)) |
 | `quoteText` | max 200 chars, `quoteAuthor` and `quoteUrl` required, `quoteRole` optional. `quoteAuthor` is the **source person** the article reports on |
 | `quotePosition` / `quoteCompany` | optional, the source person's position and company, e.g. `Head of Claude Code` / `Anthropic`. Leave empty when the source doesn't say; never guess |
 | `faq` | **at least 5** `{question, answer}` |
@@ -50,19 +52,29 @@ Articles are prose. The **prose goes in the Markdown body**. The **structured pa
 - When an article file is added to the repo (copied in from Obsidian or Downloads), set `pubDate` to **that day's date**, even if the file carries an older date.
 - Don't touch `pubDate` again after that. Later content changes go into `updatedDate`.
 
-## Draft and publish
+## Publishing
 
-- `draft: true`: renders in the dev server with an "Entwurf" label, and is absent from the build, RSS, sitemap and `llms.txt`. The draft state is for writing and verifying locally only.
-- `draft: false`: published on the next push to `main`.
-- Only Roland decides when an article ships.
-- **Never push a draft.** A push to `main` always publishes. If the article is not ready, don't push it.
+There is no draft state. **An article in the repo is live with the next deploy.** A `draft` key in a delivered file is ignored by the schema; remove the line on intake.
 
-### Publishing an article
+- Only Roland decides when an article ships. Add an article file only when he asks.
+- If an article is not ready, it stays out of the repo (Obsidian or Downloads).
+- Commit and push steps are in [workflow.md](workflow.md#publishing-content-make-it-live).
 
-1. Set `draft: false` in the frontmatter. Leave `pubDate` untouched.
-2. Run `npm run check` and `npm run build`. The article must now show up in the build, RSS, sitemap and `llms.txt`.
-3. Commit the flip on its own: `Publish article on <topic>.`
-4. Push to `origin`. The article goes live with the deploy; report the URL but don't poll the site.
+## Intake from Downloads
+
+Roland delivers articles, glossary terms and images in `~/Downloads`.
+
+1. **Pick the newest version.** `name (1).md` is newer than `name.md`. Diff the two and report what changed.
+2. **FAQ keys.** Delivered articles may use `frage` / `antwort`. The article schema needs `question` / `answer`. Rename the keys only, never the text. Glossary terms keep `frage` / `antwort`.
+3. **Remove the `draft:` line.**
+4. **Set `pubDate`** to the day the file is added (see below).
+5. **Header image.** An article that references an image can't be added without it: the build fails on the missing file.
+   - Check the real format and size with `file`, not the extension. Delivered images can be large PNGs named `.jpg`.
+   - Convert to a 1200×630 JPEG with `sharp` (it ships with Astro) and save it as `_bilder/<slug>-header.jpg`.
+   - Crop so nothing important is lost. Roland's signature sits at the bottom right, so crop from the left when the ratio doesn't fit (`fit: 'cover', position: 'east'`). Look at the result.
+6. **Compare `imageAlt` with the picture.** Report a mismatch to Roland. Don't rewrite it.
+7. **Glossary links.** Every `/glossar/<slug>/` link and every slug in `begriffe` needs its term file in the repo, or the build fails. Add the terms together with the article.
+8. Change nothing else in the file. Then verify (see the end of this page).
 
 ## Page structure (fixed, one template)
 
@@ -76,10 +88,11 @@ The page is one column, in this order:
 6. TL;DR box
 7. Workshop mini ad
 8. Body, with the workshop block inside
-9. Quote card
-10. FAQ
-11. Sources
-12. Author box
+9. Box "Begriffe in diesem Artikel" (only with `begriffe`)
+10. Quote card
+11. FAQ
+12. Sources
+13. Author box
 
 ## Header image
 
@@ -101,7 +114,7 @@ There are exactly two per article. Don't add more, and no sidebars or sticky ads
 | Ad | Where | Source | `mtm_content` |
 |---|---|---|---|
 | Mini ad, both workshops | Below the TL;DR | `components/news/ads/WorkshopMiniAd.astro` | `tldr-<workshop id>` |
-| Workshop block | Before the second `##` (fallback: after the body) | `workshopBlockHtml()` via the Sätteri plugin | `artikel`, `artikel-secondary` |
+| Workshop block | Before the second `##` (fallback: after the body) | `workshopBlockHtml()` via the Sätteri plugin | `artikel`, `artikel-secondary` (glossary pages: `glossar`) |
 
 The overview has one workshop block after the newest article (`mtm_content=uebersicht`).
 
@@ -112,5 +125,6 @@ The overview has one workshop block after the newest article (`mtm_content=ueber
 ## Verify a new article
 
 1. Run `npm run check`. Schema errors name the file and field.
-2. Run `npx astro dev --background` and open the article: one workshop block before the second `##`, the mini ad below the TL;DR, the FAQ and sources complete.
-3. Check that it works at 390px with no horizontal scroll (watch long tables and code lines).
+2. Run `npm run build`: the article is in `dist/`, the sitemap and the RSS feed.
+3. Run `npx astro dev --background` and open the article: one workshop block before the second `##`, the mini ad below the TL;DR, the FAQ and sources complete.
+4. Check that it works at 390px with no horizontal scroll (watch long tables and code lines).

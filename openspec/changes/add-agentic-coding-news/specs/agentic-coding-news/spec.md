@@ -28,16 +28,12 @@ The system SHALL validate every article against the schema defined in `design.md
 - **WHEN** an article has an empty `sources` list
 - **THEN** the build fails with a validation error
 
-### Requirement: Draft handling
-The system SHALL exclude articles with `draft: true` from the production build and SHALL show them in the dev server with a visible draft label.
+### Requirement: No draft state
+The system SHALL publish every article file in the vault root. There is no draft state (removed on 2026-11-25); a `draft` key in the frontmatter is ignored.
 
-#### Scenario: Production build
-- **WHEN** `astro build` runs and an article has `draft: true`
-- **THEN** no page, RSS item, sitemap entry or `llms.txt` line exists for it
-
-#### Scenario: Dev server
-- **WHEN** `astro dev` runs and an article has `draft: true`
-- **THEN** its page and overview entry render with the label "Entwurf"
+#### Scenario: Article in the repo
+- **WHEN** `astro build` runs
+- **THEN** every article has a page, an RSS item and a sitemap entry
 
 ### Requirement: URL structure
 The system SHALL serve the overview at `/agentic-coding-news/`, each published article at `/agentic-coding-news/<slug>/` and the feed at `/agentic-coding-news/rss.xml`.
@@ -121,7 +117,7 @@ The system SHALL render all Agentic Coding News pages without horizontal scrolli
 - **AND** the card and the site header bar have the same width and position
 
 ### Requirement: Structured data and feeds
-The system SHALL emit Article and FAQPage JSON-LD on every article page, set `og:type` to `article`, include published articles in the sitemap and RSS feed, and list them in `/llms.txt` with title, URL and TL;DR.
+The system SHALL emit Article and FAQPage JSON-LD on every article page, set `og:type` to `article`, and include published articles in the sitemap and RSS feed.
 
 #### Scenario: FAQ structured data
 - **WHEN** an article with 5 FAQ entries is rendered

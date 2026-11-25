@@ -1,0 +1,20 @@
+---
+// Visible FAQ. Pages build the FAQPage JSON-LD from the same items with faqLd().
+interface Props {
+  items: { question: string; answer: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="news-faq" aria-labelledby="faq-heading">
+  <h2 id="faq-heading">Häufige Fragen</h2>
+  {
+    items.map(({ question, answer }) => (
+      <details>
+        <summary>{question}</summary>
+        <p>{answer}</p>
+      </details>
+    ))
+  }
+</section>
