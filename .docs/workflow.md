@@ -9,7 +9,9 @@ npx astro dev --background
 npx astro dev status | logs | stop
 ```
 
-Restart it after changing `src/content.config.ts` or `astro.config.mjs`. Schema changes are not picked up live.
+- Restart it after changing `src/content.config.ts` or `astro.config.mjs`. Schema changes are not picked up live.
+- Restart it after removing Tailwind classes. It can keep serving the old CSS rules.
+- Take the port from `npx astro dev status`. It is not always 4321.
 
 ## Checks (must pass before every commit)
 
@@ -24,7 +26,9 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
 
 - Screenshots at **390px** and **1440px** (headless Chrome works: `google-chrome --headless=new --window-size=390,900 --screenshot=...`).
 - Measure horizontal overflow: `document.documentElement.scrollWidth` must equal the viewport width.
-- For news changes, also check a draft in dev and confirm in `dist/` that drafts are absent from pages, RSS, sitemap and `llms.txt`.
+- Wait for images before taking a screenshot. The dev server optimizes them on first load, which can take a few seconds.
+- **Hover styles:** headless Chrome reports `(hover: hover)` as false, so CSS inside `@media (hover: hover)` (the glossary tooltip) doesn't apply. Start Chrome with `--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4` to test it.
+- For content changes, confirm in `dist/` that the new article or term is built and listed in the sitemap (articles also in RSS).
 - Test files (sample articles, helper pages in `public/`) are temporary. Delete them before committing.
 
 ## Git: commit and push
@@ -34,7 +38,7 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
 | Roland says | Agent does |
 |---|---|
 | "commit" | Checks, then commit. No push. |
-| "push", "make it live", "commit and push" | Checks, commit, push to `origin` (rogoit). Roland opens the PR and deploys. |
+| "push", "make it live", "all set to live", "commit and push" | Checks, commit, push to `origin` (rogoit). Roland opens the PR and deploys. |
 | Nothing | Nothing. Leave changes uncommitted and say so. |
 
 ### How to commit
@@ -58,14 +62,17 @@ CI (`.github/workflows/deploy.yml`) runs `npm ci`, `npm run check` and `npm run 
 | `origin` | `rogoit/nerdsinshirts` (fork) | Agents push here, and only here. |
 | upstream | `nevercodealone/nerdsinshirts` | Deploys nerdsinshirts.de. Roland opens and merges the PR from `rogoit/main`. |
 
-1. `git push origin main`.
+1. `git push origin main`, as its own command, not chained to the commits.
 2. Report the commit hashes and the push range. Don't open PRs, don't push upstream, and don't poll the live site. A push to the fork doesn't deploy, so never say something is live.
+3. If the permission system blocks the push, don't work around it. Report the commits and ask Roland to run `! git push origin main`.
 
-### Publishing an article ("make it live")
+### Publishing content ("make it live")
 
-1. `draft: false` in the article. `pubDate` stays the day the file was added (see [agentic-coding-news.md](agentic-coding-news.md)).
-2. Run the checks, and confirm the article is in `dist/`, the RSS feed, the sitemap and `llms.txt`.
-3. Commit with `Add article on <topic>` (or `Publish article on <topic>` if it was committed as a draft before), then push to `origin`.
+There is no draft state. An article or glossary term is published by adding its file and pushing.
+
+1. Add the files (see [intake](agentic-coding-news.md#intake-from-downloads)). Glossary terms go in together with the article that links to them.
+2. Run the checks, and confirm the content is in `dist/` and the sitemap (articles also in the RSS feed).
+3. Commit: `Add article on <topic>.` or `Add glossary term <term>.` The header image gets its own commit. Then push to `origin`.
 4. Roland opens the PR and deploys. After that, he runs the Google Rich Results Test on the URL.
 
 ## Specs (OpenSpec)

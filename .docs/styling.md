@@ -23,6 +23,12 @@ Material Symbols icons are loaded in `Layout.astro`. In ads and anywhere the mea
 - `@layer components` keeps utilities able to override component styles. Don't use `!important` (the only exception is the code block background over Shiki's inline style).
 - Prose rules target direct children (`.news-prose > ul`, `.news-prose > :not(.workshop-block) a`) so they don't leak into the injected workshop block.
 
+## Behavior without JavaScript
+
+- Interactive behavior is done in CSS where possible: `:has()` for state, `attr()` for content. Example: the glossary tooltip (`a[data-glossar]` in `global.css`).
+- CSS anchor positioning (`position-area`, `position-try-fallbacks`) goes inside `@supports`, with a plain `position: absolute` rule as the fallback.
+- Tailwind only generates classes it finds as literal strings in the source. Don't build class names from variables.
+
 ## Layout
 
 - **Mobile first.** Write the phone layout first, then add `min-width` media queries.

@@ -22,7 +22,7 @@ src/
     index.astro              Start page -> pages/home.md
     agentic-coding-news/     Overview, [slug].astro, rss.xml.ts
     glossar/                 Overview, [slug].astro
-    llms.txt.ts              LLM index of published articles
+    robots.txt.ts            robots.txt with the sitemap URL
   layouts/Layout.astro       The only layout: head, meta, Matomo, background, footer
   components/
     SiteHeader.astro         Shared logo header + navigation (start page, news, glossary)
@@ -45,7 +45,7 @@ openspec/changes/            Specs for larger changes
 ## Rules
 
 - **Routes stay thin.** A route loads data and composes components. Logic goes in `src/lib/`, data in `src/data/` or content files.
-- **`src/lib/` has no Astro components** and no side effects at import time. It must stay importable from `astro.config.mjs`.
+- **`src/lib/` has no Astro components** and no side effects at import time. The two Markdown plugin files, `workshop-inline-ad.ts` and `glossar-links.ts`, are imported by `astro.config.mjs` and must not import `astro:*` modules (directly or through another file). The other lib files may use `astro:content`.
 - **One layout.** Every page uses `Layout.astro`. Extend it through props (`title`, `description`, `image`, `ogType`) or the `head` slot, never with a second layout.
 - **No client JavaScript** unless a feature can't work without it. The only scripts today are Matomo and the matrix rain in `Layout.astro`.
 - **No new dependency** without a reason in the commit or spec. Pin anything that Astro itself depends on to the version Astro ships.

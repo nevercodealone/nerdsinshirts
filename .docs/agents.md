@@ -14,7 +14,7 @@ An agent is not done when it says it is done. It is done when it has **run the c
 | Build | `npm run build` | Every change |
 | Visual | Screenshots at 390px and 1440px | Any UI or CSS change |
 | Overflow | `document.documentElement.scrollWidth` equals viewport width | Any UI or CSS change |
-| Drafts | Draft absent from `dist/`, RSS, sitemap, `llms.txt` | News changes |
+| New content | New article or term present in `dist/`, the sitemap and (articles) RSS | Content changes |
 | Rich results | Google Rich Results Test on the live URL | After a new article ships |
 
 - **Report evidence, not claims.** Paste the check result and name what was looked at in the screenshots. "Should work" is not a result.
@@ -36,8 +36,8 @@ The change decides the tier, not the author.
 | Risk | Examples here | Human approval |
 |---|---|---|
 | Low | Typos in docs, `.docs/` updates, CSS tweaks inside one news component | None if all checks pass and evidence was shown |
-| Medium | New component or block, schema changes, start page copy, workshop data, a new article | Roland looks at screenshots and the diff |
-| High | `.github/workflows/`, `astro.config.mjs`, `Layout.astro` (Matomo, meta tags), dependencies, `public/CNAME`, anything that changes URLs | Roland reviews before commit and push |
+| Medium | New component or block, schema changes, start page copy, workshop data, a new article or glossary term | Roland looks at screenshots and the diff |
+| High | `.github/workflows/`, `astro.config.mjs`, `Layout.astro` (Matomo, meta tags), dependencies, `public/CNAME`, the Markdown plugins in `src/lib/` (they can fail every build), anything that changes or removes URLs | Roland reviews before commit and push |
 
 - **Agent approval is not human approval.**
 - **Whoever runs the agent owns the change**, as if they had typed it.
@@ -47,7 +47,7 @@ The change decides the tier, not the author.
 ## What stays with humans
 
 - Whether something should be built at all.
-- Article prose and the decision to publish (`draft: false`).
+- Article and glossary prose, and the decision to publish (adding the file and pushing it).
 - Workshop facts and anything that reads as a promise to customers.
 - CI, deploy and domain configuration.
 - Reading the evidence: check output, screenshots, findings.

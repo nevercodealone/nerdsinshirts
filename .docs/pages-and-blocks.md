@@ -1,6 +1,6 @@
 # Pages and blocks
 
-Applies to every page except Agentic Coding News articles (see [agentic-coding-news.md](agentic-coding-news.md)).
+Applies to every page except Agentic Coding News articles (see [agentic-coding-news.md](agentic-coding-news.md)) and glossary terms (see [glossar.md](glossar.md)).
 
 ## Rules
 

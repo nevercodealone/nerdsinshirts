@@ -18,11 +18,13 @@ One page per term from the Agentic Coding News, explained in German and backed o
 
 ## Frontmatter rules (enforced by the schema)
 
+The schema in `src/content.config.ts` is the source of truth. If this table and the schema differ, the table is wrong.
+
 | Field | Rule |
 |---|---|
 | `title` | max 70 chars, no `:` |
 | `begriff` | the term only, e.g. `Skills`. Used in the overview, cards, breadcrumb and JSON-LD |
-| `kurzdefinition` | 80 to 200 chars, **one line**. Used in the card, the overview and the tooltip |
+| `kurzdefinition` | 80 to 200 chars, **one line** (the link plugin reads it from the file without a YAML parser). Used in the card, the overview and the tooltip |
 | `description` | 80 to 160 chars |
 | `pubDate`, `geprueft` | `YYYY-MM-DD`. `geprueft` is the last check against the docs |
 | `author` | `roland-golla` or `benjamin-klein` |
@@ -33,13 +35,14 @@ One page per term from the Agentic Coding News, explained in German and backed o
 | `tags`, `workshop`, `tldr` | as for articles |
 | `faq` | at least 5 `{frage, antwort}` (articles use `{question, answer}`) |
 | `sources` | at least 1 `{title, url}`, official doc pages only |
-| `draft` | default `true` |
 
 There is no `image` field. Glossary pages use the default site image.
 
-## Draft and publish
+## Publishing
 
-Same as articles: drafts show in the dev server with an "Entwurf" label and are absent from the build and the sitemap. Only Roland sets `draft: false`. While no term is published, `/glossar/` shows its empty state.
+There is no draft state. **A term in the repo is live with the next deploy**, same as articles. A `draft` key in a delivered file is ignored; remove the line on intake. Intake steps are in [agentic-coding-news.md](agentic-coding-news.md#intake-from-downloads), commit and push steps in [workflow.md](workflow.md#publishing-content-make-it-live).
+
+While the folder has no term, `/glossar/` shows its empty state.
 
 ## Linking
 
@@ -51,8 +54,8 @@ Same as articles: drafts show in the dev server with an "Entwurf" label and are 
 | Term to term | `verwandt` renders "Verwandte Begriffe" |
 
 - `glossarLinkPlugin` (`src/lib/glossar-links.ts`, Sätteri hast plugin) gives every `/glossar/<slug>/` link in article and glossary prose the attribute `data-glossar` with the term's `kurzdefinition`. CSS in `global.css` turns it into a dotted underline and a tooltip. The tooltip needs no JavaScript, shows only on devices that hover, and not inside tables.
-- The plugin fails the build for a link to a missing term, and for a link from a published file (`draft: false`) to a draft term. **Publish the terms before the article that links to them.**
-- An unknown slug in `begriffe` or `verwandt` fails the build. A draft term is left out of the boxes in the build.
+- The plugin fails the build for a link to a missing term. **Add the term together with the article that links to it.**
+- An unknown slug in `begriffe` or `verwandt` fails the build.
 
 ## Page structure (fixed, one template)
 
@@ -67,5 +70,6 @@ Terms from A to Z with letter jump marks, as cards with term, provider badges an
 ## Verify a new term
 
 1. `npm run check`, then `npx astro dev --background`.
-2. Open `/glossar/` and the term: doc buttons, one workshop block, FAQ and sources complete, related terms linked.
-3. 390px with no horizontal scroll.
+2. `npm run build`: the term is in `dist/` and the sitemap.
+3. Open `/glossar/` and the term: doc buttons, one workshop block, FAQ and sources complete, related terms linked.
+4. 390px with no horizontal scroll. To test the tooltip in headless Chrome, see [workflow.md](workflow.md#verify-ui-changes).
