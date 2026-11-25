@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/png" href="/favicon.png"><link rel="icon" href="/favicon.ico"><meta name="generator" content="Astro v7.3.5"><title>Skills in Claude Code und Codex einfach erklärt</title><link rel="canonical" href="https://nerdsinshirts.de/glossar/skills/"><meta name="description" content="Was Skills in Claude Code und Codex sind, wie sie aufgebaut sind, wo sie liegen und wie der Agent entscheidet, wann er sie lädt. Nach der offiziellen Doku."><meta name="robots" content="max-image-preview:large"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:site_name" content="Nerds in Shirts"><meta property="og:title" content="Skills in Claude Code und Codex einfach erklärt"><meta property="og:description" content="Was Skills in Claude Code und Codex sind, wie sie aufgebaut sind, wo sie liegen und wie der Agent entscheidet, wann er sie lädt. Nach der offiziellen Doku."><meta property="og:image" content="https://nerdsinshirts.de/og-image.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1792"><meta property="og:image:height" content="592"><meta property="og:image:alt" content="Nerds in Shirts"><meta property="og:url" content="https://nerdsinshirts.de/glossar/skills/"><meta property="og:locale" content="de_DE"><!-- Twitter / X --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@nerdsinshirts"><meta name="twitter:creator" content="@nerdsinshirts"><meta name="twitter:title" content="Skills in Claude Code und Codex einfach erklärt"><meta name="twitter:description" content="Was Skills in Claude Code und Codex sind, wie sie aufgebaut sind, wo sie liegen und wie der Agent entscheidet, wann er sie lädt. Nach der offiziellen Doku."><meta name="twitter:image" content="https://nerdsinshirts.de/og-image.jpg"><meta name="twitter:image:alt" content="Nerds in Shirts"><link rel="alternate" type="application/rss+xml" title="Agentic Coding News" href="https://nerdsinshirts.de/agentic-coding-news/rss.xml"><meta name="author" content="Roland Golla"><script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTerm","name":"Skills","description":"Ein Skill ist ein Ordner mit einer SKILL.md Datei, in der Anweisungen stehen, dazu optional Skripte und weitere Dateien. Der Agent nutzt ihn, wenn er zur Aufgabe passt.","url":"https://nerdsinshirts.de/glossar/skills/","inDefinedTermSet":"https://nerdsinshirts.de/glossar/","sameAs":["https://code.claude.com/docs/en/skills","https://learn.chatgpt.com/docs/build-skills"],"inLanguage":"de-DE"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://nerdsinshirts.de/"},{"@type":"ListItem","position":2,"name":"Glossar","item":"https://nerdsinshirts.de/glossar/"},{"@type":"ListItem","position":3,"name":"Skills","item":"https://nerdsinshirts.de/glossar/skills/"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Was ist ein Skill in Claude Code?","acceptedAnswer":{"@type":"Answer","text":"Ein Skill ist eine SKILL.md Datei mit Anweisungen in einem eigenen Ordner. Claude nimmt ihn in seinen Werkzeugkasten auf, nutzt ihn, wenn er passt, und du kannst ihn auch direkt mit /skill-name starten."}},{"@type":"Question","name":"Sind Skills nur Markdown Dateien?","acceptedAnswer":{"@type":"Answer","text":"Nein. Pflicht ist nur die SKILL.md. Im selben Ordner können aber auch Referenzdateien, Beispiele und Skripte liegen. Skripte werden ausgeführt, nicht in den Kontext geladen."}},{"@type":"Question","name":"Woher weiß der Agent, wann er einen Skill nutzen soll?","acceptedAnswer":{"@type":"Answer","text":"Aus der Beschreibung im Frontmatter. Name und Beschreibung sind immer im Kontext. Den vollen Inhalt lädt der Agent erst, wenn er den Skill einsetzt. Die Doku nennt das Progressive Disclosure."}},{"@type":"Question","name":"Was ist der Unterschied zwischen einem Skill und CLAUDE.md?","acceptedAnswer":{"@type":"Answer","text":"Der Inhalt von CLAUDE.md ist immer im Kontext. Der Inhalt eines Skills wird nur geladen, wenn er gebraucht wird. Lange Referenzen kosten so fast nichts, bis man sie braucht."}},{"@type":"Question","name":"Gibt es Skills auch in Codex?","acceptedAnswer":{"@type":"Answer","text":"Ja. Auch in Codex ist ein Skill ein Ordner mit einer SKILL.md Datei, optional mit Skripten, Referenzen und Assets. Starten lässt er sich über /skills oder mit $ und dem Namen des Skills."}},{"@type":"Question","name":"Wie teile ich Skills mit meinem Team?","acceptedAnswer":{"@type":"Answer","text":"In Claude Code legst du den Skill im Projekt unter .claude/skills ab und committest ihn. Für mehrere Projekte packst du Skills in ein Plugin und verteilst es über einen Marketplace. In Codex liegen Repo Skills unter .agents/skills, für die Verteilung darüber hinaus gibt es ebenfalls Plugins."}}]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"><!-- Matomo --><script>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      _paq.push(['trackVisibleContentImpressions']);
+      (function () {
+        var u = '//stats.nevercodealone.de/';
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script><!-- End Matomo Code --><link rel="stylesheet" href="/_astro/Layout.B9xoFbYh.css"></head><body class="bg-background font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><main class="w-full bg-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container relative overflow-x-clip"><!-- Matrix Rain Background Canvas --><canvas class="fixed inset-0 pointer-events-none opacity-50 z-0" id="matrix-rain"></canvas><!-- Skyline background behind rain --><div class="absolute inset-0 pointer-events-none z-0 overflow-hidden"><img src="/og-image.jpg" alt="" aria-hidden="true" class="absolute bottom-0 left-0 w-full max-w-none h-[35vh] object-cover object-bottom opacity-40" fetchpriority="high"></div><!-- Gentle Center Readability Shade --><div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(11,19,38,0.75)_0%,rgba(11,19,38,0.25)_70%,transparent_100%)] z-0"></div><!-- Subtle Ambient Nebula Lights --><div class="absolute inset-0 pointer-events-none overflow-hidden transition-transform duration-700 ease-out z-0" id="ambient-nebula"><div class="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[90px] animate-pulse-glow"></div><div class="absolute top-[35%] left-[30%] w-[380px] h-[380px] bg-secondary/10 rounded-full blur-[80px]"></div><div class="absolute top-[28%] right-[28%] w-[340px] h-[340px] bg-tertiary-container/10 rounded-full blur-[80px]"></div></div><!-- Pause/Play Button for Matrix Rain --><button id="rain-toggle" type="button" aria-label="Matrix rain animation pausieren" class="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high/80 backdrop-blur-sm border border-surface-variant/40 text-on-surface-variant hover:text-primary hover:border-primary/40 transition-all duration-300 group"><span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" id="rain-toggle-icon">pause</span></button><!-- Page Content (blocks render here) --><div class="relative z-10 flex flex-col items-center w-full px-4 xs:px-6 lg:px-8"><header class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 relative z-10 mt-4 mb-6 w-full max-w-5xl rounded-2xl border border-surface-variant/40 bg-surface-container-low/90 px-4 py-3 shadow-lg shadow-surface-container-lowest/50 backdrop-blur-sm"><a href="/" aria-label="Zur Startseite" class="group inline-flex items-center gap-3 text-on-surface"><span class="inline-flex size-12 shrink-0 rounded-full bg-gradient-to-tr from-primary via-surface-container-high to-secondary p-0.5 transition duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/40"><img src="/nerds-in-shirts-gruen.png" alt="" width="48" height="48" class="size-full rounded-full bg-surface-container-lowest object-cover"></span><span class="font-headline text-lg font-bold transition-colors group-hover:text-primary">Nerds in Shirts</span></a><nav aria-label="Navigation" class="flex flex-wrap items-center gap-2"><a href="/" class="rounded-full px-3 py-1.5 font-label text-label-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface">Startseite</a><a href="/agentic-coding-news/" class="rounded-full px-3 py-1.5 font-label text-label-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface">Agentic Coding News</a><a href="/glossar/" aria-current="true" class="rounded-full px-3 py-1.5 font-label text-label-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary bg-primary/15 font-bold text-primary ring-1 ring-primary/40">Glossar</a></nav></header><article class="news-sheet max-w-5xl"><nav aria-label="Brotkrumen" class="mb-4 font-label text-[0.8125rem] text-on-surface-variant"><ol class="flex flex-wrap items-center gap-x-2 gap-y-1"><li><a href="/" class="hover:text-primary hover:underline">Startseite</a></li><li aria-hidden="true">›</li><li><a href="/glossar/" class="hover:text-primary hover:underline">Glossar</a></li><li aria-hidden="true">›</li><li aria-current="page" class="text-on-surface">Skills</li></ol></nav><p class="mb-3"><span class="flex flex-wrap items-center gap-2"><span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-label text-xs font-medium text-primary ring-1 ring-primary/40">Claude Code</span><span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-label text-xs font-medium text-primary ring-1 ring-primary/40">Codex</span></span></p><h1 class="news-title">Skills in Claude Code und Codex einfach erklärt</h1><section class="mb-8 mt-6 rounded-xl border border-primary bg-surface-container-low p-5" aria-label="Kurzdefinition"><p class="text-lg leading-relaxed">Ein Skill ist ein Ordner mit einer SKILL.md Datei, in der Anweisungen stehen, dazu optional Skripte und weitere Dateien. Der Agent nutzt ihn, wenn er zur Aufgabe passt.</p><p class="mt-4 flex flex-wrap gap-3"><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener" class="inline-block rounded-lg bg-primary-container px-4 py-2.5 font-label text-sm font-bold text-on-primary-container transition-colors hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Offizielle Doku von Anthropic <span aria-hidden="true">→</span></a><a href="https://learn.chatgpt.com/docs/build-skills" target="_blank" rel="noopener" class="inline-block rounded-lg bg-primary-container px-4 py-2.5 font-label text-sm font-bold text-on-primary-container transition-colors hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Offizielle Doku von OpenAI <span aria-hidden="true">→</span></a></p></section><section class="news-tldr" aria-label="Kurz gesagt"><p class="news-tldr__label">&gt; kurz gesagt</p><p>Ein Skill ist ein Ordner mit einer SKILL.md Datei. Darin stehen Anweisungen, dazu können Skripte, Vorlagen und Referenzen kommen. Der Agent sieht zuerst nur Name und Beschreibung und lädt den Rest erst, wenn er den Skill braucht. Claude Code und Codex setzen dafür auf denselben offenen Standard.</p></section><div class="news-prose"><p>Ein Skill erweitert, was ein Coding Agent kann. Du legst eine Datei <code>SKILL.md</code> mit Anweisungen an, und der Agent nimmt sie in seinen Werkzeugkasten auf. Er nutzt den Skill, wenn er zur Aufgabe passt. Du kannst ihn auch selbst starten. Claude Code und Codex arbeiten beide mit Skills und bauen auf denselben offenen Standard auf, <a href="https://agentskills.io">Agent Skills</a>.</p>
+<p>Laut Doku von Anthropic lohnt sich ein Skill, wenn du dieselben Anweisungen immer wieder in den Chat kopierst oder wenn ein Abschnitt in deiner CLAUDE.md eigentlich schon ein Ablauf ist.</p>
+<p><em>Quelle: <a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a></em></p>
+<h2 id="so-funktionieren-skills">So funktionieren Skills</h2>
+<p>Ein Skill ist ein Ordner. Pflicht ist nur die Datei <code>SKILL.md</code>. Sie enthält oben ein Frontmatter in YAML und darunter die Anweisungen. Daneben können weitere Dateien liegen.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>my-skill/</span></span>
+<span class="line"><span>├── SKILL.md        Pflicht, Überblick und Navigation</span></span>
+<span class="line"><span>├── reference.md    ausführliche Doku, wird bei Bedarf geladen</span></span>
+<span class="line"><span>├── examples.md     Beispiele, werden bei Bedarf geladen</span></span>
+<span class="line"><span>└── scripts/</span></span>
+<span class="line"><span>    └── helper.py   Hilfsskript, wird ausgeführt, nicht geladen</span></span></code></pre>
+<p>Die Doku rät, die <code>SKILL.md</code> unter 500 Zeilen zu halten und ausführliche Referenzen in eigene Dateien auszulagern, auf die die <code>SKILL.md</code> verweist.</p>
+<h3 id="progressive-disclosure">Progressive Disclosure</h3>
+<p>Der Agent lädt nicht alles auf einmal. Die Beschreibung jedes Skills ist immer im Kontext. Den vollen Inhalt lädt er erst, wenn er den Skill einsetzt. Weitere Dateien im Ordner holt er nur, wenn er sie braucht. Im Unterschied zu CLAUDE.md kostet ein langer Skill deshalb fast nichts, solange er nicht gebraucht wird.</p>
+<p>Deshalb ist die Beschreibung so wichtig. An ihr entscheidet der Agent, ob ein Skill zur Aufgabe passt. Die Doku empfiehlt, den wichtigsten Einsatzfall an den Anfang zu stellen.</p>
+<h3 id="automatisch-oder-von-hand">Automatisch oder von Hand</h3>
+<table>
+<thead>
+<tr>
+<th>Aufruf</th>
+<th>Was passiert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Automatisch</td>
+<td>Der Agent lädt den Skill, wenn die Anfrage zur Beschreibung passt</td>
+</tr>
+<tr>
+<td>Von Hand</td>
+<td>Du tippst <code>/skill-name</code> am Anfang deiner Nachricht</td>
+</tr>
+</tbody>
+</table>
+<p>Über das Frontmatter lässt sich das steuern. Mit <code>disable-model-invocation: true</code> startet nur noch der Mensch den Skill. Mit <code>user-invocable: false</code> verschwindet er aus dem Menü, und nur der Agent nutzt ihn.</p>
+<p><em>Quelle: <a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a></em></p>
+<aside class="workshop-block" data-track-content data-content-name="workshop-developer" data-content-piece="glossar" aria-label="NCA KI Workshop"><p class="workshop-block__label">&gt; NCA KI Workshop</p><p class="workshop-block__title">NCA KI Workshop für Developer mit Benjamin Klein</p><p class="workshop-block__intro">Ein Tag für Developer, Tester und Admins, die mit KI Agenten produktiv arbeiten wollen, statt Code aus dem Chat zu kopieren.</p><ul class="workshop-block__list"><li><span aria-hidden="true">✓</span> Einen Harness bauen</li><li><span aria-hidden="true">✓</span> Context Engineering beherrschen</li><li><span aria-hidden="true">✓</span> Entscheidungen festhalten mit ADR und PDR</li><li><span aria-hidden="true">✓</span> Prüfen statt glauben</li></ul><p class="workshop-block__format">Inhouse bei euch vor Ort, ein Tag von 9.00 bis 16.30 Uhr.</p><a class="workshop-block__cta" href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer?mtm_campaign=agentic-coding-news&amp;mtm_source=nerdsinshirts.de&amp;mtm_medium=workshop-anzeige&amp;mtm_content=glossar" data-content-target>Zum Workshop <span aria-hidden="true">→</span></a></aside><h2 id="wofür-man-skills-nutzt">Wofür man Skills nutzt</h2>
+<p>Die Doku von Anthropic unterscheidet zwei Arten von Inhalt:</p>
+<ul>
+<li><strong>Referenz:</strong> Wissen, das der Agent bei der Arbeit braucht, zum Beispiel wie eine API richtig benutzt wird.</li>
+<li><strong>Aufgabe:</strong> ein Ablauf, den der Agent Schritt für Schritt abarbeitet, zum Beispiel ein Deployment.</li>
+</ul>
+<p>Ein Beispiel aus der Doku ist ein Skill <code>deploy</code>, der nur von Hand gestartet wird. Er lässt die Tests laufen, baut die Anwendung, schiebt sie auf das Zielsystem und prüft, ob das Deployment geklappt hat.</p>
+<p>Claude Code bringt außerdem eigene Skills mit, zum Beispiel <code>/code-review</code>, <code>/debug</code> und <code>/loop</code>.</p>
+<p><em>Quelle: <a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a></em></p>
+<h2 id="skills-in-claude-code">Skills in Claude Code</h2>
+<h3 id="wo-skills-liegen">Wo Skills liegen</h3>
+<table>
+<thead>
+<tr>
+<th>Bereich</th>
+<th>Pfad</th>
+<th>Gilt für</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Persönlich</td>
+<td><code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+<td>alle deine Projekte auf diesem Rechner</td>
+</tr>
+<tr>
+<td>Projekt</td>
+<td><code>.claude/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+<td>dieses Repository, per Commit für das ganze Team</td>
+</tr>
+<tr>
+<td>Plugin</td>
+<td><code>&lt;plugin&gt;/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+<td>überall, wo das Plugin aktiv ist</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>im Verzeichnis der verwalteten Einstellungen</td>
+<td>alle Nutzer, an die die Organisation ihn verteilt</td>
+</tr>
+</tbody>
+</table>
+<p>Haben zwei Skills denselben Namen, gilt Enterprise vor persönlich und persönlich vor Projekt. Skills aus Plugins bekommen den Plugin Namen als Präfix, zum Beispiel <code>/plugin-name:skill-name</code>.</p>
+<h3 id="wichtige-felder-im-frontmatter">Wichtige Felder im Frontmatter</h3>
+<p>Alle Felder sind optional. Empfohlen ist <code>description</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Feld</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Name im Menü, sonst der Ordnername</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Was der Skill macht und wann er passt</td>
+</tr>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td><code>true</code> heißt, nur der Mensch startet ihn</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td><code>false</code> heißt, er erscheint nicht im Menü</td>
+</tr>
+<tr>
+<td><code>allowed-tools</code></td>
+<td>Tools, die der Skill ohne Rückfrage nutzen darf</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><code>fork</code> startet den Skill in einem eigenen Subagent</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td><a href="/glossar/hooks/" data-glossar="Hooks sind eigene Befehle, die der Coding Agent an festen Punkten seiner Arbeit ausführt, zum Beispiel vor oder nach einem Tool. So passieren bestimmte Dinge immer.">Hooks</a>, die beim Start des Skills registriert werden</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>Skill nur bei passenden Dateien automatisch aktiv</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mehr-als-text">Mehr als Text</h3>
+<p>Ein Skill kann vor der Ausführung Befehle laufen lassen und deren Ausgabe in den Text einsetzen, zum Beispiel den Diff eines Pull Requests. Schlägt so ein Befehl fehl, bricht der ganze Skill ab.</p>
+<h3 id="skills-und-slash-commands">Skills und Slash Commands</h3>
+<p>Eigene Slash Commands sind in Skills aufgegangen. Eine Datei unter <code>.claude/commands/deploy.md</code> und ein Skill unter <code>.claude/skills/deploy/SKILL.md</code> erzeugen beide <code>/deploy</code> und funktionieren gleich. Alte Command Dateien laufen weiter. Skills bringen zusätzlich einen Ordner für weitere Dateien, die Steuerung, wer sie starten darf, und das automatische Laden mit.</p>
+<p><em>Quelle: <a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a></em></p>
+<h2 id="skills-in-codex">Skills in Codex</h2>
+<p>Laut Doku von OpenAI bündelt ein Skill Anweisungen, Ressourcen und optional Skripte, damit ein Ablauf zuverlässig gelingt. Die Doku gilt für ChatGPT und Codex.</p>
+<h3 id="aufbau">Aufbau</h3>
+<p>Pflicht ist die <code>SKILL.md</code> mit <code>name</code> und <code>description</code>. Die Beschreibung soll sagen, wann der Skill greifen soll und wann nicht. Optional kommen die Ordner <code>scripts/</code>, <code>references/</code> und <code>assets/</code> dazu, außerdem <code>agents/openai.yaml</code> für Darstellung, Aufrufregeln und Abhängigkeiten von Tools.</p>
+<h3 id="wo-skills-liegen-1">Wo Skills liegen</h3>
+<table>
+<thead>
+<tr>
+<th>Bereich</th>
+<th>Pfad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repository</td>
+<td><code>.agents/skills</code> im aktuellen Ordner, in Elternordnern bis zur Wurzel des Repos und in der Wurzel selbst</td>
+</tr>
+<tr>
+<td>Nutzer</td>
+<td><code>$HOME/.agents/skills</code></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td><code>/etc/codex/skills</code></td>
+</tr>
+<tr>
+<td>System</td>
+<td>wird mit Codex mitgeliefert, zum Beispiel <code>skill-creator</code> und <code>skill-installer</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="progressive-disclosure-in-codex">Progressive Disclosure in Codex</h3>
+<p>Codex sieht zuerst nur Name, Beschreibung und Dateipfad jedes Skills. Die volle <code>SKILL.md</code> lädt es erst, wenn es den Skill nutzen will.</p>
+<h3 id="aufrufen-erstellen-teilen">Aufrufen, erstellen, teilen</h3>
+<ul>
+<li><strong>Aufrufen:</strong> In der CLI und der IDE Extension mit <code>/skills</code> oder mit <code>$</code> und dem Namen des Skills.</li>
+<li><strong>Erstellen:</strong> mit dem eingebauten <code>$skill-creator</code>, aus einem vorgeführten Ablauf oder von Hand als Ordner mit <code>SKILL.md</code>.</li>
+<li><strong>Installieren:</strong> mit <code>$skill-installer</code> und dem Namen des Skills.</li>
+<li><strong>Teilen:</strong> Für mehr als ein Repository werden Skills als Plugins verpackt.</li>
+</ul>
+<p><em>Quelle: <a href="https://learn.chatgpt.com/docs/build-skills">Build skills</a></em></p>
+<h2 id="abgrenzung">Abgrenzung</h2>
+<table>
+<thead>
+<tr>
+<th>Begriff</th>
+<th>Unterschied zum Skill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLAUDE.md</td>
+<td>immer im Kontext, ein Skill nur bei Bedarf</td>
+</tr>
+<tr>
+<td>Slash Command</td>
+<td>in Claude Code in Skills aufgegangen, ein Skill kann zusätzlich Dateien mitbringen und automatisch geladen werden</td>
+</tr>
+<tr>
+<td><a href="/glossar/hooks/" data-glossar="Hooks sind eigene Befehle, die der Coding Agent an festen Punkten seiner Arbeit ausführt, zum Beispiel vor oder nach einem Tool. So passieren bestimmte Dinge immer.">Hooks</a></td>
+<td>laufen fest an bestimmten Punkten, ein Skill wird genutzt, wenn er zur Aufgabe passt</td>
+</tr>
+</tbody>
+</table>
+<p><em>Quellen: <a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a>, <a href="https://code.claude.com/docs/en/hooks-guide">Automate actions with hooks</a></em></p>
+<h2 id="fazit">Fazit</h2>
+<p>Skills sind in Claude Code und Codex der Weg, Wissen und Abläufe so abzulegen, dass der Agent sie erst lädt, wenn er sie braucht. Beide setzen auf denselben offenen Standard. Pfade und Aufruf unterscheiden sich, das Prinzip ist gleich.</p>
+<p>Wir verfolgen die Neuigkeiten rund um Agentic Coding laufend. Was wir dabei lernen, testen wir zuerst in eigenen Side Projects. Was sich bewährt, bringen wir in Kundenprojekte und in unsere Workshops. Wenn ihr Skills in eurem Team aufbauen wollt, schaut euch gern den <a href="https://nevercodealone.de/de/vibe-coding-training/nca-ki-workshop-developer">NCA KI Workshop für Developer</a> an.</p>
+</div><section class="mt-10" aria-labelledby="articles-heading"><h2 id="articles-heading" class="mb-4 font-headline text-2xl font-semibold leading-tight text-on-surface">In unseren Artikeln</h2><ul class="divide-y divide-outline-variant"><li class="py-3"><a href="/agentic-coding-news/claude-code-skills/" class="font-headline text-lg font-semibold hover:text-primary">Welche Skills das Claude Code Team baut, die 9 Typen im Überblick</a><p class="font-label text-[0.8125rem] text-on-surface-variant"><time datetime="2026-11-25T00:00:00.000Z">25. November 2026</time></p></li></ul></section><section class="mt-10" aria-labelledby="verwandt-heading"><h2 id="verwandt-heading" class="mb-4 font-headline text-2xl font-semibold leading-tight text-on-surface">Verwandte Begriffe</h2><ul class="grid gap-3 sm:grid-cols-2"><li><a href="/glossar/hooks/" class="flex h-full flex-col gap-2 rounded-xl border border-outline-variant/60 bg-surface-container-low p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"><span class="font-headline text-lg font-semibold text-on-surface">Hooks</span><span class="flex flex-wrap items-center gap-2"><span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-label text-xs font-medium text-primary ring-1 ring-primary/40">Claude Code</span><span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-label text-xs font-medium text-primary ring-1 ring-primary/40">Codex</span></span><span class="text-[0.9375rem] leading-relaxed text-on-surface-variant">Hooks sind eigene Befehle, die der Coding Agent an festen Punkten seiner Arbeit ausführt, zum Beispiel vor oder nach einem Tool. So passieren bestimmte Dinge immer.</span></a></li></ul></section><section class="news-faq" aria-labelledby="faq-heading"><h2 id="faq-heading">Häufige Fragen</h2><details><summary>Was ist ein Skill in Claude Code?</summary><p>Ein Skill ist eine SKILL.md Datei mit Anweisungen in einem eigenen Ordner. Claude nimmt ihn in seinen Werkzeugkasten auf, nutzt ihn, wenn er passt, und du kannst ihn auch direkt mit /skill-name starten.</p></details><details><summary>Sind Skills nur Markdown Dateien?</summary><p>Nein. Pflicht ist nur die SKILL.md. Im selben Ordner können aber auch Referenzdateien, Beispiele und Skripte liegen. Skripte werden ausgeführt, nicht in den Kontext geladen.</p></details><details><summary>Woher weiß der Agent, wann er einen Skill nutzen soll?</summary><p>Aus der Beschreibung im Frontmatter. Name und Beschreibung sind immer im Kontext. Den vollen Inhalt lädt der Agent erst, wenn er den Skill einsetzt. Die Doku nennt das Progressive Disclosure.</p></details><details><summary>Was ist der Unterschied zwischen einem Skill und CLAUDE.md?</summary><p>Der Inhalt von CLAUDE.md ist immer im Kontext. Der Inhalt eines Skills wird nur geladen, wenn er gebraucht wird. Lange Referenzen kosten so fast nichts, bis man sie braucht.</p></details><details><summary>Gibt es Skills auch in Codex?</summary><p>Ja. Auch in Codex ist ein Skill ein Ordner mit einer SKILL.md Datei, optional mit Skripten, Referenzen und Assets. Starten lässt er sich über /skills oder mit $ und dem Namen des Skills.</p></details><details><summary>Wie teile ich Skills mit meinem Team?</summary><p>In Claude Code legst du den Skill im Projekt unter .claude/skills ab und committest ihn. Für mehrere Projekte packst du Skills in ein Plugin und verteilst es über einen Marketplace. In Codex liegen Repo Skills unter .agents/skills, für die Verteilung darüber hinaus gibt es ebenfalls Plugins.</p></details></section><section class="news-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Quellen</h2><ol><li><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Extend Claude with skills, Claude Code Docs</a><span class="news-sources__meta">code.claude.com</span></li><li><a href="https://learn.chatgpt.com/docs/build-skills" target="_blank" rel="noopener">Build skills, ChatGPT Learn</a><span class="news-sources__meta">learn.chatgpt.com</span></li></ol></section></article></div><!-- Footer (shared chrome) --><footer class="w-full px-4 py-4 text-center z-10 bg-transparent relative mt-auto"><div class="font-label text-label-sm text-on-surface-variant/75 hover:text-on-surface-variant transition-colors">© 2026 Nerds in Shirts — Benjamin Klein &amp; Roland Golla • Never Code Alone • <a href="https://nevercodealone.de/de/ueber-uns/impressum" target="_blank" rel="nofollow noopener" class="underline decoration-on-surface-variant/40 underline-offset-2 hover:text-primary hover:decoration-primary">Impressum</a> • <a href="/glossar/" class="underline decoration-on-surface-variant/40 underline-offset-2 hover:text-primary hover:decoration-primary">Glossar</a></div></footer></main><script type="module">(function(){let e=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=document.getElementById(`matrix-rain`),n=!e;if(t&&!e){let e=t,r=e.getContext(`2d`),i=`日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789<>{}/$#*+=~_0101`.split(``),a=[];function o(){return{y:Math.floor(Math.random()*-30),speed:1,headChar:i[Math.floor(Math.random()*i.length)],length:Math.floor(Math.random()*14)+12,history:[]}}let s=0,c=0;function l(){let t=document.documentElement,n=t.clientWidth||window.innerWidth,r=t.clientHeight||window.innerHeight,i=n!==s,l=r>c;if(!i&&!l)return;i&&(s=n),l&&(c=r),e.width=s,e.height=c;let u=Math.floor(s/28);for(let e=a.length;e<u;e++)a[e]=o();a.length=u}window.addEventListener(`resize`,l),l();let u=0;function d(t){if(!n){requestAnimationFrame(d);return}requestAnimationFrame(d);let o=t-u;if(!(o<150)){u=t-o%150,r.fillStyle=`rgba(11, 19, 38, 0.08)`,r.fillRect(0,0,e.width,e.height),r.font=`700 24px "JetBrains Mono", monospace`,r.textBaseline=`top`,r.shadowBlur=0;for(let t=0;t<a.length;t++){let n=a[t],o=t*28+2,s=n.y*24,c=i[Math.floor(Math.random()*i.length)];n.y>=0&&s<=e.height+24&&(r.fillStyle=`#ffffff`,r.fillText(c,o,s));let l=(n.y-1)*24;l>=0&&l<=e.height+24&&(r.fillStyle=`#6bff8f`,r.fillText(n.headChar,o,l));let u=(n.y-2)*24;u>=0&&u<=e.height+24&&n.history[0]&&(r.fillStyle=`#4be277`,r.fillText(n.history[0],o,u));let d=(n.y-3)*24;d>=0&&d<=e.height+24&&n.history[1]&&(r.fillStyle=`#22c55e`,r.fillText(n.history[1],o,d));let f=(n.y-4)*24;f>=0&&f<=e.height+24&&n.history[2]&&(r.fillStyle=`#16a34a`,r.fillText(n.history[2],o,f)),n.history.unshift(n.headChar),n.history.length>6&&n.history.pop(),n.headChar=c,n.y+=n.speed,s>e.height+n.length*24&&Math.random()>.25&&(n.y=-Math.floor(Math.random()*20),n.length=Math.floor(Math.random()*14)+12,n.history=[])}}}requestAnimationFrame(d);let f=document.getElementById(`rain-toggle`),p=document.getElementById(`rain-toggle-icon`);f&&p&&f.addEventListener(`click`,()=>{n=!n,p.textContent=n?`pause`:`play_arrow`,f.setAttribute(`aria-label`,n?`Matrix rain animation pausieren`:`Matrix rain animation fortsetzen`)})}if(e)return;let r=document.getElementById(`ambient-nebula`),i=document.querySelectorAll(`.tilt-card`);window.addEventListener(`mousemove`,e=>{let{clientX:t,clientY:n}=e,i=window.innerWidth/2,a=window.innerHeight/2,o=(t-i)*.025,s=(n-a)*.025;r&&(r.style.transform=`translate3d(${o}px, ${s}px, 0)`)},{passive:!0}),i.forEach(e=>{let t=e;t.addEventListener(`mousemove`,e=>{let n=t.getBoundingClientRect(),r=e.clientX-n.left-n.width/2,i=(e.clientY-n.top-n.height/2)/(n.height/2)*-6,a=r/(n.width/2)*6;t.style.transform=`perspective(600px) rotateX(${i.toFixed(2)}deg) rotateY(${a.toFixed(2)}deg) translateY(-6px)`}),t.addEventListener(`mouseleave`,()=>{t.style.transform=``})})})();</script></body></html>
