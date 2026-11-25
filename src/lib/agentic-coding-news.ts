@@ -16,9 +16,9 @@ export const authors = {
   },
 } as const;
 
-/** Published articles, newest first. Drafts are only included in the dev server. */
+/** All articles, newest first. Every article in the repo is published. */
 export async function getNews(): Promise<NewsEntry[]> {
-  const entries = await getCollection('agenticCodingNews', ({ data }) => import.meta.env.DEV || !data.draft);
+  const entries = await getCollection('agenticCodingNews');
   return entries.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 }
 

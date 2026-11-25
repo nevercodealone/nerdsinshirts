@@ -283,15 +283,6 @@
     color: var(--color-on-surface-variant);
   }
 
-  .news-draft {
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.25rem;
-    background: var(--color-error-container);
-    color: var(--color-on-error-container);
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
   .news-title {
     margin: 0 0 0.75rem;
     font-family: var(--font-headline);

@@ -86,7 +86,6 @@ const agenticCodingNews = defineCollection({
         updatedDate: z.coerce.date().optional(),
         author: z.enum(['roland-golla', 'benjamin-klein']),
         tags: z.array(z.string()).default([]),
-        draft: z.boolean().default(true),
         workshop: z.enum(['developer', 'alle-abteilungen']).default('developer'),
         image: image().optional(),
         imageAlt: z.string().optional(),
@@ -145,7 +144,6 @@ const glossar = defineCollection({
       tldr: z.string().min(40),
       faq: z.array(z.object({ frage: z.string(), antwort: z.string() })).min(5),
       sources: z.array(z.object({ title: z.string(), url: z.url() })).min(1),
-      draft: z.boolean().default(true),
     })
     .refine((data) => data.anbieter === 'openai' || Boolean(data.doku.anthropic), {
       message: 'doku.anthropic is required when anbieter is "anthropic" or "beide"',

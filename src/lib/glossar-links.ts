@@ -10,25 +10,21 @@ export const GLOSSAR_BASE = '/glossar/';
 const CONTENT_DIRS = ['/content/agentic-coding-news/', '/content/glossar/'];
 const GLOSSAR_LINK = /^\/glossar\/([a-z0-9-]+)\/$/;
 
-/** Reads `kurzdefinition` and `draft` from a glossary file. `src/lib` can't use `astro:content` here. */
-function readTerm(file: string): { kurzdefinition: string; draft: boolean } {
+/** Reads `kurzdefinition` from a glossary file. This file can't use `astro:content` (see astro.config.mjs). */
+function readKurzdefinition(file: string): string {
   const frontmatter = readFileSync(file, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
   const raw = frontmatter.match(/^kurzdefinition:[ \t]*(.+)$/m)?.[1]?.trim();
   if (!raw) throw new Error(`${file}: kurzdefinition must be a single line in the frontmatter`);
 
-  let kurzdefinition = raw;
-  if (raw.startsWith('"')) kurzdefinition = JSON.parse(raw) as string;
-  else if (raw.startsWith("'")) kurzdefinition = raw.slice(1, -1).replaceAll("''", "'");
-
-  // The schema default is draft: true, so only an explicit false publishes.
-  const draft = !/^draft:[ \t]*false[ \t]*$/m.test(frontmatter);
-  return { kurzdefinition, draft };
+  if (raw.startsWith('"')) return JSON.parse(raw) as string;
+  if (raw.startsWith("'")) return raw.slice(1, -1).replaceAll("''", "'");
+  return raw;
 }
 
 /**
  * Sätteri hast plugin: gives every link to `/glossar/<slug>/` in an article or glossary page
  * the term's `kurzdefinition` as `data-glossar` (tooltip and link style, see global.css).
- * A link to a missing term, or from a published file to a draft term, fails the build.
+ * A link to a missing term fails the build.
  */
 export const glossarLinkPlugin: HastPluginEntry = (factory) => {
   const path = factory.fileURL ? fileURLToPath(factory.fileURL).replaceAll('\\', '/') : '';
@@ -38,7 +34,6 @@ export const glossarLinkPlugin: HastPluginEntry = (factory) => {
   }
 
   const glossarDir = join(dirname(dirname(path)), 'glossar');
-  const published = factory.data.astro?.frontmatter?.draft === false;
 
   return {
     name: 'glossar-links',
@@ -58,12 +53,7 @@ export const glossarLinkPlugin: HastPluginEntry = (factory) => {
           throw new Error(`${path}: link to unknown glossary term "${href}" (missing ${file})`);
         }
 
-        const term = readTerm(file);
-        if (published && term.draft) {
-          throw new Error(`${path}: published file links to the draft glossary term "${href}". Publish the term first.`);
-        }
-
-        ctx.setProperty(node, 'data-glossar', term.kurzdefinition);
+        ctx.setProperty(node, 'data-glossar', readKurzdefinition(file));
       },
     },
   };

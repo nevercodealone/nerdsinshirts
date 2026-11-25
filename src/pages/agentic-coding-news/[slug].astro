@@ -120,7 +120,6 @@ const begriffe = await resolveBegriffe(data.begriffe, `Article "${entry.id}"`);
     }
 
     <p class="news-meta">
-      {data.draft && <span class="news-draft">Entwurf</span>}
       <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
       <span aria-hidden="true">·</span>
       <span>{readingMinutes(entry.body)} Min. Lesezeit</span>

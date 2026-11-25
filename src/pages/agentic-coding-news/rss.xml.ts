@@ -3,7 +3,7 @@ import type { APIContext } from 'astro';
 import { getNews, newsUrl } from '../../lib/agentic-coding-news';
 
 export async function GET(context: APIContext) {
-  const entries = (await getNews()).filter((entry) => !entry.data.draft);
+  const entries = await getNews();
 
   return rss({
     title: 'Agentic Coding News von Nerds in Shirts',

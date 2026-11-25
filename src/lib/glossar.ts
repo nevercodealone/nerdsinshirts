@@ -31,23 +31,22 @@ export const dokuLinks = (entry: GlossarEntry) =>
 
 const collator = new Intl.Collator('de');
 
-/** Published terms from A to Z. Drafts are only included in the dev server. */
+/** All terms from A to Z. Every term in the repo is published. */
 export async function getGlossar(): Promise<GlossarEntry[]> {
-  const entries = await getCollection('glossar', ({ data }) => import.meta.env.DEV || !data.draft);
+  const entries = await getCollection('glossar');
   return entries.sort((a, b) => collator.compare(a.data.begriff, b.data.begriff));
 }
 
 export const glossarUrl = (entry: GlossarEntry) => `${GLOSSAR_BASE}${entry.id}/`;
 
-/** Resolves `begriffe` / `verwandt` references. Unknown ids fail the build, drafts are left out of it. */
+/** Resolves `begriffe` / `verwandt` references. An unknown id fails the build. */
 export async function resolveBegriffe(refs: { id: string }[], usedBy: string): Promise<GlossarEntry[]> {
-  const all = await getCollection('glossar');
-  const visible = new Set((await getGlossar()).map((entry) => entry.id));
+  const all = await getGlossar();
 
-  return refs.flatMap(({ id }) => {
+  return refs.map(({ id }) => {
     const entry = all.find((candidate) => candidate.id === id);
     if (!entry) throw new Error(`${usedBy} references the unknown glossary term "${id}"`);
-    return visible.has(id) ? [entry] : [];
+    return entry;
   });
 }
 
