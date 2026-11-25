@@ -41,7 +41,6 @@ sources:
     url: "https://code.claude.com/docs/en/skills"
   - title: "Build skills, ChatGPT Learn"
     url: "https://learn.chatgpt.com/docs/build-skills"
-draft: false
 ---
 
 Ein Skill erweitert, was ein Coding Agent kann. Du legst eine Datei `SKILL.md` mit Anweisungen an, und der Agent nimmt sie in seinen Werkzeugkasten auf. Er nutzt den Skill, wenn er zur Aufgabe passt. Du kannst ihn auch selbst starten. Claude Code und Codex arbeiten beide mit Skills und bauen auf denselben offenen Standard auf, [Agent Skills](https://agentskills.io).

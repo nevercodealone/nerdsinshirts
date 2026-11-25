@@ -7,7 +7,6 @@ tags:
   - Prompting
   - Claude Code
   - Agentic Coding
-draft: false
 workshop: developer
 tldr: "Laut Boris Cherny gibt es beim Prompting keine Geheimnisse mehr. Ein Modell braucht drei Dinge: was es tun soll, wie viel Aufwand es treiben soll und wie es prüft, ob das Ergebnis stimmt. Den Aufwand steuert man heute über das Effort Level und ultrathink, alte Prompt Regeln gehören ausgemistet."
 quoteText: "Talk to Claude the way you would a coworker. There's no secret to prompting."

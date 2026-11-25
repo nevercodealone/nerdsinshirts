@@ -7,7 +7,6 @@ tags:
   - Agentic Coding
   - Testing
   - Verifikation
-draft: false
 workshop: developer
 tldr: "Wenn Agents mehr Code schreiben, als Menschen lesen können, wird der Nachweis zum Engpass. Das Claude Code Team setzt deshalb auf Tests, die der Agent selbst ausführt: End to End Tests als Wahrheit, Property Based Tests und schnelle, deterministische Testläufe."
 quoteText: "When generating software at a faster rate than you can review it, the bottleneck shifts to proving that it works."

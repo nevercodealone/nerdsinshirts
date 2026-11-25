@@ -41,7 +41,6 @@ sources:
     url: "https://code.claude.com/docs/en/hooks-guide"
   - title: "Hooks, ChatGPT Learn"
     url: "https://learn.chatgpt.com/docs/hooks"
-draft: false
 ---
 
 Hooks sind eigene Befehle, die ein Coding Agent an festen Punkten seiner Arbeit ausführt. Laut Doku von Anthropic geben sie dir deterministische Kontrolle: Bestimmte Aktionen passieren immer, statt dass das Sprachmodell entscheidet, ob es sie ausführt. Du nutzt Hooks, um Projektregeln durchzusetzen, wiederkehrende Aufgaben zu automatisieren und Claude Code mit deinen Werkzeugen zu verbinden.

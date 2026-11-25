@@ -4,7 +4,6 @@ description: ''
 pubDate: {{date:YYYY-MM-DD}}
 author: roland-golla
 tags: []
-draft: true
 workshop: developer
 tldr: ''
 begriffe: []

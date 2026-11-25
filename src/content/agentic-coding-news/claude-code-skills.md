@@ -8,7 +8,6 @@ tags:
   - Skills
   - Anthropic
   - Agentic Coding
-draft: false
 workshop: developer
 image: ./_bilder/claude-code-skills-header.jpg
 imageAlt: "Helle grüne Aquarell Szene bei Tag am Hockenheimring, Mechaniker von hinten vor neun Werkzeugwagen in einer offenen Boxengarage"
